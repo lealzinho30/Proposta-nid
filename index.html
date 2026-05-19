@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel de Visualização | NID Studio</title>
+  <style>
+    :root {
+      --off-white: #f7f2ea;
+      --paper: #fffaf3;
+      --graphite: #222321;
+      --graphite-soft: #3b3b37;
+      --sand: #e8d2b6;
+      --sand-light: #f1dfc8;
+      --terracotta: #704d3f;
+      --terracotta-soft: #b49281;
+      --copper: #a86f52;
+      --warm-gray: #8e8980;
+      --line: rgba(34, 35, 33, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--off-white);
+      color: var(--graphite);
+      font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 85% 10%, rgba(180, 146, 129, 0.28), transparent 32rem),
+        linear-gradient(135deg, #fffaf3 0%, #f1dfc8 100%);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 32px;
+      overflow: auto;
+      background: rgba(255, 250, 243, 0.82);
+      border-right: 1px solid var(--line);
+      backdrop-filter: blur(20px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 42px;
+      color: var(--terracotta);
+    }
+
+    .brand svg {
+      width: 70px;
+      height: 40px;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 38px;
+      line-height: 0.78;
+      letter-spacing: -0.08em;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 8px;
+      padding-left: 3px;
+      color: var(--terracotta);
+      font-size: 11px;
+      letter-spacing: 0.42em;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--copper);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      color: var(--graphite);
+      font-size: 38px;
+      line-height: 0.96;
+      letter-spacing: -0.055em;
+    }
+
+    .intro {
+      margin: 0 0 28px;
+      color: rgba(34, 35, 33, 0.68);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      min-height: 46px;
+      padding: 13px 16px;
+      border: 1px solid var(--terracotta);
+      background: var(--terracotta);
+      color: var(--off-white);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--terracotta);
+    }
+
+    .button:hover {
+      filter: brightness(0.96);
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 34px;
+    }
+
+    .metric {
+      padding: 18px;
+      background: rgba(112, 77, 63, 0.08);
+      border: 1px solid rgba(112, 77, 63, 0.12);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--terracotta);
+      font-size: 26px;
+      letter-spacing: -0.05em;
+    }
+
+    .metric span {
+      color: rgba(34, 35, 33, 0.58);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .section-list a {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+      color: var(--graphite);
+      text-decoration: none;
+    }
+
+    .section-list a:hover strong {
+      color: var(--terracotta);
+    }
+
+    .section-list span {
+      color: var(--copper);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    .section-list strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+      letter-spacing: -0.02em;
+      transition: color 0.2s ease;
+    }
+
+    .section-list small {
+      display: block;
+      color: rgba(34, 35, 33, 0.56);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .workspace {
+      min-width: 0;
+      padding: 28px;
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    .preview-title {
+      margin: 0;
+      color: var(--graphite);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(34, 35, 33, 0.62);
+      font-size: 12px;
+    }
+
+    .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #6f8f66;
+      box-shadow: 0 0 0 4px rgba(111, 143, 102, 0.14);
+    }
+
+    .preview-frame {
+      width: 100%;
+      height: calc(100vh - 84px);
+      overflow: hidden;
+      background: #151515;
+      border: 1px solid rgba(34, 35, 33, 0.18);
+      box-shadow: 0 28px 80px rgba(34, 35, 33, 0.2);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: var(--off-white);
+    }
+
+    @media (max-width: 1080px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+      }
+
+      .workspace {
+        padding: 18px;
+      }
+
+      .preview-frame {
+        height: 78vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="sidebar" aria-label="Painel de acompanhamento da proposta">
+      <div class="brand" aria-label="NID Studio">
+        <svg viewBox="0 0 148 84" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M14 37H132" stroke="currentColor" stroke-width="9"/>
+          <path d="M74 36A32 32 0 0 1 43 76" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 55 78" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 68 81" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 83 80" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 98 76" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 111 66" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 121 53" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 27 53" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 36A32 32 0 0 1 37 66" stroke="currentColor" stroke-width="10"/>
+          <path d="M74 37A30 30 0 0 1 104 7A30 30 0 0 1 134 37H74Z" fill="currentColor"/>
+        </svg>
+        <div><strong>nid</strong><span>studio</span></div>
+      </div>
+
+      <p class="eyebrow">Painel de visualização</p>
+      <h1>Proposta GREMP3 em acompanhamento.</h1>
+      <p class="intro">Use este painel para observar a proposta premium da GREMP3, revisar as seções e abrir a apresentação final em tela cheia para leitura ou exportação em PDF.</p>
+
+      <div class="actions">
+        <a class="button" href="proposta-nid-studio.html" target="_blank" rel="noopener">Abrir proposta <span>-&gt;</span></a>
+        <button class="button secondary" type="button" onclick="document.querySelector('iframe').contentWindow.print()">Salvar PDF <span>Ctrl+P</span></button>
+      </div>
+
+      <div class="summary" aria-label="Resumo do documento">
+        <div class="metric"><strong>GREMP3</strong><span>Cliente</span></div>
+        <div class="metric"><strong>03</strong><span>Serviços</span></div>
+        <div class="metric"><strong>08</strong><span>Etapas</span></div>
+        <div class="metric"><strong>R$75k</strong><span>Investimento</span></div>
+      </div>
+
+      <ol class="section-list">
+        <li><a href="proposta-nid-studio.html" target="proposal-frame"><span>01</span><div><strong>Capa</strong><small>Cliente, projeto, cidade, data e frase institucional.</small></div></a></li>
+        <li><a href="proposta-nid-studio.html#sobre" target="proposal-frame"><span>02</span><div><strong>Sobre o escritório</strong><small>Texto institucional técnico, autoral e estratégico.</small></div></a></li>
+        <li><a href="proposta-nid-studio.html#filosofia" target="proposal-frame"><span>03</span><div><strong>Filosofia de projeto</strong><small>Frases curtas, imagens conceituais e mood editorial.</small></div></a></li>
+        <li><a href="proposta-nid-studio.html#escopo" target="proposal-frame"><span>04</span><div><strong>Escopo dos serviços</strong><small>Blocos premium com entregáveis e benefícios percebidos.</small></div></a></li>
+        <li><a href="proposta-nid-studio.html#processo" target="proposal-frame"><span>05</span><div><strong>Processo</strong><small>Fluxograma técnico com oito etapas de desenvolvimento.</small></div></a></li>
+        <li><a href="proposta-nid-studio.html#diferenciais" target="proposal-frame"><span>06</span><div><strong>Diferenciais</strong><small>Ícones minimalistas e argumentos comerciais de valor.</small></div></a></li>
+        <li><a href="proposta-nid-studio.html#investimento" target="proposal-frame"><span>07</span><div><strong>Investimento</strong><small>Condições, validade, cronograma e premissas comerciais.</small></div></a></li>
+        <li><a href="proposta-nid-studio.html#encerramento" target="proposal-frame"><span>08</span><div><strong>Encerramento</strong><small>Assinatura, contatos, QR code e frase final.</small></div></a></li>
+      </ol>
+    </aside>
+
+    <section class="workspace" aria-label="Prévia da proposta">
+      <div class="preview-header">
+        <p class="preview-title">Preview incorporado / proposta-nid-studio.html</p>
+        <span class="status">Documento carregado para revisão visual</span>
+      </div>
+      <div class="preview-frame">
+        <iframe name="proposal-frame" title="Prévia da proposta comercial NID Studio" src="proposta-nid-studio.html"></iframe>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
