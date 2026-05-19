@@ -16,13 +16,19 @@ Material editorial em HTML/CSS para apresentação comercial premium da NID Stud
 
 ## GitHub Pages
 
-A publicacao estatica foi configurada via GitHub Actions em `.github/workflows/pages.yml`.
+Os arquivos estaticos tambem foram publicados na branch `gh-pages`.
 
-Depois que o workflow executar, o painel podera ser acessado em:
+URL esperada apos habilitar o GitHub Pages no repositorio:
 
 - https://lealzinho30.github.io/Proposta-nid/
 
-Enquanto a branch estiver em revisao, o workflow tambem pode ser executado manualmente em **Actions > Publicar GitHub Pages > Run workflow**.
+Se a URL ainda retornar 404, habilite em **Settings > Pages**:
+
+1. Em **Build and deployment**, selecione **Deploy from a branch**.
+2. Em **Branch**, escolha `gh-pages` e pasta `/ (root)`.
+3. Salve e aguarde a publicacao do GitHub Pages.
+
+Observacao: o agente tentou habilitar Pages automaticamente, mas o token disponivel no ambiente nao possui permissao administrativa para criar o site Pages no repositorio.
 
 ## Como personalizar
 
