@@ -16,6 +16,14 @@ Material editorial em HTML/CSS para apresentação comercial premium da NID Stud
 4. Clique em **Abrir PDF** para visualizar o PDF final gerado.
 5. Use **Salvar PDF** no painel ou **Imprimir > Salvar como PDF** no navegador para gerar uma nova versão.
 
+## Link direto do PDF
+
+Enquanto o GitHub Pages nao estiver habilitado no repositorio, o PDF pode ser aberto diretamente por este link:
+
+- https://raw.githubusercontent.com/lealzinho30/Proposta-nid/gh-pages/NID_Studio_Proposta_GREMP3.pdf
+
+Esse link ja foi validado e retorna o arquivo PDF publicado na branch `gh-pages`.
+
 ## GitHub Pages
 
 Os arquivos estaticos tambem foram publicados na branch `gh-pages`.
