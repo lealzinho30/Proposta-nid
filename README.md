@@ -61,3 +61,29 @@ Nao use o link direto do jsDelivr para abrir no navegador, pois ele pode exibir 
 ## Direção atual
 
 A versão principal em `index.html` segue uma estrutura vertical compacta inspirada na proposta de referência enviada, com refinamento visual premium, blocos comerciais objetivos e seções concentradas.
+
+## DNS do domínio personalizado
+
+O GitHub Pages está configurado com o domínio `propostanid.studio` via arquivo `CNAME`.
+
+Para o domínio abrir corretamente, crie estes registros no provedor onde o domínio foi comprado:
+
+### Domínio raiz
+
+| Tipo | Nome | Valor |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+
+### Versão www
+
+| Tipo | Nome | Valor |
+| --- | --- | --- |
+| CNAME | www | lealzinho30.github.io |
+
+Depois de salvar, aguarde a propagação do DNS. O GitHub Pages poderá ser acessado em:
+
+- http://propostanid.studio/
+- https://lealzinho30.github.io/Proposta-nid/ enquanto o DNS propaga
