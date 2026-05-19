@@ -6,13 +6,15 @@ Material editorial em HTML/CSS para apresentação comercial premium da NID Stud
 
 - `index.html` - painel de visualizacao para acompanhar a proposta.
 - `proposta-nid-studio.html` - documento final da proposta, pronto para leitura e exportacao em PDF.
+- `NID_Studio_Proposta_GREMP3.pdf` - PDF final gerado da proposta.
 
 ## Como visualizar
 
 1. Abra `index.html` no navegador para acessar o painel.
 2. Use a barra lateral para revisar as secoes da proposta.
 3. Clique em **Abrir proposta** para ver o documento em tela cheia.
-4. Use **Salvar PDF** no painel ou **Imprimir > Salvar como PDF** no navegador.
+4. Clique em **Abrir PDF** para visualizar o PDF final gerado.
+5. Use **Salvar PDF** no painel ou **Imprimir > Salvar como PDF** no navegador para gerar uma nova versão.
 
 ## GitHub Pages
 
