@@ -48,3 +48,11 @@ python3 scripts/validate_proposta.py
 ## Personalização
 
 Edite `index.html` para novos clientes (metadados da capa, escopo, investimento e condições). Mantenha a paleta NID (`#704D3F`, `#E2B38F`, `#B49281`, `#F3DCC6`, `#FFF0DF`, `#FAF6F1`) e as fontes IBM Plex Serif / Sans.
+
+## Link visual da proposta
+
+Para visualizar a proposta renderizada no navegador, use:
+
+- https://htmlpreview.github.io/?https://github.com/lealzinho30/Proposta-nid/blob/gh-pages/index.html
+
+Nao use o link direto do jsDelivr para abrir no navegador, pois ele pode exibir o HTML como codigo-fonte em vez de renderizar a proposta visualmente.
