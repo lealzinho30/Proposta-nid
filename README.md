@@ -56,3 +56,8 @@ Para visualizar a proposta renderizada no navegador, use:
 - https://htmlpreview.github.io/?https://github.com/lealzinho30/Proposta-nid/blob/gh-pages/index.html
 
 Nao use o link direto do jsDelivr para abrir no navegador, pois ele pode exibir o HTML como codigo-fonte em vez de renderizar a proposta visualmente.
+
+
+## Direção atual
+
+A versão principal em `index.html` segue uma estrutura vertical compacta inspirada na proposta de referência enviada, com refinamento visual premium, blocos comerciais objetivos e seções concentradas.
