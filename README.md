@@ -1,49 +1,50 @@
 # Proposta comercial premium | NID Studio
 
-Material editorial em HTML/CSS para apresentação comercial premium da NID Studio.
+Material editorial em HTML para apresentação comercial premium da NID Studio — case **GREMP3**.
 
 ## Arquivos principais
 
-- `index.html` - painel de visualizacao para acompanhar a proposta.
-- `proposta-nid-studio.html` - documento final da proposta, pronto para leitura e exportacao em PDF.
-- `NID_Studio_Proposta_GREMP3.pdf` - PDF final gerado da proposta.
+| Arquivo | Descrição |
+|---------|-----------|
+| `index.html` | Proposta em **HTML normal** (página única, navegação por dots, sem iframe/painel). |
+| `proposta-nid-studio.html` | Versão editorial alternativa da proposta (referência / exportação). |
+| `NID_Studio_Proposta_GREMP3.pdf` | PDF final gerado da proposta. |
 
 ## Como visualizar
 
-1. Abra `index.html` no navegador para acessar o painel.
-2. Use a barra lateral para revisar as secoes da proposta.
-3. Clique em **Abrir proposta** para ver o documento em tela cheia.
-4. Clique em **Abrir PDF** para visualizar o PDF final gerado.
-5. Use **Salvar PDF** no painel ou **Imprimir > Salvar como PDF** no navegador para gerar uma nova versão.
+1. Abra `index.html` diretamente no navegador (arquivo local ou via GitHub Pages / jsDelivr).
+2. Use os **dots** à direita (ou na base, no mobile) para saltar entre seções.
+3. Na seção **Encerramento**, use **Abrir PDF** para o arquivo local `NID_Studio_Proposta_GREMP3.pdf` ou **Voltar ao início** para retornar à capa.
+4. Para gerar um novo PDF: **Imprimir → Salvar como PDF** no navegador.
 
-## Link direto do PDF
+## Links públicos
 
-Enquanto o GitHub Pages nao estiver habilitado no repositorio, o PDF pode ser aberto diretamente por este link:
+**Proposta HTML (jsDelivr — branch `gh-pages`):**
 
-- https://raw.githubusercontent.com/lealzinho30/Proposta-nid/gh-pages/NID_Studio_Proposta_GREMP3.pdf
+https://cdn.jsdelivr.net/gh/lealzinho30/Proposta-nid@gh-pages/index.html
 
-Esse link ja foi validado e retorna o arquivo PDF publicado na branch `gh-pages`.
+**PDF direto (raw GitHub — branch `gh-pages`):**
 
-## GitHub Pages
+https://raw.githubusercontent.com/lealzinho30/Proposta-nid/gh-pages/NID_Studio_Proposta_GREMP3.pdf
 
-Os arquivos estaticos tambem foram publicados na branch `gh-pages`.
+**GitHub Pages** (após habilitar em *Settings → Pages*, branch `gh-pages`, pasta `/ (root)`):
 
-URL esperada apos habilitar o GitHub Pages no repositorio:
+https://lealzinho30.github.io/Proposta-nid/
 
-- https://lealzinho30.github.io/Proposta-nid/
+## Conteúdo do case GREMP3
 
-Se a URL ainda retornar 404, habilite em **Settings > Pages**:
+- Cliente: GREMP3 — A/C Mariana — São Paulo, 15 de maio de 2026
+- Serviços: Fachada/Conceito/Produto, Projeto Executivo do Apartamento Decorado, PDV e Experiência Comercial
+- Investimento: R$ 75.000,00 (sinal R$ 5.000 + 7× R$ 10.000)
+- Entrega: DWG/CAD + PDF
+- Foro: Comarca de São Paulo — SP
 
-1. Em **Build and deployment**, selecione **Deploy from a branch**.
-2. Em **Branch**, escolha `gh-pages` e pasta `/ (root)`.
-3. Salve e aguarde a publicacao do GitHub Pages.
+## Validação local
 
-Observacao: o agente tentou habilitar Pages automaticamente, mas o token disponivel no ambiente nao possui permissao administrativa para criar o site Pages no repositorio.
+```bash
+python3 scripts/validate_proposta.py
+```
 
-## Como personalizar
+## Personalização
 
-1. Edite os campos entre colchetes, como `[Nome do cliente]`, `[Nome do projeto]`, `[Cidade / UF]` e `R$ [valor]`.
-2. Substitua os contatos e o QR code ilustrativo pelos dados oficiais.
-3. Troque as imagens conceituais por renders, fotografias, plantas humanizadas ou moodboards oficiais do projeto.
-
-O layout foi preparado para apresentacao em formato A4 horizontal, com estetica editorial, espacos em branco, imagens conceituais, fluxograma, blocos de escopo, condicoes comerciais e encerramento institucional.
+Edite `index.html` para novos clientes (metadados da capa, escopo, investimento e condições). Mantenha a paleta NID (`#704D3F`, `#E2B38F`, `#B49281`, `#F3DCC6`, `#FFF0DF`, `#FAF6F1`) e as fontes IBM Plex Serif / Sans.
