@@ -1,0 +1,39 @@
+<svg width="980" height="260" viewBox="0 0 980 260" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">NID Studio</title>
+  <desc id="desc">Assinatura principal da NID Studio com símbolo e tagline Seu ninho criativo.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="980" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5f3323"/>
+      <stop offset="0.55" stop-color="#704D3F"/>
+      <stop offset="1" stop-color="#4a2619"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#g)">
+    <rect x="48" y="104" width="292" height="14" rx="1"/>
+    <path d="M219 35a60 60 0 0 1 60 60H159a60 60 0 0 1 60-60Z"/>
+    <path d="M50 132l292-14 1 9-286 43-7-38Z"/>
+    <path d="M71 188l270-64 3 9-248 94-25-39Z"/>
+    <path d="M106 240l239-103 5 8-200 137-44-42Z"/>
+    <path d="M157 292l195-144 7 7-145 168-57-31Z"/>
+    <path d="M226 323l139-164 8 5-76 184-71-25Z"/>
+    <path d="M306 342l78-174 9 3-8 184-79-13Z"/>
+    <path d="M392 348l13-176 9-1 62 166-84 11Z"/>
+    <path d="M478 326l-51-157 8-4 118 128-75 33Z"/>
+    <path d="M553 284l-103-130 6-7 160 87-63 50Z"/>
+    <path d="M610 226l-151-86 4-8 187 35-40 59Z"/>
+    <path d="M646 158l-180-35 1-9 204 2-25 42Z"/>
+  </g>
+  <g fill="url(#g)">
+    <path d="M380 90h68c34 0 58 22 58 56v55h-42v-55c0-12-8-20-21-20h-22v75h-41V90Z"/>
+    <path d="M532 90h42v111h-42V90Z"/>
+    <path d="M606 90h68c41 0 73 23 73 56s-32 55-73 55h-68V90Zm42 36v39h25c19 0 32-7 32-19s-13-20-32-20h-25Z"/>
+    <path d="M746 52h42v149h-42V52Z"/>
+  </g>
+  <circle cx="818" cy="148" r="16" fill="#E86F00"/>
+  <g fill="url(#g)">
+    <path d="M856 169c-14 0-24-7-26-19h17c1 5 4 8 10 8 5 0 8-2 8-6 0-11-33-2-33-26 0-12 10-21 25-21 14 0 24 8 25 20h-16c-1-5-4-8-9-8-5 0-8 3-8 6 0 11 33 2 33 26 0 12-10 20-26 20Z"/>
+    <path d="M916 169c-15 0-23-8-23-23v-26h-10v-14h10V90h17v16h19v14h-19v25c0 6 3 9 9 9h10v15h-13Z"/>
+    <path d="M963 169c-18 0-30-13-30-32s12-32 30-32 30 13 30 32-12 32-30 32Zm0-16c8 0 13-6 13-16s-5-16-13-16-13 6-13 16 5 16 13 16Z"/>
+  </g>
+  <text x="380" y="248" fill="#704D3F" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="600" letter-spacing="0.5">Seu ninho criativo</text>
+</svg>

@@ -107,25 +107,35 @@
     .logo {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
       color: var(--brown);
       text-decoration: none;
     }
-    .logo svg { width: 70px; height: 40px; }
-    .word { font-family: "IBM Plex Sans", Arial, sans-serif; font-size: 38px; font-weight: 600; line-height: .78; letter-spacing: -.08em; }
-    .word small { display:block; margin-top:7px; padding-left:2px; font-size:10px; font-weight:400; letter-spacing:.42em; }
+    .brand-logo {
+      display: block;
+      width: 286px;
+      max-width: 42vw;
+      height: auto;
+    }
+    .closing-logo {
+      display: block;
+      width: 230px;
+      max-width: 70%;
+      height: auto;
+      margin-bottom: 28px;
+      filter: brightness(0) invert(1);
+      opacity: .94;
+    }
 
     .fan-bg {
       position: absolute;
-      right: -86px;
-      top: 130px;
+      right: -112px;
+      top: 92px;
       width: 450px;
-      height: 260px;
-      color: var(--brown);
-      opacity: .09;
+      height: auto;
+      opacity: .105;
       pointer-events: none;
+      mix-blend-mode: multiply;
     }
-    .fan-bg * { stroke: currentColor; fill: currentColor; }
 
     .cover {
       min-height: 700px;
@@ -228,7 +238,9 @@
     .cond p { margin:0; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.6px; line-height:1.62; }
     .cond strong { color:var(--brown-deep); font-weight:700; }
 
-    .closing { background:var(--brown); color:var(--cream); min-height:520px; display:grid; align-content:space-between; }
+    .closing { position:relative; background:var(--brown); color:var(--cream); min-height:520px; display:grid; align-content:space-between; }
+    .closing-symbol { position:absolute; right:-120px; bottom:-120px; width:420px; height:auto; opacity:.08; pointer-events:none; }
+    .closing > *:not(.closing-symbol) { position:relative; z-index:1; }
     .closing h2 { max-width:520px; color:var(--cream); }
     .closing-phrase { max-width:610px; margin:28px 0; color:var(--cream); font-size:34px; font-style:italic; font-weight:300; line-height:1.28; letter-spacing:-.03em; }
     .closing-phrase em { color:var(--copper); font-style:normal; font-weight:600; }
@@ -267,12 +279,11 @@
     <section id="capa" class="sheet cover">
       <div class="cover-top">
         <a class="logo" href="#capa" aria-label="NID Studio">
-          <svg viewBox="0 0 148 84" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 37H132" stroke="currentColor" stroke-width="9"/><path d="M74 36A32 32 0 0 1 43 76" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 55 78" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 68 81" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 83 80" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 98 76" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 111 66" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 121 53" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 27 53" stroke="currentColor" stroke-width="10"/><path d="M74 36A32 32 0 0 1 37 66" stroke="currentColor" stroke-width="10"/><path d="M74 37A30 30 0 0 1 104 7A30 30 0 0 1 134 37H74Z" fill="currentColor"/></svg>
-          <span class="word">nid<small>studio</small></span>
+          <img class="brand-logo" src="assets/nid-logo-principal.svg" alt="NID Studio — Seu ninho criativo">
         </a>
         <div class="doc-type">Proposta Comercial<br>Arquitetura & Design</div>
       </div>
-      <svg class="fan-bg" viewBox="0 0 500 280" aria-hidden="true"><g stroke="currentColor" stroke-width="12"><line x1="30" y1="96" x2="360" y2="96"/><line x1="80" y1="126" x2="360" y2="96"/><line x1="112" y1="160" x2="360" y2="96"/><line x1="154" y1="194" x2="360" y2="96"/><line x1="210" y1="222" x2="360" y2="96"/><line x1="274" y1="236" x2="360" y2="96"/><line x1="342" y1="236" x2="360" y2="96"/><line x1="412" y1="216" x2="360" y2="96"/></g><path d="M360 96A68 68 0 0 1 428 28A68 68 0 0 1 496 96H360Z"/></svg>
+      <img class="fan-bg" src="assets/nid-symbol-brown.svg" alt="" aria-hidden="true">
       <div class="cover-main">
         <span class="label">Proposta Comercial</span>
         <h1>GREMP3</h1>
@@ -350,7 +361,8 @@
     </section>
 
     <section id="encerramento" class="sheet closing">
-      <div><span class="label">08 — Encerramento</span><h2>Obrigado pela confiança.</h2><p class="closing-phrase">Mais do que projetar espaços, desenvolvemos experiências que agregam <em>valor, identidade e permanência.</em></p><div class="signatures"><div><div class="sig-line"></div><div class="sig-name">NID Studio — Arquitetura & Design</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div><div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div></div><div class="actions"><a class="btn" href="NID_Studio_Proposta_GREMP3.pdf" target="_blank" rel="noopener">Abrir PDF</a><a class="btn" href="#capa">Voltar ao início</a></div></div>
+      <img class="closing-symbol" src="assets/nid-symbol-white.svg" alt="" aria-hidden="true">
+      <div><img class="closing-logo" src="assets/nid-logo-principal.svg" alt="NID Studio — Seu ninho criativo"><span class="label">08 — Encerramento</span><h2>Obrigado pela confiança.</h2><p class="closing-phrase">Mais do que projetar espaços, desenvolvemos experiências que agregam <em>valor, identidade e permanência.</em></p><div class="signatures"><div><div class="sig-line"></div><div class="sig-name">NID Studio — Arquitetura & Design</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div><div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div></div><div class="actions"><a class="btn" href="NID_Studio_Proposta_GREMP3.pdf" target="_blank" rel="noopener">Abrir PDF</a><a class="btn" href="#capa">Voltar ao início</a></div></div>
     </section>
   </main>
   <script>
