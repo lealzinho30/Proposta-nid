@@ -14,6 +14,16 @@ Material editorial em HTML/CSS para apresentação comercial premium da NID Stud
 3. Clique em **Abrir proposta** para ver o documento em tela cheia.
 4. Use **Salvar PDF** no painel ou **Imprimir > Salvar como PDF** no navegador.
 
+## GitHub Pages
+
+A publicacao estatica foi configurada via GitHub Actions em `.github/workflows/pages.yml`.
+
+Depois que o workflow executar, o painel podera ser acessado em:
+
+- https://lealzinho30.github.io/Proposta-nid/
+
+Enquanto a branch estiver em revisao, o workflow tambem pode ser executado manualmente em **Actions > Publicar GitHub Pages > Run workflow**.
+
 ## Como personalizar
 
 1. Edite os campos entre colchetes, como `[Nome do cliente]`, `[Nome do projeto]`, `[Cidade / UF]` e `R$ [valor]`.
