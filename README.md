@@ -45,6 +45,31 @@ https://lealzinho30.github.io/Proposta-nid/
 python3 scripts/validate_proposta.py
 ```
 
+
+## Como adicionar as logos sem usar git
+
+A proposta agora possui espaços reservados para as logos. Para trocar pelo GitHub Web, sem terminal:
+
+1. Abra o repositório no GitHub.
+2. Troque a branch para `gh-pages`.
+3. Entre na pasta `assets`.
+4. Clique em **Add file → Upload files**.
+5. Envie as imagens com estes nomes base:
+
+| Uso no layout | Nome do arquivo | Formatos aceitos |
+| --- | --- | --- |
+| Logo principal da capa | `logo-principal` | `.png`, `.jpg`, `.jpeg`, `.webp`, `.svg` |
+| Símbolo/marca d'água marrom | `simbolo-marrom` | `.png`, `.jpg`, `.jpeg`, `.webp`, `.svg` |
+| Logo clara para fundo marrom | `logo-clara` | `.png`, `.jpg`, `.jpeg`, `.webp`, `.svg` |
+| Símbolo claro para fundo marrom | `simbolo-claro` | `.png`, `.jpg`, `.jpeg`, `.webp`, `.svg` |
+
+Exemplo: `logo-principal.png` ou `logo-principal.svg`.
+
+6. No final da tela, escolha **Commit directly to the gh-pages branch** e clique em **Commit changes**.
+7. Aguarde alguns minutos e atualize o site com `Ctrl + F5`.
+
+Se você quiser atualizar também a branch de desenvolvimento, repita o upload na branch `cursor/proposta-premium-nid-studio-ca40`, mas para o site público funcionar basta atualizar `gh-pages`.
+
 ## Personalização
 
 Edite `index.html` para novos clientes (metadados da capa, escopo, investimento e condições). Mantenha a paleta NID (`#704D3F`, `#E2B38F`, `#B49281`, `#F3DCC6`, `#FFF0DF`, `#FAF6F1`) e as fontes IBM Plex Serif / Sans.
@@ -69,3 +94,7 @@ A proposta deve ser acessada pelo endereço gratuito do GitHub Pages:
 - https://lealzinho30.github.io/Proposta-nid/
 
 Não é necessário comprar domínio. O domínio `propostanid.studio` foi removido da configuração do projeto.
+
+## Logos no layout
+
+As logos recriadas manualmente foram removidas. Enquanto você não subir as imagens oficiais, a proposta mostra caixas discretas indicando onde cada arquivo será aplicado.
