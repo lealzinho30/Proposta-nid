@@ -48,7 +48,7 @@ python3 scripts/validate_proposta.py
 
 ## Como adicionar as logos sem usar git
 
-A proposta agora possui espaços reservados para as logos. Para trocar pelo GitHub Web, sem terminal:
+A proposta já possui SVGs da logotipo normal da NID. Para substituir por novos arquivos oficiais pelo GitHub Web, sem terminal:
 
 1. Abra o repositório no GitHub.
 2. Troque a branch para `gh-pages`.

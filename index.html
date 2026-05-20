@@ -134,6 +134,12 @@
       height: 100%;
       object-fit: contain;
     }
+    .logo-slot:not(.is-empty),
+    .symbol-slot:not(.is-empty) {
+      border-color: transparent;
+      background: transparent;
+      color: inherit;
+    }
     .logo-slot.is-empty::before,
     .symbol-slot.is-empty::before {
       content: attr(data-label);
@@ -141,15 +147,15 @@
       line-height: 1.55;
     }
     .logo-slot--cover {
-      width: 306px;
-      max-width: 42vw;
-      height: 92px;
-      padding: 12px;
+      width: 380px;
+      max-width: 46vw;
+      height: 112px;
+      padding: 0;
     }
     .logo-slot--closing {
-      width: 250px;
+      width: 330px;
       max-width: 70%;
-      height: 84px;
+      height: 92px;
       margin-bottom: 28px;
       border-color: rgba(226,179,143,.42);
       background: rgba(255,240,223,.06);
