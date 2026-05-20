@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 260" role="img" aria-labelledby="title desc">
   <title id="title">NID Studio</title>
-  <desc id="desc">Logotipo NID Studio com símbolo de ninho e assinatura Seu ninho criativo.</desc>
+  <desc id="desc">NID Studio logo with nest symbol and Seu ninho criativo signature.</desc>
   <style>
-    .brown { fill: #704D3F; }
+    .main { fill: #704D3F; }
     .orange { fill: #E86F00; }
     .word {
       fill: #704D3F;
@@ -26,19 +26,19 @@
     }
   </style>
   <g transform="translate(0 24)">
-    <path class="brown" d="M54 58a61 61 0 0 1 122 0H54Z"/>
-    <rect class="brown" x="0" y="72" width="300" height="11" rx="1"/>
-    <path class="brown" d="M111 83 0 83 5 96 111 83Z"/>
-    <path class="brown" d="M116 88 8 108l6 13 106-28Z"/>
-    <path class="brown" d="M122 91 25 132l9 12 93-47Z"/>
-    <path class="brown" d="M130 94 51 155l12 10 72-66Z"/>
-    <path class="brown" d="M139 96 82 174l15 7 49-82Z"/>
-    <path class="brown" d="M149 98 118 188l16 3 22-91Z"/>
-    <path class="brown" d="M160 98 154 193l17-1-4-93Z"/>
-    <path class="brown" d="M170 97 190 187l16-4-29-88Z"/>
-    <path class="brown" d="M179 95 222 173l14-8-50-73Z"/>
-    <path class="brown" d="M188 92 251 150l11-11-68-52Z"/>
-    <path class="brown" d="M195 88 282 118l7-13-90-23Z"/>
+    <path class="main" d="M54 58a61 61 0 0 1 122 0H54Z"/>
+    <rect class="main" x="0" y="72" width="300" height="11" rx="1"/>
+    <path class="main" d="M111 83 0 83 5 96 111 83Z"/>
+    <path class="main" d="M116 88 8 108l6 13 106-28Z"/>
+    <path class="main" d="M122 91 25 132l9 12 93-47Z"/>
+    <path class="main" d="M130 94 51 155l12 10 72-66Z"/>
+    <path class="main" d="M139 96 82 174l15 7 49-82Z"/>
+    <path class="main" d="M149 98 118 188l16 3 22-91Z"/>
+    <path class="main" d="M160 98 154 193l17-1-4-93Z"/>
+    <path class="main" d="M170 97 190 187l16-4-29-88Z"/>
+    <path class="main" d="M179 95 222 173l14-8-50-73Z"/>
+    <path class="main" d="M188 92 251 150l11-11-68-52Z"/>
+    <path class="main" d="M195 88 282 118l7-13-90-23Z"/>
   </g>
   <text class="word" x="335" y="137">nid</text>
   <circle class="orange" cx="735" cy="113" r="17"/>

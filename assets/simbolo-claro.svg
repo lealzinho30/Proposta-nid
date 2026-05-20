@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 215" role="img" aria-labelledby="title desc">
-  <title id="title">Símbolo NID Studio</title>
-  <desc id="desc">Símbolo claro do ninho NID Studio.</desc>
+  <title id="title">NID Studio symbol</title>
+  <desc id="desc">NID Studio nest symbol.</desc>
   <g fill="#FFF0DF">
     <path d="M54 82a61 61 0 0 1 122 0H54Z"/>
     <rect x="0" y="96" width="300" height="11" rx="1"/>
