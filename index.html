@@ -117,6 +117,12 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      border: 0;
+      background: transparent;
+      color: inherit;
+    }
+    .logo-slot.is-empty,
+    .symbol-slot.is-empty {
       border: 1px dashed rgba(112, 77, 63, .28);
       background: rgba(255, 255, 255, .58);
       color: var(--taupe);
@@ -141,16 +147,19 @@
       line-height: 1.55;
     }
     .logo-slot--cover {
-      width: 306px;
+      width: 430px;
       max-width: 42vw;
-      height: 92px;
-      padding: 12px;
+      height: 130px;
+      padding: 0;
     }
     .logo-slot--closing {
-      width: 250px;
+      width: 320px;
       max-width: 70%;
-      height: 84px;
+      height: 104px;
       margin-bottom: 28px;
+      color: rgba(226,179,143,.9);
+    }
+    .logo-slot--closing.is-empty {
       border-color: rgba(226,179,143,.42);
       background: rgba(255,240,223,.06);
       color: rgba(226,179,143,.78);
@@ -165,10 +174,13 @@
       opacity: .82;
       pointer-events: none;
       mix-blend-mode: multiply;
+      color: rgba(112,77,63,.24);
+    }
+    .fan-bg.is-empty {
       border-color: rgba(112,77,63,.14);
       background: rgba(112,77,63,.035);
+      opacity: .42;
     }
-    .fan-bg.is-empty { opacity: .42; }
 
     .cover {
       min-height: 700px;
@@ -407,7 +419,7 @@
   </main>
   <script>
 
-    const optionalLogoExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg'];
+    const optionalLogoExtensions = ['svg', 'png', 'webp', 'jpg', 'jpeg'];
     document.querySelectorAll('img[data-logo-base]').forEach(img => {
       const base = img.dataset.logoBase;
       let index = 0;

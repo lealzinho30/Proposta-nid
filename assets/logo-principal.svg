@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">NID Studio</title>
+  <desc id="desc">Logotipo principal da NID Studio com assinatura Seu ninho criativo.</desc>
+  <defs>
+    <style>
+      .brown{fill:#704d3f}
+      .brown-s{stroke:#704d3f}
+      .orange{fill:#d97a1d}
+      .tag{font:700 64px "IBM Plex Serif","Times New Roman",serif;letter-spacing:.2px}
+      .word{font:700 236px "IBM Plex Serif","Times New Roman",serif;letter-spacing:-6px}
+      .studio{font:600 94px "IBM Plex Serif","Times New Roman",serif;letter-spacing:15px}
+    </style>
+  </defs>
+
+  <g transform="translate(40 34)">
+    <path class="brown-s" d="M6 132h336" fill="none" stroke-width="14"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 89 240" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 122 245" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 155 251" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 194 250" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 228 243" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 259 217" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 284 180" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 64 180" fill="none" stroke-width="18"/>
+    <path class="brown-s" d="M174 130A88 88 0 0 1 89 217" fill="none" stroke-width="18"/>
+    <path class="brown" d="M174 132A82 82 0 0 1 256 50A82 82 0 0 1 338 132H174Z"/>
+  </g>
+
+  <text x="415" y="194" class="word brown">nid</text>
+  <circle cx="854" cy="180" r="18" class="orange"/>
+  <text x="884" y="194" class="studio brown">studio</text>
+  <text x="415" y="302" class="tag brown">Seu ninho criativo</text>
+</svg>

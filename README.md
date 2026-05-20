@@ -46,9 +46,9 @@ python3 scripts/validate_proposta.py
 ```
 
 
-## Como adicionar as logos sem usar git
+## Como substituir as logos sem usar git
 
-A proposta agora possui espaços reservados para as logos. Para trocar pelo GitHub Web, sem terminal:
+A proposta já inclui a logotipo normal da NID por padrão. Para substituir por outra versão usando GitHub Web (sem terminal):
 
 1. Abra o repositório no GitHub.
 2. Troque a branch para `gh-pages`.
@@ -97,4 +97,11 @@ Não é necessário comprar domínio. O domínio `propostanid.studio` foi removi
 
 ## Logos no layout
 
-As logos recriadas manualmente foram removidas. Enquanto você não subir as imagens oficiais, a proposta mostra caixas discretas indicando onde cada arquivo será aplicado.
+O layout principal (`index.html`) já carrega os arquivos oficiais em `assets/`:
+
+- `logo-principal.svg`
+- `simbolo-marrom.svg`
+- `logo-clara.svg`
+- `simbolo-claro.svg`
+
+Se você enviar arquivos com o mesmo nome-base em PNG/JPG/WEBP/SVG, o carregamento automático também funciona.
