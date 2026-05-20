@@ -110,20 +110,50 @@
       color: var(--brown);
       text-decoration: none;
     }
-    .brand-logo {
-      display: block;
-      width: 286px;
-      max-width: 42vw;
-      height: auto;
+    .logo-slot,
+    .symbol-slot {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px dashed rgba(112, 77, 63, .28);
+      background: rgba(255, 255, 255, .58);
+      color: var(--taupe);
+      font-family: "IBM Plex Sans", Arial, sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-align: center;
+      text-transform: uppercase;
     }
-    .closing-logo {
+    .logo-slot img,
+    .symbol-slot img {
       display: block;
-      width: 230px;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .logo-slot.is-empty::before,
+    .symbol-slot.is-empty::before {
+      content: attr(data-label);
+      max-width: 82%;
+      line-height: 1.55;
+    }
+    .logo-slot--cover {
+      width: 306px;
+      max-width: 42vw;
+      height: 92px;
+      padding: 12px;
+    }
+    .logo-slot--closing {
+      width: 250px;
       max-width: 70%;
-      height: auto;
+      height: 84px;
       margin-bottom: 28px;
-      filter: brightness(0) invert(1);
-      opacity: .94;
+      border-color: rgba(226,179,143,.42);
+      background: rgba(255,240,223,.06);
+      color: rgba(226,179,143,.78);
     }
 
     .fan-bg {
@@ -131,11 +161,14 @@
       right: -112px;
       top: 92px;
       width: 450px;
-      height: auto;
-      opacity: .105;
+      height: 280px;
+      opacity: .82;
       pointer-events: none;
       mix-blend-mode: multiply;
+      border-color: rgba(112,77,63,.14);
+      background: rgba(112,77,63,.035);
     }
+    .fan-bg.is-empty { opacity: .42; }
 
     .cover {
       min-height: 700px;
@@ -239,7 +272,8 @@
     .cond strong { color:var(--brown-deep); font-weight:700; }
 
     .closing { position:relative; background:var(--brown); color:var(--cream); min-height:520px; display:grid; align-content:space-between; }
-    .closing-symbol { position:absolute; right:-120px; bottom:-120px; width:420px; height:auto; opacity:.08; pointer-events:none; }
+    .closing-symbol { position:absolute; right:-120px; bottom:-120px; width:420px; height:300px; opacity:.42; pointer-events:none; border-color:rgba(226,179,143,.18); background:rgba(255,240,223,.035); color:rgba(226,179,143,.62); }
+    .closing-symbol img { object-fit:contain; }
     .closing > *:not(.closing-symbol) { position:relative; z-index:1; }
     .closing h2 { max-width:520px; color:var(--cream); }
     .closing-phrase { max-width:610px; margin:28px 0; color:var(--cream); font-size:34px; font-style:italic; font-weight:300; line-height:1.28; letter-spacing:-.03em; }
@@ -279,11 +313,15 @@
     <section id="capa" class="sheet cover">
       <div class="cover-top">
         <a class="logo" href="#capa" aria-label="NID Studio">
-          <img class="brand-logo" src="assets/nid-logo-principal.svg" alt="NID Studio — Seu ninho criativo">
+          <span class="logo-slot logo-slot--cover is-empty" data-label="Adicionar logo principal aqui">
+            <img data-logo-base="assets/logo-principal" alt="Logo NID Studio">
+          </span>
         </a>
         <div class="doc-type">Proposta Comercial<br>Arquitetura & Design</div>
       </div>
-      <img class="fan-bg" src="assets/nid-symbol-brown.svg" alt="" aria-hidden="true">
+      <div class="symbol-slot fan-bg is-empty" data-label="Adicionar símbolo marrom aqui" aria-hidden="true">
+        <img data-logo-base="assets/simbolo-marrom" alt="">
+      </div>
       <div class="cover-main">
         <span class="label">Proposta Comercial</span>
         <h1>GREMP3</h1>
@@ -361,11 +399,30 @@
     </section>
 
     <section id="encerramento" class="sheet closing">
-      <img class="closing-symbol" src="assets/nid-symbol-white.svg" alt="" aria-hidden="true">
-      <div><img class="closing-logo" src="assets/nid-logo-principal.svg" alt="NID Studio — Seu ninho criativo"><span class="label">08 — Encerramento</span><h2>Obrigado pela confiança.</h2><p class="closing-phrase">Mais do que projetar espaços, desenvolvemos experiências que agregam <em>valor, identidade e permanência.</em></p><div class="signatures"><div><div class="sig-line"></div><div class="sig-name">NID Studio — Arquitetura & Design</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div><div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div></div><div class="actions"><a class="btn" href="NID_Studio_Proposta_GREMP3.pdf" target="_blank" rel="noopener">Abrir PDF</a><a class="btn" href="#capa">Voltar ao início</a></div></div>
+      <div class="symbol-slot closing-symbol is-empty" data-label="Adicionar símbolo claro aqui" aria-hidden="true">
+        <img data-logo-base="assets/simbolo-claro" alt="">
+      </div>
+      <div><div class="logo-slot logo-slot--closing is-empty" data-label="Adicionar logo clara aqui"><img data-logo-base="assets/logo-clara" alt="Logo NID Studio"></div><span class="label">08 — Encerramento</span><h2>Obrigado pela confiança.</h2><p class="closing-phrase">Mais do que projetar espaços, desenvolvemos experiências que agregam <em>valor, identidade e permanência.</em></p><div class="signatures"><div><div class="sig-line"></div><div class="sig-name">NID Studio — Arquitetura & Design</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div><div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div></div><div class="actions"><a class="btn" href="NID_Studio_Proposta_GREMP3.pdf" target="_blank" rel="noopener">Abrir PDF</a><a class="btn" href="#capa">Voltar ao início</a></div></div>
     </section>
   </main>
   <script>
+
+    const optionalLogoExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg'];
+    document.querySelectorAll('img[data-logo-base]').forEach(img => {
+      const base = img.dataset.logoBase;
+      let index = 0;
+      const slot = img.parentElement;
+      const tryNext = () => {
+        if (index >= optionalLogoExtensions.length) {
+          img.remove();
+          return;
+        }
+        img.src = `${base}.${optionalLogoExtensions[index++]}`;
+      };
+      img.addEventListener('load', () => slot && slot.classList.remove('is-empty'));
+      img.addEventListener('error', tryNext);
+      tryNext();
+    });
     const sections = document.querySelectorAll('section[id], div[id]');
     const dots = document.querySelectorAll('.nav a');
     const io = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting){ dots.forEach(d=>d.classList.remove('on')); const active=document.querySelector(`.nav a[href="#${entry.target.id}"]`); if(active) active.classList.add('on'); } }); }, { threshold: .35 });
