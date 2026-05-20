@@ -97,4 +97,4 @@ Não é necessário comprar domínio. O domínio `propostanid.studio` foi removi
 
 ## Logos no layout
 
-As logos recriadas manualmente foram removidas. Enquanto você não subir as imagens oficiais, a proposta mostra caixas discretas indicando onde cada arquivo será aplicado.
+As logos da NID Studio estão embutidas como SVGs inline em ambos os arquivos HTML. O logotipo exibe o símbolo do leque solar com semicírculo, o texto "nid." com ponto laranja, e "studio" em letras espaçadas.

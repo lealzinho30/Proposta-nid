@@ -406,23 +406,6 @@
     </section>
   </main>
   <script>
-
-    const optionalLogoExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg'];
-    document.querySelectorAll('img[data-logo-base]').forEach(img => {
-      const base = img.dataset.logoBase;
-      let index = 0;
-      const slot = img.parentElement;
-      const tryNext = () => {
-        if (index >= optionalLogoExtensions.length) {
-          img.remove();
-          return;
-        }
-        img.src = `${base}.${optionalLogoExtensions[index++]}`;
-      };
-      img.addEventListener('load', () => slot && slot.classList.remove('is-empty'));
-      img.addEventListener('error', tryNext);
-      tryNext();
-    });
     const sections = document.querySelectorAll('section[id], div[id]');
     const dots = document.querySelectorAll('.nav a');
     const io = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting){ dots.forEach(d=>d.classList.remove('on')); const active=document.querySelector(`.nav a[href="#${entry.target.id}"]`); if(active) active.classList.add('on'); } }); }, { threshold: .35 });
