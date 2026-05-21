@@ -12,4 +12,7 @@
 
   window.NidProposta.applyLogos(document, dados.logos);
   window.NidProposta.initNav(document);
+  document.querySelectorAll('[data-print-pdf]').forEach((btn) => {
+    btn.addEventListener('click', () => window.print());
+  });
 })();

@@ -21,10 +21,6 @@
     "paragrafos": [
       "A <strong>NID Studio</strong> compreende a arquitetura como um organismo vivo que se revela em camadas. Seu trabalho não se limita à forma ou à estética, mas à construção de experiências que equilibram sensibilidade, função e presença.",
       "Atuamos desde a concepção executiva até a <strong>Liberação para Obra</strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso."
-    ],
-    "metricas": [
-      { "valor": "80+", "legenda": "Projetos entregues" },
-      { "valor": "100%", "legenda": "Compatibilização multidisciplinar" }
     ]
   },
   "filosofia": {
@@ -169,8 +165,6 @@
   },
   "logos": {
     "principal": "assets/logo-principal.png",
-    "simboloMarrom": "assets/simbolo-marrom.png",
-    "logoClara": "assets/logo-clara.png",
-    "simboloClaro": "assets/simbolo-claro.png"
+    "logoClara": "assets/logo-clara.png"
   }
 }

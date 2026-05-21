@@ -8,299 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/proposta.css">
   <style>
-    :root {
-      --brown: #704d3f;
-      --brown-dark: #3d2315;
-      --brown-deep: #2e1810;
-      --copper: #e2b38f;
-      --taupe: #b49281;
-      --sand: #f3dcc6;
-      --cream: #fff0df;
-      --off: #faf6f1;
-      --white: #ffffff;
-      --ink-soft: rgba(61, 35, 21, .72);
-      --line: rgba(112, 77, 63, .18);
-      --line-dark: rgba(226, 179, 143, .18);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; background: #eee5dc; }
-    body {
-      margin: 0;
-      color: var(--brown-dark);
-      background: radial-gradient(circle at 90% 8%, rgba(226,179,143,.28), transparent 26rem), #eee5dc;
-      font-family: "IBM Plex Serif", Georgia, serif;
-      font-size: 13px;
-      line-height: 1.68;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .nav {
-      position: fixed;
-      right: 18px;
-      top: 50%;
-      z-index: 20;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      transform: translateY(-50%);
-      padding: 10px 7px;
-      border: 1px solid rgba(112,77,63,.14);
-      border-radius: 999px;
-      background: rgba(250,246,241,.88);
-      backdrop-filter: blur(14px);
-    }
-    .nav a {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--taupe);
-      opacity: .36;
-      text-indent: -999px;
-      overflow: hidden;
-      transition: .2s ease;
-    }
-    .nav a:hover, .nav a.on { opacity: 1; background: var(--brown); transform: scale(1.55); }
-
-    .doc {
-      width: min(100%, 980px);
-      margin: 0 auto;
-      background: var(--off);
-      box-shadow: 0 30px 90px rgba(61,35,21,.14);
-    }
-    .sheet {
-      position: relative;
-      min-height: 100vh;
-      padding: 58px 62px;
-      border-bottom: 1px solid var(--line);
-      overflow: hidden;
-    }
-    .sheet:last-child { border-bottom: 0; }
-    .sheet.dark { color: var(--cream); background: var(--brown); }
-    .sheet.cream { background: var(--cream); }
-    .section { padding: 38px 0; border-top: 1px solid var(--line); }
-    .section:first-child { border-top: 0; padding-top: 0; }
-    .dark .section { border-top-color: var(--line-dark); }
-
-    .label {
-      display: block;
-      margin-bottom: 10px;
-      color: var(--taupe);
-      font-family: "IBM Plex Sans", Arial, sans-serif;
-      font-size: 8px;
-      font-weight: 600;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-    }
-    .dark .label { color: rgba(226,179,143,.64); }
-
-    h1, h2, h3, p { margin-top: 0; }
-    h1, h2, h3 { letter-spacing: -.03em; line-height: 1.05; }
-    h1 { margin-bottom: 0; color: var(--brown-deep); font-size: 74px; font-weight: 700; letter-spacing: -.055em; }
-    h2 { margin-bottom: 18px; color: var(--brown); font-size: 37px; font-weight: 700; }
-    h3 { margin-bottom: 8px; color: var(--brown); font-size: 19px; font-weight: 700; }
-    .dark h2, .dark h3 { color: var(--cream); }
-    .lead { max-width: 640px; color: var(--ink-soft); font-size: 16px; line-height: 1.62; }
-    .dark .lead { color: rgba(255,240,223,.76); }
-
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      color: var(--brown);
-      text-decoration: none;
-    }
-    .logo-slot,
-    .symbol-slot {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border: 1px dashed rgba(112, 77, 63, .28);
-      background: rgba(255, 255, 255, .58);
-      color: var(--taupe);
-      font-family: "IBM Plex Sans", Arial, sans-serif;
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-align: center;
-      text-transform: uppercase;
-    }
-    .logo-slot img,
-    .symbol-slot img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    .logo-slot.is-empty::before,
-    .symbol-slot.is-empty::before {
-      content: attr(data-label);
-      max-width: 82%;
-      line-height: 1.55;
-    }
-    .logo-slot--cover {
-      width: 306px;
-      max-width: 42vw;
-      height: 92px;
-      padding: 12px;
-    }
-    .logo-slot--closing {
-      width: 250px;
-      max-width: 70%;
-      height: 84px;
-      margin-bottom: 28px;
-      border-color: rgba(226,179,143,.42);
-      background: rgba(255,240,223,.06);
-      color: rgba(226,179,143,.78);
-    }
-
-    .fan-bg {
-      position: absolute;
-      right: -112px;
-      top: 92px;
-      width: 450px;
-      height: 280px;
-      opacity: .82;
-      pointer-events: none;
-      mix-blend-mode: multiply;
-      border-color: rgba(112,77,63,.14);
-      background: rgba(112,77,63,.035);
-    }
-    .fan-bg.is-empty { opacity: .42; }
-
-    .cover {
-      min-height: 700px;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      background: linear-gradient(135deg, #fff 0%, #fff7ef 56%, #f3dcc6 140%);
-    }
-    .cover-top, .cover-foot { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; position:relative; z-index:2; }
-    .doc-type {
-      color: var(--taupe);
-      font-family: "IBM Plex Sans", Arial, sans-serif;
-      font-size: 8px;
-      letter-spacing: .22em;
-      text-align: right;
-      text-transform: uppercase;
-    }
-    .cover-main { position:relative; z-index:2; align-self:center; max-width: 590px; padding: 56px 0; }
-    .ac { margin-top: 8px; color: var(--brown); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:15px; font-weight:300; letter-spacing:.05em; }
-    .ac em { margin-right:8px; color:var(--taupe); font-size:8px; font-style:normal; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
-    .cover-line { width:100%; height:1px; margin:28px 0 20px; background:var(--line); }
-    .cover-copy { max-width:540px; margin:0; color:var(--ink-soft); font-size:18px; line-height:1.44; }
-    .cover-foot { align-items:center; margin:0 -62px -58px; padding:18px 62px; border-top:1px solid var(--line); background:rgba(250,246,241,.78); }
-    .date { color:var(--brown); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
-    .tags { display:flex; gap:6px; flex-wrap:wrap; }
-    .tag { padding:4px 10px; border:1px solid rgba(180,146,129,.34); background:#fff; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:7px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; }
-
-    .intro-grid { display:grid; grid-template-columns: 1.25fr .75fr; gap: 44px; align-items:start; }
-    .copy p { margin-bottom: 13px; color: var(--brown-dark); font-size: 13.5px; line-height: 1.82; }
-    .copy strong { color: var(--brown-deep); font-weight: 700; }
-    .metric-grid { display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
-    .metric { padding:24px; background:#fff; }
-    .metric strong { display:block; color:var(--brown); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:42px; line-height:.9; letter-spacing:-.06em; }
-    .metric span { display:block; margin-top:10px; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; font-weight:600; letter-spacing:.17em; text-transform:uppercase; }
-
-    .philosophy { background:var(--brown); color:var(--cream); margin:0 -62px; padding:44px 62px; }
-    .moves { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:26px; background:var(--line-dark); border:1px solid var(--line-dark); }
-    .move { min-height:178px; padding:22px 18px; background:rgba(255,240,223,.045); }
-    .move-n { color:rgba(226,179,143,.55); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:9px; font-weight:700; letter-spacing:.18em; }
-    .move h3 { margin-top:22px; color:var(--copper); font-size:18px; }
-    .move p { margin:0; color:rgba(255,240,223,.68); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:11px; line-height:1.68; }
-    .manifesto { margin-top:24px; padding:22px 26px; border-left:2px solid var(--copper); background:rgba(255,240,223,.055); color:rgba(255,240,223,.82); font-size:14px; font-style:italic; line-height:1.74; }
-    .manifesto strong { color:var(--cream); font-style:normal; }
-
-    .services { display:grid; gap:0; }
-    .svc { display:grid; grid-template-columns:145px 1fr; gap:34px; padding:32px 0; border-bottom:1px solid var(--line); }
-    .svc:last-child { border-bottom:0; }
-    .svc-n { display:block; color:var(--sand); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:56px; font-weight:700; line-height:.85; letter-spacing:-.07em; }
-    .svc-k { display:block; margin-top:9px; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:7px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
-    .svc-title { margin-top:7px; color:var(--brown); font-size:18px; font-weight:700; line-height:1.18; }
-    .svc p { margin-bottom:18px; color:var(--ink-soft); font-size:13px; line-height:1.76; }
-    .deliver-title { display:flex; align-items:center; gap:12px; margin-bottom:10px; color:var(--brown-deep); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
-    .deliver-title:after { content:""; flex:1; height:1px; background:var(--line); }
-    .deliver { display:grid; grid-template-columns:1fr 1fr; gap:6px 18px; margin:0; padding:0; list-style:none; }
-    .deliver li { position:relative; padding-left:12px; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.6px; line-height:1.45; }
-    .deliver li:before { content:""; position:absolute; left:0; top:.72em; width:6px; height:1px; background:var(--taupe); }
-    .badge { display:inline-block; margin-top:14px; padding:4px 11px; border:1px solid var(--line); background:var(--cream); color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:7.5px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; }
-
-    .process-wrap { display:grid; grid-template-columns:1fr; gap:22px; }
-    .process-intro { max-width:560px; color:var(--ink-soft); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:12px; line-height:1.68; }
-    .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-    .step { min-height:148px; padding:18px 16px; background:var(--off); }
-    .step.mark { background:var(--brown); color:var(--cream); }
-    .step span { color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; }
-    .step.mark span { color:rgba(226,179,143,.68); }
-    .step strong { display:block; margin-top:18px; color:var(--brown); font-size:14px; line-height:1.18; }
-    .step.mark strong { color:var(--cream); }
-    .step p { margin:8px 0 0; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10px; line-height:1.48; }
-    .step.mark p { color:rgba(255,240,223,.68); }
-    .delivery { padding:22px 26px; border:1px solid var(--line); background:#fff; }
-    .delivery-items { display:grid; grid-template-columns:repeat(4,1fr); gap:8px 14px; margin-top:10px; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.5px; }
-    .delivery-items span:before { content:"— "; color:var(--brown); }
-
-    .diff-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-    .diff { padding:22px; background:#fff; }
-    .diff span { color:var(--sand); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:28px; font-weight:700; line-height:1; }
-    .diff strong { display:block; margin-top:16px; color:var(--brown); font-size:14px; line-height:1.2; }
-    .diff p { margin:8px 0 0; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.5px; line-height:1.6; }
-
-    .finance { background:var(--brown); color:var(--cream); margin:0 -62px; padding:48px 62px; }
-    .finance-head { display:grid; grid-template-columns:1.05fr .95fr; gap:36px; align-items:end; padding-bottom:26px; border-bottom:1px solid var(--line-dark); }
-    .total-label { color:rgba(226,179,143,.55); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; font-weight:700; letter-spacing:.23em; text-transform:uppercase; }
-    .total { margin:8px 0 0; color:var(--copper); font-size:56px; font-weight:700; line-height:.94; letter-spacing:-.05em; }
-    .total-note { margin:10px 0 0; color:rgba(255,240,223,.58); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.5px; letter-spacing:.07em; }
-    .scope-list { display:grid; gap:8px; padding:20px; border:1px solid var(--line-dark); background:rgba(255,240,223,.045); }
-    .scope-list div { display:grid; grid-template-columns:24px 1fr; color:rgba(255,240,223,.75); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:11px; }
-    .scope-list span { color:var(--copper); font-weight:700; }
-    .pay-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:20px; background:var(--line-dark); border:1px solid var(--line-dark); }
-    .pay { padding:24px; background:rgba(255,240,223,.04); }
-    .pay small { color:var(--copper); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
-    .pay strong { display:block; margin-top:8px; color:var(--cream); font-size:28px; font-weight:400; }
-    .pay p { margin:7px 0 0; color:rgba(255,240,223,.56); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.5px; }
-    .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:1px; background:var(--line-dark); }
-    .info { padding:22px 24px; background:rgba(255,240,223,.032); }
-    .info strong { display:block; margin-bottom:7px; color:var(--copper); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; letter-spacing:.22em; text-transform:uppercase; }
-    .info p { margin:0; color:rgba(255,240,223,.68); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.5px; line-height:1.6; }
-
-    .conditions { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .cond { display:grid; grid-template-columns:24px 1fr; gap:12px; padding:16px; border:1px solid rgba(180,146,129,.25); background:#fff; }
-    .cond-letter { color:var(--sand); font-size:24px; font-weight:700; line-height:1; }
-    .cond p { margin:0; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:10.6px; line-height:1.62; }
-    .cond strong { color:var(--brown-deep); font-weight:700; }
-
-    .closing { position:relative; background:var(--brown); color:var(--cream); min-height:520px; display:grid; align-content:space-between; }
-    .closing-symbol { position:absolute; right:-120px; bottom:-120px; width:420px; height:300px; opacity:.42; pointer-events:none; border-color:rgba(226,179,143,.18); background:rgba(255,240,223,.035); color:rgba(226,179,143,.62); }
-    .closing-symbol img { object-fit:contain; }
-    .closing > *:not(.closing-symbol) { position:relative; z-index:1; }
-    .closing h2 { max-width:520px; color:var(--cream); }
-    .closing-phrase { max-width:610px; margin:28px 0; color:var(--cream); font-size:34px; font-style:italic; font-weight:300; line-height:1.28; letter-spacing:-.03em; }
-    .closing-phrase em { color:var(--copper); font-style:normal; font-weight:600; }
-    .signatures { display:grid; grid-template-columns:1fr 1fr; gap:42px; margin-top:34px; }
-    .sig-line { height:1px; margin-bottom:10px; background:rgba(226,179,143,.34); }
-    .sig-name { color:var(--copper); font-size:13px; }
-    .sig-role { color:rgba(226,179,143,.56); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; letter-spacing:.18em; text-transform:uppercase; }
-    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:28px; }
-    .btn { padding:10px 16px; border:1px solid rgba(226,179,143,.42); color:var(--cream); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:8px; font-weight:700; letter-spacing:.18em; text-decoration:none; text-transform:uppercase; }
-    .btn:hover { background:rgba(255,240,223,.1); }
-
-    @media (max-width: 760px) {
-      .sheet { padding:38px 28px; }
-      .cover-foot, .philosophy, .finance { margin-left:-28px; margin-right:-28px; padding-left:28px; padding-right:28px; }
-      h1 { font-size:56px; }
-      .intro-grid, .svc, .finance-head, .pay-grid, .info-grid, .conditions, .signatures { grid-template-columns:1fr; }
-      .moves, .steps, .diff-grid, .delivery-items { grid-template-columns:1fr 1fr; }
-      .deliver { grid-template-columns:1fr; }
-      .nav { display:none; }
-    }
-
-    @media print {
-      body { background:#fff; }
-      .doc { width:900px; box-shadow:none; }
-      .sheet { min-height:auto; page-break-after:always; }
-      .nav, .actions { display:none; }
+    .btn-print {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
     }
   </style>
 </head>
@@ -313,14 +26,10 @@
     <section id="capa" class="sheet cover">
       <div class="cover-top">
         <a class="logo" href="#capa" aria-label="NID Studio">
-          <span class="logo-slot logo-slot--cover is-empty" data-label="Adicionar logo principal aqui">
+          <span class="logo-slot logo-slot--cover" data-label="Adicione a logo NID Studio aqui">
             <img data-logo-base="assets/logo-principal" alt="Logo NID Studio">
           </span>
         </a>
-        <div class="doc-type">Proposta Comercial<br>Arquitetura & Design</div>
-      </div>
-      <div class="symbol-slot fan-bg is-empty" data-label="Adicionar símbolo marrom aqui" aria-hidden="true">
-        <img data-logo-base="assets/simbolo-marrom" alt="">
       </div>
       <div class="cover-main">
         <span class="label">Proposta Comercial</span>
@@ -345,7 +54,6 @@
             <p>Atuamos desde a concepção executiva até a <strong>Liberação para Obra</strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso.</p>
           </div>
         </div>
-        <div class="metric-grid"><div class="metric"><strong>80+</strong><span>Projetos entregues</span></div><div class="metric"><strong>100%</strong><span>Compatibilização multidisciplinar</span></div></div>
       </div>
 
       <div id="filosofia" class="philosophy section">
@@ -399,10 +107,22 @@
     </section>
 
     <section id="encerramento" class="sheet closing">
-      <div class="symbol-slot closing-symbol is-empty" data-label="Adicionar símbolo claro aqui" aria-hidden="true">
-        <img data-logo-base="assets/simbolo-claro" alt="">
+      <div>
+        <div class="logo-slot logo-slot--closing" data-label="Logo NID (versão clara)">
+          <img data-logo-base="assets/logo-clara" alt="Logo NID Studio">
+        </div>
+        <span class="label">08 — Encerramento</span>
+        <h2>Obrigado pela confiança.</h2>
+        <p class="closing-phrase">Mais do que projetar espaços, desenvolvemos experiências que agregam <em>valor, identidade e permanência.</em></p>
+        <div class="signatures">
+          <div><div class="sig-line"></div><div class="sig-name">NID Studio — Arquitetura & Design</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div>
+          <div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-print" onclick="window.print()">Gerar PDF (página contínua)</button>
+          <a class="btn" href="#capa">Voltar ao início</a>
+        </div>
       </div>
-      <div><div class="logo-slot logo-slot--closing is-empty" data-label="Adicionar logo clara aqui"><img data-logo-base="assets/logo-clara" alt="Logo NID Studio"></div><span class="label">08 — Encerramento</span><h2>Obrigado pela confiança.</h2><p class="closing-phrase">Mais do que projetar espaços, desenvolvemos experiências que agregam <em>valor, identidade e permanência.</em></p><div class="signatures"><div><div class="sig-line"></div><div class="sig-name">NID Studio — Arquitetura & Design</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div><div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div></div><div class="actions"><a class="btn" href="NID_Studio_Proposta_GREMP3.pdf" target="_blank" rel="noopener">Abrir PDF</a><a class="btn" href="#capa">Voltar ao início</a></div></div>
     </section>
   </main>
   <script>
