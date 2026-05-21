@@ -5,8 +5,6 @@
     "nomeArquivoPdf": "NID_Studio_Proposta.pdf"
   },
   "capa": {
-    "tipoDocumento": "Proposta Comercial",
-    "subtituloDocumento": "Arquitetura & Design",
     "rotulo": "Proposta Comercial",
     "cliente": "GREMP3",
     "destinatarioRotulo": "A/C",
@@ -26,11 +24,20 @@
   "filosofia": {
     "rotulo": "02 — Filosofia",
     "titulo": "Direcionamento Conceitual",
-    "etapas": [
-      { "titulo": "Observar", "texto": "Compreender o espaço como organismo vivo, atento ao que se vê e ao que se sente." },
-      { "titulo": "Interpretar", "texto": "Traduzir sensações, necessidades e intenções em diretrizes conceituais claras." },
-      { "titulo": "Construir", "texto": "Materializar o conceito por meio de decisões técnicas, materiais e formais." },
-      { "titulo": "Existir", "texto": "Permitir que o espaço seja habitado, vivido e apropriado em sua função comercial e emocional." }
+    "tituloArco": "Metodologia NID.",
+    "pilares": [
+      {
+        "titulo": "Conceito",
+        "texto": "Na NID, o <strong>Conceito</strong> é o berço da inovação. Transformamos <strong>ideias em espaços com significado</strong>, onde a criatividade ganha <strong>vida</strong> e cada projeto reflete uma visão única e transformadora."
+      },
+      {
+        "titulo": "Design",
+        "texto": "Nosso <strong>Design</strong> é a alma de cada ambiente. Priorizamos a <strong>estética contemporânea</strong>, selecionamos materiais sofisticados e construímos uma <strong>identidade visual que encanta</strong> e inspira."
+      },
+      {
+        "titulo": "Usabilidade",
+        "texto": "A <strong>Usabilidade</strong> é o coração do ninho. Projetamos ambientes que <strong>harmonizam funcionalidade</strong> e praticidade, garantindo uma experiência <strong>única</strong> e verdadeiramente <strong>acolhedora</strong>."
+      }
     ],
     "manifestoDestaque": "NID é abrigo e origem.",
     "manifesto": "Não projetamos paredes — projetamos presenças. Cada linha é respiração, cada textura é memória, cada decisão sustenta valor."
@@ -155,16 +162,22 @@
   },
   "encerramento": {
     "rotulo": "08 — Encerramento",
-    "titulo": "Obrigado pela confiança.",
-    "frase": "Mais do que projetar espaços, desenvolvemos experiências que agregam",
-    "fraseDestaque": "valor, identidade e permanência.",
+    "titulo": "Agradecemos a sua confiança.",
+    "frase": "Na NID Studio, desenvolvemos produtos que, transcendendo a estética, convidam a uma",
+    "fraseDestaque": "experiência sensorial única, conectando o olhar ao sentimento.",
     "assinaturas": [
-      { "nome": "NID Studio — Arquitetura & Design", "cargo": "Max Barbosa · Sócio Diretor" },
+      { "nome": "NID Studio — Design & Arquitetura", "cargo": "Max Barbosa · Sócio Diretor" },
       { "nome": "GREMP3 / Mariana", "cargo": "Contratante — De acordo" }
     ]
   },
-  "logos": {
-    "principal": "assets/logo-principal.png",
-    "logoClara": "assets/logo-clara.png"
+  "imagens": {
+    "logoCapa": "assets/logo-principal.png",
+    "logoEncerramento": "assets/logo-clara.png",
+    "simboloSobreTopo": "",
+    "simboloSobreBase": "",
+    "simboloFilosofiaArco": "",
+    "simboloFilosofiaRodape": "",
+    "simbolosProcesso": ["", "", "", "", "", "", "", ""],
+    "simboloEncerramentoRodape": ""
   }
 }

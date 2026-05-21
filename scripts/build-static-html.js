@@ -7,7 +7,8 @@ const path = require('path');
 
 const root = path.join(__dirname, '..');
 const dados = JSON.parse(fs.readFileSync(path.join(root, 'proposta-dados.json'), 'utf8'));
-const css = fs.readFileSync(path.join(root, 'assets', 'proposta.css'), 'utf8');
+const css = fs.readFileSync(path.join(root, 'assets', 'proposta.css'), 'utf8')
+  + '\n' + fs.readFileSync(path.join(root, 'assets', 'proposta-layout.css'), 'utf8');
 const renderPath = path.join(root, 'scripts', 'proposta-render.js');
 
 const renderCode = fs.readFileSync(renderPath, 'utf8').replace(/\)\(window\)/, ')(global)');
