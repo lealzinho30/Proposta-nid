@@ -51,7 +51,7 @@
     <span>Modelo NID Studio — visualização automática</span>
     <div class="actions">
       <a href="editor.html">✏️ Editar proposta</a>
-      <button type="button" id="btn-print">Imprimir / PDF</button>
+      <button type="button" id="btn-print">Gerar PDF (página contínua)</button>
     </div>
   </div>
   <div id="app"></div>
@@ -59,12 +59,17 @@
   <script>
     (async function () {
       const app = document.getElementById('app');
+      const shouldPrint = /[?&]print=1/.test(location.search);
       try {
         const dados = await NidProposta.loadDados();
         app.innerHTML = NidProposta.renderProposta(dados);
         document.title = (dados.meta?.tituloPagina || 'Proposta') + ' · ' + (dados.capa?.cliente || '');
         NidProposta.applyLogos(document, dados.logos);
         NidProposta.initNav(document);
+        document.querySelectorAll('[data-print-pdf]').forEach((btn) => {
+          btn.addEventListener('click', () => window.print());
+        });
+        if (shouldPrint) setTimeout(() => window.print(), 700);
       } catch (err) {
         app.innerHTML = '<p style="padding:2rem;font-family:sans-serif">Erro ao carregar a proposta. Abra o <a href="editor.html">editor</a> ou verifique o arquivo <code>proposta-dados.json</code>.</p>';
         console.error(err);

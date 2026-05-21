@@ -63,8 +63,8 @@ As logos no site continuam em `assets/`; no editor, imagens enviadas pelo upload
 **Preciso saber programar?**  
 Não. Só preencher formulários e escolher imagens.
 
-**Como gero PDF?**  
-Abra a proposta (modelo ou HTML baixado) → `Ctrl+P` (ou Cmd+P) → **Salvar como PDF**.
+**Como gero PDF em uma página contínua?**  
+No editor, clique em **Gerar PDF**. Ou na proposta aberta use **Gerar PDF (página contínua)** / `Ctrl+P` → **Salvar como PDF**. O layout evita quebras forçadas entre seções.
 
 **Perdi o que editei**  
 Use **Carregar dados** com o `proposta-dados.json` que você baixou, ou **Salvar no navegador** com frequência.

@@ -8,9 +8,6 @@
     const pdf = meta.nomeArquivoPdf || 'proposta.pdf';
 
     const tags = (c.tags || []).map((t) => `<span class="tag">${t}</span>`).join('');
-    const metricas = (dados.sobre.metricas || [])
-      .map((m) => `<div class="metric"><strong>${m.valor}</strong><span>${m.legenda}</span></div>`)
-      .join('');
     const paragrafos = (dados.sobre.paragrafos || []).map((p) => `<p>${p}</p>`).join('');
 
     const filosofiaEtapas = (dados.filosofia.etapas || [])
@@ -64,14 +61,10 @@
     <section id="capa" class="sheet cover">
       <div class="cover-top">
         <a class="logo" href="#capa" aria-label="NID Studio">
-          <span class="logo-slot logo-slot--cover" data-label="Logo principal">
+          <span class="logo-slot logo-slot--cover" data-label="Adicione a logo NID Studio aqui">
             <img data-logo-key="principal" alt="Logo NID Studio">
           </span>
         </a>
-        <div class="doc-type">${c.tipoDocumento || 'Proposta Comercial'}<br>${c.subtituloDocumento || 'Arquitetura & Design'}</div>
-      </div>
-      <div class="symbol-slot fan-bg" data-label="Símbolo marrom" aria-hidden="true">
-        <img data-logo-key="simboloMarrom" alt="">
       </div>
       <div class="cover-main">
         <span class="label">${c.rotulo || 'Proposta Comercial'}</span>
@@ -92,7 +85,6 @@
           <h2>${dados.sobre.titulo || ''}</h2>
           <div class="copy">${paragrafos}</div>
         </div>
-        <div class="metric-grid">${metricas}</div>
       </div>
       <div id="filosofia" class="philosophy section">
         <span class="label">${dados.filosofia.rotulo || ''}</span>
@@ -141,11 +133,8 @@
       </div>
     </section>
     <section id="encerramento" class="sheet closing">
-      <div class="symbol-slot closing-symbol" data-label="Símbolo claro" aria-hidden="true">
-        <img data-logo-key="simboloClaro" alt="">
-      </div>
       <div>
-        <div class="logo-slot logo-slot--closing" data-label="Logo clara">
+        <div class="logo-slot logo-slot--closing" data-label="Logo NID (versão clara)">
           <img data-logo-key="logoClara" alt="Logo NID Studio">
         </div>
         <span class="label">${dados.encerramento.rotulo || ''}</span>
@@ -153,7 +142,7 @@
         <p class="closing-phrase">${dados.encerramento.frase || ''} <em>${dados.encerramento.fraseDestaque || ''}</em></p>
         <div class="signatures">${assinaturas}</div>
         <div class="actions">
-          <a class="btn" href="${pdf}" target="_blank" rel="noopener">Abrir PDF</a>
+          <button type="button" class="btn" data-print-pdf>Gerar PDF (1 página)</button>
           <a class="btn" href="#capa">Voltar ao início</a>
         </div>
       </div>
