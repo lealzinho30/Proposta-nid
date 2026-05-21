@@ -9,6 +9,7 @@ Material editorial em HTML para apresentação comercial premium da NID Studio �
 | `index.html` | Proposta em **HTML normal** (página única, navegação por dots, sem iframe/painel). |
 | `proposta-nid-studio.html` | Versão editorial alternativa da proposta (referência / exportação). |
 | `NID_Studio_Proposta_GREMP3.pdf` | PDF final gerado da proposta. |
+| `assets/` | Logos oficiais NID Studio (`logo-principal`, `simbolo-marrom`, `logo-clara`, `simbolo-claro`). |
 
 ## Como visualizar
 
@@ -46,9 +47,9 @@ python3 scripts/validate_proposta.py
 ```
 
 
-## Como adicionar as logos sem usar git
+## Logos
 
-A proposta agora possui espaços reservados para as logos. Para trocar pelo GitHub Web, sem terminal:
+As logos oficiais já estão em `assets/` (extraídas da identidade NID Studio). Para substituir uma imagem pelo GitHub Web, sem terminal:
 
 1. Abra o repositório no GitHub.
 2. Troque a branch para `gh-pages`.
