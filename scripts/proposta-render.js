@@ -196,7 +196,57 @@
   </main>`;
   }
 
+  function buildStandaloneHtml(dados, css, layoutCss, bootJs) {
+    const c = dados.capa || {};
+    const meta = dados.meta || {};
+    const tituloPagina = `${meta.tituloPagina || 'NID Studio — Proposta'} · ${c.cliente || ''}`.trim();
+    const json = JSON.stringify(dados).replace(/</g, '\\u003c');
+    const markup = renderProposta(dados);
+    const boot = (bootJs || '').replace(/<\/script>/gi, '<\\/script>');
+    return `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${tituloPagina}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>${css || ''}\n${layoutCss || ''}</style>
+</head>
+<body>
+${markup}
+<script id="dados-embutidos" type="application/json">${json}</script>
+<script>${boot}</script>
+<script>
+(function(){
+  var d=document.getElementById('dados-embutidos');
+  if(!d||!window.NidProposta)return;
+  var dados=JSON.parse(d.textContent);
+  NidProposta.applyImagens(document,dados);
+  NidProposta.initNav(document);
+  document.querySelectorAll('[data-print-pdf]').forEach(function(b){
+    b.addEventListener('click',function(){window.print();});
+  });
+  if(/[?&]print=1/.test(location.search)){
+    function doPrint(){setTimeout(function(){window.print();},350);}
+    var wait=window.NidPropostaStore&&window.NidPropostaStore.waitForImages;
+    var p=wait?wait(document,15000):Promise.resolve();
+    p.then(function(){
+      if(document.fonts&&document.fonts.ready)return document.fonts.ready;
+    }).then(doPrint).catch(doPrint);
+  }
+})();
+</script>
+</body>
+</html>`;
+  }
+
   function renderExportDocument(dados) {
+    return buildStandaloneHtml(dados, null, null, null);
+  }
+
+  function renderExportDocumentLegacy(dados) {
     const c = dados.capa || {};
     const meta = dados.meta || {};
     const tituloPagina = `${meta.tituloPagina || 'NID Studio — Proposta'} · ${c.cliente || ''}`.trim();
@@ -233,9 +283,18 @@ ${renderProposta(dados)}
         img.removeAttribute('src');
         return;
       }
+      const onOk = () => slot?.classList.remove('is-empty');
+      const onFail = () => {
+        slot?.classList.add('is-empty');
+        img.removeAttribute('src');
+      };
+      img.onload = onOk;
+      img.onerror = onFail;
       img.src = src;
-      img.onload = () => slot?.classList.remove('is-empty');
-      img.onerror = () => slot?.classList.add('is-empty');
+      if (img.complete) {
+        if (img.naturalWidth > 0) onOk();
+        else onFail();
+      }
     });
     root.querySelectorAll('img[data-logo-key]').forEach((img) => {
       const key = img.dataset.logoKey;
@@ -281,6 +340,9 @@ ${renderProposta(dados)}
     if (embedded?.textContent) {
       return JSON.parse(embedded.textContent);
     }
+    if (global.NidPropostaStore?.loadDados) {
+      return global.NidPropostaStore.loadDados();
+    }
     const saved = localStorage.getItem('nid-proposta-dados');
     if (saved) {
       return JSON.parse(saved);
@@ -293,6 +355,7 @@ ${renderProposta(dados)}
   global.NidProposta = {
     renderProposta,
     renderExportDocument,
+    buildStandaloneHtml,
     mountProposta,
     applyImagens,
     applyLogos,

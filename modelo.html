@@ -56,11 +56,20 @@
     </div>
   </div>
   <div id="app"></div>
+  <script src="scripts/proposta-store.js"></script>
   <script src="scripts/proposta-render.js"></script>
   <script>
     (async function () {
       const app = document.getElementById('app');
       const shouldPrint = /[?&]print=1/.test(location.search);
+      const store = window.NidPropostaStore;
+
+      async function runPrint() {
+        if (store?.waitForImages) await store.waitForImages(document, 15000);
+        await document.fonts?.ready;
+        window.print();
+      }
+
       try {
         const dados = await NidProposta.loadDados();
         app.innerHTML = NidProposta.renderProposta(dados);
@@ -68,14 +77,18 @@
         NidProposta.applyImagens(document, dados);
         NidProposta.initNav(document);
         document.querySelectorAll('[data-print-pdf]').forEach((btn) => {
-          btn.addEventListener('click', () => window.print());
+          btn.addEventListener('click', runPrint);
         });
-        if (shouldPrint) setTimeout(() => window.print(), 700);
+        if (shouldPrint) {
+          if (store?.waitForImages) await store.waitForImages(document, 15000);
+          await document.fonts?.ready;
+          setTimeout(runPrint, 400);
+        }
       } catch (err) {
         app.innerHTML = '<p style="padding:2rem;font-family:sans-serif">Erro ao carregar a proposta. Abra o <a href="editor.html">editor</a> ou verifique o arquivo <code>proposta-dados.json</code>.</p>';
         console.error(err);
       }
-      document.getElementById('btn-print')?.addEventListener('click', () => window.print());
+      document.getElementById('btn-print')?.addEventListener('click', runPrint);
     })();
   </script>
 </body>
