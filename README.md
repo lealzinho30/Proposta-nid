@@ -2,11 +2,29 @@
 
 Material editorial em HTML para apresentação comercial premium da NID Studio — case **GREMP3**.
 
+## Modelo editável (sem código)
+
+Para criar ou alterar propostas **sem editar HTML**:
+
+| Arquivo | Descrição |
+|---------|-----------|
+| **[editor.html](editor.html)** | Formulário visual em português — textos, valores, serviços e upload de imagens. |
+| **[modelo.html](modelo.html)** | Visualização da proposta gerada a partir dos seus dados. |
+| **`proposta-dados.json`** | Arquivo de conteúdo (gerado/atualizado pelo editor). |
+| **[GUIA-EDICAO.md](GUIA-EDICAO.md)** | Passo a passo completo para uso do editor. |
+
+**Links rápidos (GitHub Pages):**
+
+- Editor: https://lealzinho30.github.io/Proposta-nid/editor.html  
+- Modelo: https://lealzinho30.github.io/Proposta-nid/modelo.html  
+
+Fluxo: abra o **editor** → altere campos e imagens → **Ver proposta** → **Baixar proposta pronta (HTML)** ou gere PDF pelo navegador (Imprimir).
+
 ## Arquivos principais
 
 | Arquivo | Descrição |
 |---------|-----------|
-| `index.html` | Proposta em **HTML normal** (página única, navegação por dots, sem iframe/painel). |
+| `index.html` | Proposta fixa do case **GREMP3** (referência final). |
 | `proposta-nid-studio.html` | Versão editorial alternativa da proposta (referência / exportação). |
 | `NID_Studio_Proposta_GREMP3.pdf` | PDF final gerado da proposta. |
 | `assets/` | Logos oficiais NID Studio (`logo-principal`, `simbolo-marrom`, `logo-clara`, `simbolo-claro`). |
@@ -73,7 +91,7 @@ Se você quiser atualizar também a branch de desenvolvimento, repita o upload n
 
 ## Personalização
 
-Edite `index.html` para novos clientes (metadados da capa, escopo, investimento e condições). Mantenha a paleta NID (`#704D3F`, `#E2B38F`, `#B49281`, `#F3DCC6`, `#FFF0DF`, `#FAF6F1`) e as fontes IBM Plex Serif / Sans.
+Para novos clientes, use o **[editor.html](editor.html)** (recomendado). O `index.html` permanece como versão final do case GREMP3. Paleta NID: `#704D3F`, `#E2B38F`, `#B49281`, `#F3DCC6`, `#FFF0DF`, `#FAF6F1`.
 
 ## Link visual da proposta
 
