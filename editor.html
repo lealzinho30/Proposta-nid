@@ -211,10 +211,12 @@
 
   <div class="status" id="status" role="status"></div>
 
+  <script src="scripts/proposta-store.js"></script>
   <script src="scripts/proposta-render.js"></script>
   <script>
     let dados = {};
     let mediaFiles = {};
+    const store = window.NidPropostaStore;
 
     const statusEl = document.getElementById('status');
     function toast(msg) {
@@ -355,8 +357,14 @@
 
     function pad2(n) { return String(n).padStart(2, '0'); }
 
+    function escAttr(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    }
+
     function imgUpload(key, title, srcUrl) {
-      const preview = srcUrl ? `<img src="${srcUrl}" alt="">` : '<img alt="" style="display:none">';
+      const preview = srcUrl
+        ? `<img src="${escAttr(srcUrl)}" alt="">`
+        : '<img alt="" style="display:none">';
       return `<div class="logo-box"><strong>${title}</strong><br>
         <label class="btn-file" style="display:inline-block;margin-top:8px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer">
           Escolher imagem<input type="file" accept="image/*" data-media="${key}">
@@ -485,15 +493,18 @@
         }
         setPath(out, path, val);
       });
+      const prev = dados.imagens || {};
       const imagens = {
-        logoCapa: mediaFiles.logoCapa || '',
-        logoEncerramento: mediaFiles.logoEncerramento || '',
-        simboloSobreTopo: mediaFiles.simboloSobreTopo || '',
-        simboloSobreBase: mediaFiles.simboloSobreBase || '',
-        simboloFilosofiaArco: mediaFiles.simboloFilosofiaArco || '',
-        simboloFilosofiaRodape: mediaFiles.simboloFilosofiaRodape || '',
-        simboloEncerramentoRodape: mediaFiles.simboloEncerramentoRodape || '',
-        simbolosProcesso: [0, 1, 2, 3, 4, 5, 6, 7].map((i) => mediaFiles[`processo${i}`] || ''),
+        logoCapa: mediaFiles.logoCapa || prev.logoCapa || dados.logos?.principal || '',
+        logoEncerramento: mediaFiles.logoEncerramento || prev.logoEncerramento || dados.logos?.logoClara || '',
+        simboloSobreTopo: mediaFiles.simboloSobreTopo || prev.simboloSobreTopo || '',
+        simboloSobreBase: mediaFiles.simboloSobreBase || prev.simboloSobreBase || '',
+        simboloFilosofiaArco: mediaFiles.simboloFilosofiaArco || prev.simboloFilosofiaArco || '',
+        simboloFilosofiaRodape: mediaFiles.simboloFilosofiaRodape || prev.simboloFilosofiaRodape || '',
+        simboloEncerramentoRodape: mediaFiles.simboloEncerramentoRodape || prev.simboloEncerramentoRodape || '',
+        simbolosProcesso: [0, 1, 2, 3, 4, 5, 6, 7].map(
+          (i) => mediaFiles[`processo${i}`] || (prev.simbolosProcesso || [])[i] || ''
+        ),
       };
       out.imagens = imagens;
       out.logos = {
@@ -538,12 +549,24 @@
           const file = input.files?.[0];
           if (!file) return;
           const key = input.dataset.media;
-          const b64 = await fileToDataUrl(file);
-          mediaFiles[key] = b64;
-          const preview = input.closest('.logo-box')?.querySelector('img');
-          if (preview) { preview.src = b64; preview.style.display = 'block'; }
-          saveLocal();
-          toast('Imagem enviada');
+          try {
+            const b64 = store?.compressImage
+              ? await store.compressImage(file)
+              : await fileToDataUrl(file);
+            mediaFiles[key] = b64;
+            const preview = input.closest('.logo-box')?.querySelector('img');
+            if (preview) { preview.src = b64; preview.style.display = 'block'; }
+            const saved = persistAll();
+            if (!saved.ok) {
+              toast('Imagem na tela, mas não coube no navegador — use Baixar dados ou HTML');
+            } else {
+              toast(saved.warn || 'Imagem enviada e salva');
+            }
+          } catch (err) {
+            console.error(err);
+            toast('Erro ao processar imagem');
+          }
+          input.value = '';
         });
       });
 
@@ -557,10 +580,7 @@
       let saveTimer;
       document.getElementById('form-root').addEventListener('input', () => {
         clearTimeout(saveTimer);
-        saveTimer = setTimeout(() => {
-          dados = collectForm();
-          localStorage.setItem('nid-proposta-dados', JSON.stringify(dados));
-        }, 400);
+        saveTimer = setTimeout(() => persistAll(true), 400);
       });
     }
 
@@ -577,10 +597,26 @@
       });
     }
 
-    function saveLocal() {
+    function persistAll(silent) {
       collectToDados();
-      localStorage.setItem('nid-proposta-dados', JSON.stringify(dados));
-      toast('Salvo no navegador');
+      if (store?.setPreviewPayload) store.setPreviewPayload(dados);
+      const result = store?.persistDados
+        ? store.persistDados(dados)
+        : (() => {
+            try {
+              localStorage.setItem('nid-proposta-dados', JSON.stringify(dados));
+              return { ok: true };
+            } catch (e) {
+              return { ok: false, error: e };
+            }
+          })();
+      if (!silent && result.ok) toast(result.warn || 'Salvo no navegador');
+      if (!silent && !result.ok) toast('Não coube no navegador — baixe JSON ou HTML');
+      return result;
+    }
+
+    function saveLocal() {
+      persistAll();
     }
 
     function downloadJson() {
@@ -596,17 +632,19 @@
 
     async function exportHtml() {
       collectToDados();
-      const [css, layoutCss] = await Promise.all([
+      const [css, layoutCss, bootJs, renderJs, storeJs] = await Promise.all([
         fetch('assets/proposta.css').then((r) => r.text()),
         fetch('assets/proposta-layout.css').then((r) => r.text()),
+        fetch('scripts/proposta-boot.js').then((r) => r.text()),
+        fetch('scripts/proposta-render.js').then((r) => r.text()),
+        fetch('scripts/proposta-store.js').then((r) => r.text()),
       ]);
-      let html = NidProposta.renderExportDocument(dados);
-      html = html.replace(
-        /<link rel="stylesheet" href="assets\/proposta\.css">\s*<link rel="stylesheet" href="assets\/proposta-layout\.css">/,
-        `<style>${css}\n${layoutCss}</style>`
+      const html = NidProposta.buildStandaloneHtml(
+        dados,
+        css,
+        layoutCss,
+        `${renderJs}\n${storeJs}\n${bootJs}`
       );
-      const boot = await fetch('scripts/proposta-boot.js').then((r) => r.text());
-      html = html.replace('<script src="scripts/proposta-boot.js"><\\/script>', `<script>${boot}<\\/script>`);
       const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
       const a = document.createElement('a');
       const nome = (dados.capa?.cliente || 'proposta').replace(/\s+/g, '-').toLowerCase();
@@ -618,8 +656,9 @@
     }
 
     async function loadDefault() {
-      const res = await fetch('proposta-dados.json');
-      dados = await res.json();
+      dados = store?.loadDados
+        ? await store.loadDados()
+        : await fetch('proposta-dados.json').then((r) => r.json());
       mediaFiles = {};
       const im = dados.imagens || {};
       const lg = dados.logos || {};
@@ -636,21 +675,73 @@
       renderForm();
     }
 
+    async function openStandalonePdf() {
+      collectToDados();
+      persistAll(true);
+      try {
+        const [css, layoutCss, bootJs, renderJs, storeJs] = await Promise.all([
+          fetch('assets/proposta.css').then((r) => r.text()),
+          fetch('assets/proposta-layout.css').then((r) => r.text()),
+          fetch('scripts/proposta-boot.js').then((r) => r.text()),
+          fetch('scripts/proposta-render.js').then((r) => r.text()),
+          fetch('scripts/proposta-store.js').then((r) => r.text()),
+        ]);
+        const boot = `${renderJs}\n${storeJs}\n${bootJs}`;
+        const html = NidProposta.buildStandaloneHtml(dados, css, layoutCss, boot);
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob) + '?print=1';
+        const win = window.open(url, '_blank');
+        if (!win) {
+          toast('Permita pop-ups para gerar o PDF');
+          URL.revokeObjectURL(url);
+          return;
+        }
+        setTimeout(() => URL.revokeObjectURL(url), 120000);
+      } catch (err) {
+        console.error(err);
+        toast('Erro ao gerar PDF — tente Ver proposta');
+      }
+    }
+
     function openPreview(forPrint) {
-      saveLocal();
+      const saved = persistAll(true);
+      if (!saved.ok) {
+        toast('Dados grandes demais — use Gerar PDF ou Baixar HTML');
+        if (forPrint) { openStandalonePdf(); return; }
+      }
       const url = forPrint ? 'modelo.html?print=1' : 'modelo.html';
-      window.open(url, '_blank');
+      const win = window.open(url, '_blank');
+      if (!win) toast('Permita pop-ups para abrir a proposta');
     }
 
     document.getElementById('btn-preview').addEventListener('click', () => openPreview(false));
-    document.getElementById('btn-pdf').addEventListener('click', () => openPreview(true));
+    document.getElementById('btn-pdf').addEventListener('click', () => openStandalonePdf());
     document.getElementById('btn-save').addEventListener('click', saveLocal);
     document.getElementById('btn-json').addEventListener('click', downloadJson);
     document.getElementById('btn-export').addEventListener('click', exportHtml);
     document.getElementById('btn-reset').addEventListener('click', async () => {
       if (!confirm('Restaurar o conteúdo original do case GREMP3?')) return;
       localStorage.removeItem('nid-proposta-dados');
-      await loadDefault();
+      sessionStorage.removeItem('nid-proposta-dados');
+      sessionStorage.removeItem('nid-proposta-preview');
+      sessionStorage.removeItem('nid-proposta-preview:ts');
+      const res = await fetch('proposta-dados.json');
+      dados = await res.json();
+      mediaFiles = {};
+      const im = dados.imagens || {};
+      const lg = dados.logos || {};
+      Object.assign(mediaFiles, {
+        logoCapa: im.logoCapa || lg.principal,
+        logoEncerramento: im.logoEncerramento || lg.logoClara,
+        simboloSobreTopo: im.simboloSobreTopo,
+        simboloSobreBase: im.simboloSobreBase,
+        simboloFilosofiaArco: im.simboloFilosofiaArco,
+        simboloFilosofiaRodape: im.simboloFilosofiaRodape,
+        simboloEncerramentoRodape: im.simboloEncerramentoRodape,
+      });
+      (im.simbolosProcesso || []).forEach((v, i) => { if (v) mediaFiles[`processo${i}`] = v; });
+      renderForm();
+      persistAll(true);
       toast('Modelo GREMP3 restaurado');
     });
     document.getElementById('file-json').addEventListener('change', async (e) => {
