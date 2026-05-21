@@ -22,9 +22,14 @@ Use o menu à esquerda (Capa, Logos, Serviços, etc.) e preencha os campos:
 
 Botões **+ Adicionar** criam novos serviços, condições ou parágrafos. **Remover** apaga o bloco.
 
-### 3. Trocar imagens (logos)
+### 3. Trocar logos e símbolos (upload)
 
-Na seção **Logos e imagens**, clique em **Escolher imagem** e selecione PNG ou JPG do seu computador. Não é preciso renomear arquivos.
+No editor há duas seções:
+
+- **Logos NID Studio** — marca na capa e no encerramento
+- **Símbolos NID** — decorativos no Sobre, Filosofia (arco + rodapé), **8 etapas do Processo** e rodapé do encerramento
+
+Em cada espaço, clique em **Escolher imagem** e envie PNG ou JPG (fundo transparente funciona melhor). Enquanto vazio, a proposta mostra o texto *Upload · …* indicando onde a imagem vai aparecer.
 
 ### 4. Ver o resultado
 

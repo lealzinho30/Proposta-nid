@@ -183,19 +183,26 @@ h3 { margin-bottom: 8px; color: var(--brown); font-size: 19px; font-weight: 700;
 .fan-bg.is-empty { opacity: .42; }
 
 .cover {
-  min-height: 700px;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   background: linear-gradient(135deg, #fff 0%, #fff7ef 56%, #f3dcc6 140%);
 }
-.cover-top, .cover-foot { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; position:relative; z-index:2; }
-.cover-top { flex-direction: column; align-items: flex-start; width: 100%; }
-.cover-main { position:relative; z-index:2; align-self:center; max-width: 590px; padding: 56px 0; }
+.cover-hero {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.1fr) minmax(260px, 1fr);
+  gap: 36px;
+  align-items: start;
+  padding-top: 8px;
+}
+.cover-hero__text { padding-top: 12px; }
+.cover-hero__text .cover-line { margin-top: 24px; }
+.cover-foot { display:flex; justify-content:space-between; align-items:center; gap:24px; position:relative; z-index:2; margin:0 -62px -58px; padding:18px 62px; border-top:1px solid var(--line); background:rgba(250,246,241,.88); }
 .ac { margin-top: 8px; color: var(--brown); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:15px; font-weight:300; letter-spacing:.05em; }
 .ac em { margin-right:8px; color:var(--taupe); font-size:8px; font-style:normal; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
 .cover-line { width:100%; height:1px; margin:28px 0 20px; background:var(--line); }
 .cover-copy { max-width:540px; margin:0; color:var(--ink-soft); font-size:18px; line-height:1.44; }
-.cover-foot { align-items:center; margin:0 -62px -58px; padding:18px 62px; border-top:1px solid var(--line); background:rgba(250,246,241,.78); }
 .date { color:var(--brown); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
 .tags { display:flex; gap:6px; flex-wrap:wrap; }
 .tag { padding:4px 10px; border:1px solid rgba(180,146,129,.34); background:#fff; color:var(--taupe); font-family:"IBM Plex Sans", Arial, sans-serif; font-size:7px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; }
@@ -352,6 +359,294 @@ h3 { margin-bottom: 8px; color: var(--brown); font-size: 19px; font-weight: 700;
   }
   .nav, .actions, .modelo-bar { display: none !important; }
 }
+
+/* Layout alinhado aos mockups + slots de upload */
+
+.media-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px dashed rgba(112, 77, 63, .32);
+  background: rgba(255, 255, 255, .55);
+  color: var(--taupe);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.45;
+}
+.media-slot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.media-slot.is-empty::before {
+  content: attr(data-label);
+  padding: 8px;
+  max-width: 90%;
+}
+.media-slot:not(.is-empty) {
+  border-style: solid;
+  border-color: transparent;
+  background: transparent;
+}
+
+.media-slot--logo-cover {
+  min-height: 120px;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 12px;
+}
+.media-slot--logo-cover img {
+  object-position: left center;
+  max-height: 110px;
+}
+
+.media-slot--logo-closing {
+  width: min(100%, 280px);
+  min-height: 72px;
+  margin-bottom: 24px;
+  border-color: rgba(226, 179, 143, .4);
+  background: rgba(255, 240, 223, .08);
+  color: rgba(226, 179, 143, .75);
+  border-radius: 10px;
+}
+.media-slot--logo-closing:not(.is-empty) {
+  background: transparent;
+}
+
+.media-slot--deco {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: .55;
+  mix-blend-mode: multiply;
+}
+.media-slot--deco-tr {
+  top: 24px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+}
+.media-slot--deco-bl {
+  bottom: 40px;
+  left: -30px;
+  width: 160px;
+  height: 160px;
+}
+.media-slot--deco:not(.is-empty) {
+  opacity: .85;
+  pointer-events: auto;
+}
+
+.sheet--pattern {
+  background-color: var(--off);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 18px,
+    rgba(112, 77, 63, .03) 18px,
+    rgba(112, 77, 63, .03) 19px
+  );
+}
+.sheet--pattern .intro-grid,
+.sheet--pattern .section {
+  position: relative;
+  z-index: 1;
+}
+
+.sheet--filosofia {
+  background: var(--cream);
+  text-align: center;
+}
+.philosophy-intro { text-align: left; margin-bottom: 28px; }
+.philosophy-arc-wrap {
+  position: relative;
+  margin: 0 auto 36px;
+  max-width: 520px;
+  padding-top: 48px;
+}
+.media-slot--arc {
+  width: 100%;
+  max-width: 480px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 240px 240px 12px 12px;
+  border-bottom: none;
+  background: rgba(243, 220, 198, .65);
+}
+.philosophy-arc-title {
+  margin: -42px 0 0;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--brown);
+  letter-spacing: -.02em;
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+.pillar {
+  padding: 26px 22px;
+  border-radius: 14px;
+  background: var(--brown);
+  color: var(--cream);
+  min-height: 200px;
+}
+.pillar h3 {
+  margin: 0 0 14px;
+  color: var(--copper);
+  font-size: 20px;
+}
+.pillar p {
+  margin: 0;
+  color: rgba(255, 240, 223, .82);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.65;
+}
+.pillar strong { color: var(--cream); }
+
+.sheet--filosofia .manifesto {
+  text-align: left;
+  margin-top: 0;
+  padding: 22px 26px;
+  border-left: 2px solid var(--copper);
+  background: rgba(112, 77, 63, .06);
+  color: var(--ink-soft);
+  border-radius: 0 10px 10px 0;
+}
+.sheet--filosofia .manifesto strong { color: var(--brown); }
+
+.philosophy-footer-symbol,
+.closing-footer-symbol {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.media-slot--pill {
+  width: min(100%, 320px);
+  height: 56px;
+  border-radius: 999px;
+  background: rgba(243, 220, 198, .5);
+}
+.media-slot--pill-light {
+  border-color: rgba(226, 179, 143, .35);
+  background: rgba(255, 240, 223, .06);
+  color: rgba(226, 179, 143, .7);
+}
+
+.steps {
+  border-radius: 12px;
+  overflow: hidden;
+  gap: 0;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding: 14px 14px 18px;
+  border-radius: 0;
+}
+.step-symbol { margin-bottom: 10px; flex-shrink: 0; }
+.media-slot--step {
+  width: 100%;
+  height: 72px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .5);
+}
+.step.mark .media-slot--step {
+  background: rgba(255, 240, 223, .12);
+  border-color: rgba(226, 179, 143, .35);
+  color: rgba(226, 179, 143, .65);
+}
+.step-n {
+  display: block;
+  color: var(--taupe);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.step.mark .step-n { color: rgba(226, 179, 143, .7); }
+.step strong { margin-top: 10px; }
+
+.diff-section { margin-top: 32px; }
+.diff-section > .label { margin-bottom: 14px; }
+
+.finance-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+.finance-pay {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-dark);
+  border: 1px solid var(--line-dark);
+  grid-column: span 2;
+}
+.finance-scope {
+  grid-column: span 1;
+  padding: 18px;
+  border: 1px solid var(--line-dark);
+  background: rgba(255, 240, 223, .05);
+  border-radius: 10px;
+}
+.finance-scope .scope-list {
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.finance-total-block {
+  grid-column: span 2;
+  padding: 24px 28px;
+  border: 1px solid var(--line-dark);
+  border-radius: 12px;
+  background: rgba(255, 240, 223, .06);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.finance-layout .info-grid {
+  grid-column: span 2;
+  margin-top: 0;
+}
+
+.closing-inner { position: relative; z-index: 1; max-width: 720px; }
+.closing-phrase {
+  padding-left: 18px;
+  border-left: 2px solid var(--copper);
+}
+
+@media (max-width: 760px) {
+  .cover-hero { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr; }
+  .finance-layout { grid-template-columns: 1fr; }
+  .finance-pay, .finance-total-block, .finance-layout .info-grid { grid-column: span 1; }
+}
+
+@media print {
+  .media-slot.is-empty::before { font-size: 6px; }
+  .media-slot--deco { opacity: .4; }
+}
 </style>
 </head>
 <body>
@@ -361,96 +656,119 @@ h3 { margin-bottom: 8px; color: var(--brown); font-size: 19px; font-weight: 700;
   </nav>
   <main class="doc">
     <section id="capa" class="sheet cover">
-      <div class="cover-top">
-        <a class="logo" href="#capa" aria-label="NID Studio">
-          <span class="logo-slot logo-slot--cover" data-label="Adicione a logo NID Studio aqui">
-            <img data-logo-key="principal" alt="Logo NID Studio">
-          </span>
-        </a>
+      <div class="cover-hero">
+        <div class="cover-hero__logo">
+          <div class="media-slot media-slot--logo-cover is-empty" data-label="Upload · Logo NID Studio"><img data-img-key="logoCapa" alt=""></div>
+        </div>
+        <div class="cover-hero__text">
+          <span class="label">Proposta Comercial</span>
+          <h1>GREMP3</h1>
+          <div class="ac"><em>A/C</em>Mariana</div>
+          <div class="cover-line"></div>
+        </div>
       </div>
-      <div class="cover-main">
-        <span class="label">Proposta Comercial</span>
-        <h1>GREMP3</h1>
-        <div class="ac"><em>A/C</em>Mariana</div>
-        <div class="cover-line"></div>
-        <p class="cover-copy">Fachada, conceito e produto, apartamento modelo decorado e PDV como experiência integrada de arquitetura, marca e conversão comercial.</p>
-      </div>
+      <p class="cover-copy">Fachada, conceito e produto, apartamento modelo decorado e PDV como experiência integrada de arquitetura, marca e conversão comercial.</p>
       <div class="cover-foot">
         <span class="date">São Paulo · Maio de 2026</span>
         <div class="tags"><span class="tag">Fachada</span><span class="tag">Decorado</span><span class="tag">PDV</span></div>
       </div>
     </section>
-    <section id="sobre" class="sheet">
+
+    <section id="sobre" class="sheet sheet--pattern">
+      <div class="media-slot media-slot--deco media-slot--deco-tr is-empty" data-label="Upload · Símbolo decorativo (canto superior)"><img data-img-key="simboloSobreTopo" alt=""></div>
+      <div class="media-slot media-slot--deco media-slot--deco-bl is-empty" data-label="Upload · Símbolo decorativo (canto inferior)"><img data-img-key="simboloSobreBase" alt=""></div>
       <div class="section intro-grid">
-        <div>
-          <span class="label">01 — Apresentação</span>
-          <h2>Sobre o Escritório</h2>
-          <div class="copy"><p>A <strong>NID Studio</strong> compreende a arquitetura como um organismo vivo que se revela em camadas. Seu trabalho não se limita à forma ou à estética, mas à construção de experiências que equilibram sensibilidade, função e presença.</p><p>Atuamos desde a concepção executiva até a <strong>Liberação para Obra</strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso.</p></div>
-        </div>
-      </div>
-      <div id="filosofia" class="philosophy section">
-        <span class="label">02 — Filosofia</span>
-        <h2>Direcionamento Conceitual</h2>
-        <div class="moves"><article class="move"><span class="move-n">01</span><h3>Observar</h3><p>Compreender o espaço como organismo vivo, atento ao que se vê e ao que se sente.</p></article><article class="move"><span class="move-n">02</span><h3>Interpretar</h3><p>Traduzir sensações, necessidades e intenções em diretrizes conceituais claras.</p></article><article class="move"><span class="move-n">03</span><h3>Construir</h3><p>Materializar o conceito por meio de decisões técnicas, materiais e formais.</p></article><article class="move"><span class="move-n">04</span><h3>Existir</h3><p>Permitir que o espaço seja habitado, vivido e apropriado em sua função comercial e emocional.</p></article></div>
-        <div class="manifesto"><strong>NID é abrigo e origem.</strong> Não projetamos paredes — projetamos presenças. Cada linha é respiração, cada textura é memória, cada decisão sustenta valor.</div>
-      </div>
-      <div id="escopo" class="section">
-        <span class="label">03 — Escopo</span>
-        <h2>Serviços Contratados</h2>
-        <div class="services"><article class="svc"><div><span class="svc-n">01</span><span class="svc-k">Premium</span><div class="svc-title">Fachada, Conceito e Produto</div></div><div><p>Concepção e desenvolvimento da identidade visual arquitetônica: estudos volumétricos, linguagem estética e especificação técnica da fachada. Integra análise de produto, viabilidade e posicionamento de mercado.</p><div class="deliver-title">Entregáveis</div><ul class="deliver"><li>Estudos volumétricos e alternativas conceituais</li><li>Prancha executiva DWG e PDF</li><li>Identidade estética e linguagem arquitetônica</li><li>Compatibilização com complementares</li><li>Memorial de especificação de materiais</li><li>Detalhamentos construtivos de fachada</li></ul><span class="badge">↑ Valorização imobiliária</span></div></article><article class="svc"><div><span class="svc-n">02</span><span class="svc-k">Premium</span><div class="svc-title">Projeto Executivo do Decorado</div></div><div><p>Desenvolvimento final e revisado de todos os elementos do apartamento modelo, compatibilizados e prontos para execução. Revisões até aprovação “Liberado para Obra”.</p><div class="deliver-title">Entregáveis</div><ul class="deliver"><li>Projeto executivo completo</li><li>Memorial descritivo do decorado</li><li>Marcenaria, iluminação e layout</li><li>Revisões até LO</li><li>Especificação de acabamentos</li><li>Detalhamentos DWG + PDF</li></ul><span class="badge">↑ Conversão comercial</span></div></article><article class="svc"><div><span class="svc-n">03</span><span class="svc-k">Premium</span><div class="svc-title">PDV e Experiência Comercial</div></div><div><p>Planejamento e execução do ponto de venda: ambientes que comunicam o conceito do empreendimento, engajam o cliente e potencializam conversão por soluções visuais, sensoriais e interativas.</p><div class="deliver-title">Entregáveis</div><ul class="deliver"><li>Layout e fluxo do PDV</li><li>Memorial de materiais</li><li>Cenografia e ambientação</li><li>Compatibilização técnica</li><li>Elementos visuais e interativos</li><li>Pranchas executivas DWG + PDF</li></ul><span class="badge">↑ Engajamento e conversão</span></div></article></div>
+        <span class="label">01 — Apresentação</span>
+        <h2>Sobre o Escritório</h2>
+        <div class="copy"><p>A <strong>NID Studio</strong> compreende a arquitetura como um organismo vivo que se revela em camadas. Seu trabalho não se limita à forma ou à estética, mas à construção de experiências que equilibram sensibilidade, função e presença.</p><p>Atuamos desde a concepção executiva até a <strong>Liberação para Obra</strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso.</p></div>
       </div>
     </section>
+
+    <section id="filosofia" class="sheet sheet--filosofia">
+      <div class="philosophy-intro">
+        <span class="label">02 — Filosofia</span>
+        <h2>Direcionamento Conceitual</h2>
+      </div>
+      <div class="philosophy-arc-wrap">
+        <div class="media-slot media-slot--arc is-empty" data-label="Upload · Símbolo Metodologia NID"><img data-img-key="simboloFilosofiaArco" alt=""></div>
+        <p class="philosophy-arc-title">Metodologia NID.</p>
+      </div>
+      <div class="pillars"><article class="pillar"><h3>Conceito</h3><p>Na NID, o <strong>Conceito</strong> é o berço da inovação. Transformamos <strong>ideias em espaços com significado</strong>, onde a criatividade ganha <strong>vida</strong> e cada projeto reflete uma visão única e transformadora.</p></article><article class="pillar"><h3>Design</h3><p>Nosso <strong>Design</strong> é a alma de cada ambiente. Priorizamos a <strong>estética contemporânea</strong>, selecionamos materiais sofisticados e construímos uma <strong>identidade visual que encanta</strong> e inspira.</p></article><article class="pillar"><h3>Usabilidade</h3><p>A <strong>Usabilidade</strong> é o coração do ninho. Projetamos ambientes que <strong>harmonizam funcionalidade</strong> e praticidade, garantindo uma experiência <strong>única</strong> e verdadeiramente <strong>acolhedora</strong>.</p></article></div>
+      <div class="manifesto"><strong>NID é abrigo e origem.</strong> Não projetamos paredes — projetamos presenças. Cada linha é respiração, cada textura é memória, cada decisão sustenta valor.</div>
+      <div class="philosophy-footer-symbol">
+        <div class="media-slot media-slot--pill is-empty" data-label="Upload · Símbolo rodapé da filosofia"><img data-img-key="simboloFilosofiaRodape" alt=""></div>
+      </div>
+    </section>
+
+    <section id="escopo" class="sheet sheet--pattern">
+      <div class="section">
+        <span class="label">03 — Escopo</span>
+        <h2>Serviços Contratados</h2>
+        <div class="services"><article class="svc"><div class="svc-side"><span class="svc-n">01</span><span class="svc-k">Premium</span><div class="svc-title">Fachada, Conceito e Produto</div></div><div class="svc-body"><p>Concepção e desenvolvimento da identidade visual arquitetônica: estudos volumétricos, linguagem estética e especificação técnica da fachada. Integra análise de produto, viabilidade e posicionamento de mercado.</p><div class="deliver-title">Entregáveis</div><ul class="deliver"><li>Estudos volumétricos e alternativas conceituais</li><li>Prancha executiva DWG e PDF</li><li>Identidade estética e linguagem arquitetônica</li><li>Compatibilização com complementares</li><li>Memorial de especificação de materiais</li><li>Detalhamentos construtivos de fachada</li></ul><span class="badge">↑ Valorização imobiliária</span></div></article><article class="svc"><div class="svc-side"><span class="svc-n">02</span><span class="svc-k">Premium</span><div class="svc-title">Projeto Executivo do Decorado</div></div><div class="svc-body"><p>Desenvolvimento final e revisado de todos os elementos do apartamento modelo, compatibilizados e prontos para execução. Revisões até aprovação “Liberado para Obra”.</p><div class="deliver-title">Entregáveis</div><ul class="deliver"><li>Projeto executivo completo</li><li>Memorial descritivo do decorado</li><li>Marcenaria, iluminação e layout</li><li>Revisões até LO</li><li>Especificação de acabamentos</li><li>Detalhamentos DWG + PDF</li></ul><span class="badge">↑ Conversão comercial</span></div></article><article class="svc"><div class="svc-side"><span class="svc-n">03</span><span class="svc-k">Premium</span><div class="svc-title">PDV e Experiência Comercial</div></div><div class="svc-body"><p>Planejamento e execução do ponto de venda: ambientes que comunicam o conceito do empreendimento, engajam o cliente e potencializam conversão por soluções visuais, sensoriais e interativas.</p><div class="deliver-title">Entregáveis</div><ul class="deliver"><li>Layout e fluxo do PDV</li><li>Memorial de materiais</li><li>Cenografia e ambientação</li><li>Compatibilização técnica</li><li>Elementos visuais e interativos</li><li>Pranchas executivas DWG + PDF</li></ul><span class="badge">↑ Engajamento e conversão</span></div></article></div>
+      </div>
+    </section>
+
     <section class="sheet cream">
       <div id="processo" class="section process-wrap">
-        <div>
+        <div class="process-head">
           <span class="label">04 — Metodologia & Posicionamento</span>
           <h2>Processo & Diferenciais</h2>
           <p class="process-intro">Oito etapas estruturadas com dois marcos críticos de aprovação: Compatibilização e Liberação para Obra.</p>
         </div>
-        <div class="steps"><article class="step"><span>01</span><strong>Imersão</strong><p>Briefing, visita técnica e análise do mercado.</p></article><article class="step"><span>02</span><strong>Conceito</strong><p>Identidade estética e diretrizes do projeto.</p></article><article class="step"><span>03</span><strong>Estudos Preliminares</strong><p>Primeiros layouts e volumes para aprovação.</p></article><article class="step mark"><span>04 · Marco</span><strong>Compatibilização</strong><p>Integração com estrutura, elétrica, hidráulica e PPCI.</p></article><article class="step"><span>05</span><strong>Desenvolvimento Executivo</strong><p>Elaboração completa dos projetos técnicos.</p></article><article class="step"><span>06</span><strong>Curadoria Material</strong><p>Seleção e especificação de materiais e acabamentos.</p></article><article class="step"><span>07</span><strong>Revisão Técnica</strong><p>Verificação final de consistência e qualidade.</p></article><article class="step mark"><span>08 · Entrega</span><strong>Liberado para Obra</strong><p>Conjunto integral de pranchas DWG + PDF aprovado.</p></article></div>
+        <div class="steps"><article class="step"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 01"><img data-img-key="processo0" alt=""></div></div><span class="step-n">01</span><strong>Imersão</strong><p>Briefing, visita técnica e análise do mercado.</p></article><article class="step"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 02"><img data-img-key="processo1" alt=""></div></div><span class="step-n">02</span><strong>Conceito</strong><p>Identidade estética e diretrizes do projeto.</p></article><article class="step"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 03"><img data-img-key="processo2" alt=""></div></div><span class="step-n">03</span><strong>Estudos Preliminares</strong><p>Primeiros layouts e volumes para aprovação.</p></article><article class="step mark"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 04 · Marco"><img data-img-key="processo3" alt=""></div></div><span class="step-n">04 · Marco</span><strong>Compatibilização</strong><p>Integração com estrutura, elétrica, hidráulica e PPCI.</p></article><article class="step"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 05"><img data-img-key="processo4" alt=""></div></div><span class="step-n">05</span><strong>Desenvolvimento Executivo</strong><p>Elaboração completa dos projetos técnicos.</p></article><article class="step"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 06"><img data-img-key="processo5" alt=""></div></div><span class="step-n">06</span><strong>Curadoria Material</strong><p>Seleção e especificação de materiais e acabamentos.</p></article><article class="step"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 07"><img data-img-key="processo6" alt=""></div></div><span class="step-n">07</span><strong>Revisão Técnica</strong><p>Verificação final de consistência e qualidade.</p></article><article class="step mark"><div class="step-symbol"><div class="media-slot media-slot--step is-empty" data-label="Upload símbolo · etapa 08 · Entrega"><img data-img-key="processo7" alt=""></div></div><span class="step-n">08 · Entrega</span><strong>Liberado para Obra</strong><p>Conjunto integral de pranchas DWG + PDF aprovado.</p></article></div>
         <div class="delivery">
           <span class="label">Entrega Final</span>
           <div class="delivery-items"><span>Pranchas DWG</span><span>Pranchas PDF</span><span>Memorial Descritivo</span><span>Plantas Compatibilizadas</span><span>Detalhamentos</span><span>Especificação</span><span>Revisões até LO</span><span>Compatibilização</span></div>
         </div>
-        <div id="diferenciais" class="diff-grid"><article class="diff"><span>01</span><strong>Visão Estratégica</strong><p>Análise de viabilidade e inteligência de projeto orientadas ao produto imobiliário.</p></article><article class="diff"><span>02</span><strong>Arquitetura & Branding</strong><p>Linguagem arquitetônica e identidade visual desenvolvidas de forma unificada.</p></article><article class="diff"><span>03</span><strong>Alto Detalhamento</strong><p>Especificação técnica completa — fidelidade ao conceito em cada etapa.</p></article><article class="diff"><span>04</span><strong>Compatibilização Total</strong><p>Coordenação integrada com todas as disciplinas complementares.</p></article><article class="diff"><span>05</span><strong>Experiência do Usuário</strong><p>Fluxos e ambientação orientados à decisão de compra do cliente.</p></article><article class="diff"><span>06</span><strong>Linguagem Contemporânea</strong><p>Repertório atualizado do mercado de alto padrão — do conceito ao material.</p></article></div>
+        <div id="diferenciais" class="diff-section">
+          <span class="label">Nossos diferenciais</span>
+          <div class="diff-grid"><article class="diff"><span>01</span><strong>Visão Estratégica</strong><p>Análise de viabilidade e inteligência de projeto orientadas ao produto imobiliário.</p></article><article class="diff"><span>02</span><strong>Arquitetura & Branding</strong><p>Linguagem arquitetônica e identidade visual desenvolvidas de forma unificada.</p></article><article class="diff"><span>03</span><strong>Alto Detalhamento</strong><p>Especificação técnica completa — fidelidade ao conceito em cada etapa.</p></article><article class="diff"><span>04</span><strong>Compatibilização Total</strong><p>Coordenação integrada com todas as disciplinas complementares.</p></article><article class="diff"><span>05</span><strong>Experiência do Usuário</strong><p>Fluxos e ambientação orientados à decisão de compra do cliente.</p></article><article class="diff"><span>06</span><strong>Linguagem Contemporânea</strong><p>Repertório atualizado do mercado de alto padrão — do conceito ao material.</p></article></div>
+        </div>
       </div>
+
       <div id="investimento" class="finance section">
         <span class="label">06 — Proposta Financeira</span>
         <h2>Investimento</h2>
-        <div class="finance-head">
-          <div>
+        <div class="finance-layout">
+          <div class="finance-pay"><div class="pay"><small>Entrada</small><strong>R$ 5.000</strong><p>Na assinatura do contrato — início imediato dos trabalhos</p></div><div class="pay"><small>7 Parcelas mensais</small><strong>R$ 10.000 /mês</strong><p>Com aprovação do projeto e/ou terrenista</p></div></div>
+          <div class="finance-scope">
+            <span class="label">Escopo contemplado</span>
+            <div class="scope-list"><div><span>01</span>Fachada & Conceito</div><div><span>02</span>Projeto do Decorado</div><div><span>03</span>PDV e Experiência</div></div>
+          </div>
+          <div class="info-grid"><div class="info"><strong>Prazo de execução</strong><p>Início após aprovação dos estudos preliminares. Entrega mediante recebimento de todos os projetos complementares.</p></div><div class="info"><strong>O que está incluído</strong><p>Revisões até Liberação para Obra, compatibilização multidisciplinar completa e conjunto integral de pranchas DWG + PDF.</p></div></div>
+          <div class="finance-total-block">
             <div class="total-label">Investimento total · 3 serviços integrados</div>
             <div class="total">R$ 75.000</div>
             <p class="total-note">Setenta e cinco mil reais · Validade 30 dias</p>
           </div>
-          <div class="scope-list"><div><span>01</span>Fachada & Conceito</div><div><span>02</span>Projeto do Decorado</div><div><span>03</span>PDV e Experiência</div></div>
         </div>
-        <div class="pay-grid"><div class="pay"><small>Entrada</small><strong>R$ 5.000</strong><p>Na assinatura do contrato — início imediato dos trabalhos</p></div><div class="pay"><small>7 Parcelas mensais</small><strong>R$ 10.000 /mês</strong><p>Com aprovação do projeto e/ou terrenista</p></div></div>
-        <div class="info-grid"><div class="info"><strong>Prazo de execução</strong><p>Início após aprovação dos estudos preliminares. Entrega mediante recebimento de todos os projetos complementares.</p></div><div class="info"><strong>O que está incluído</strong><p>Revisões até Liberação para Obra, compatibilização multidisciplinar completa e conjunto integral de pranchas DWG + PDF.</p></div></div>
       </div>
+
       <div id="condicoes" class="section">
         <span class="label">07 — Condições</span>
         <h2>Condições Gerais</h2>
         <div class="conditions"><article class="cond"><span class="cond-letter">A</span><p><strong>Escopo.</strong> Este orçamento contempla exclusivamente os itens especificados. Adicionais por aditivo contratual.</p></article><article class="cond"><span class="cond-letter">B</span><p><strong>Responsabilidades legais.</strong> Serviços jurídicos, fiscais e contábeis são de responsabilidade do contratante.</p></article><article class="cond"><span class="cond-letter">C</span><p><strong>Custos operacionais.</strong> Plotagens e reproduções de qualquer natureza são de responsabilidade do contratante.</p></article><article class="cond"><span class="cond-letter">D</span><p><strong>Projetos complementares.</strong> NID Studio não se responsabiliza por elétrica, hidráulica, climatização e PPCI.</p></article><article class="cond"><span class="cond-letter">E</span><p><strong>Aprovações legais.</strong> Aprovações junto a órgãos públicos são de responsabilidade de profissional habilitado pelo cliente.</p></article><article class="cond"><span class="cond-letter">F</span><p><strong>Direitos autorais.</strong> Titularidade da NID Studio, com direito a uso em portfólio e divulgação.</p></article><article class="cond"><span class="cond-letter">G</span><p><strong>Paralisação.</strong> Em paralisação definitiva, a NID Studio recebe integralmente pelas etapas executadas.</p></article><article class="cond"><span class="cond-letter">H</span><p><strong>Foro e contrato.</strong> Aceite formaliza contrato de prestação de serviços. Foro: Comarca de São Paulo — SP.</p></article></div>
       </div>
     </section>
+
     <section id="encerramento" class="sheet closing">
-      <div>
-        <div class="logo-slot logo-slot--closing" data-label="Logo NID (versão clara)">
-          <img data-logo-key="logoClara" alt="Logo NID Studio">
-        </div>
+      <div class="closing-inner">
+        <div class="media-slot media-slot--logo-closing is-empty" data-label="Upload · Logo NID (versão clara)"><img data-img-key="logoEncerramento" alt=""></div>
         <span class="label">08 — Encerramento</span>
-        <h2>Obrigado pela confiança.</h2>
-        <p class="closing-phrase">Mais do que projetar espaços, desenvolvemos experiências que agregam <em>valor, identidade e permanência.</em></p>
-        <div class="signatures"><div><div class="sig-line"></div><div class="sig-name">NID Studio — Arquitetura & Design</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div><div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div></div>
+        <h2>Agradecemos a sua confiança.</h2>
+        <p class="closing-phrase">Na NID Studio, desenvolvemos produtos que, transcendendo a estética, convidam a uma <em>experiência sensorial única, conectando o olhar ao sentimento.</em></p>
+        <div class="signatures"><div><div class="sig-line"></div><div class="sig-name">NID Studio — Design & Arquitetura</div><div class="sig-role">Max Barbosa · Sócio Diretor</div></div><div><div class="sig-line"></div><div class="sig-name">GREMP3 / Mariana</div><div class="sig-role">Contratante — De acordo</div></div></div>
+        <div class="closing-footer-symbol">
+          <div class="media-slot media-slot--pill media-slot--pill-light is-empty" data-label="Upload · Símbolo rodapé"><img data-img-key="simboloEncerramentoRodape" alt=""></div>
+        </div>
         <div class="actions">
-          <button type="button" class="btn" data-print-pdf>Gerar PDF (1 página)</button>
+          <button type="button" class="btn" data-print-pdf>Gerar PDF (página contínua)</button>
           <a class="btn" href="#capa">Voltar ao início</a>
         </div>
       </div>
     </section>
   </main>
-<script id="dados-embutidos" type="application/json">{"meta":{"tituloPagina":"NID Studio — Proposta Comercial","descricao":"Proposta comercial NID Studio.","nomeArquivoPdf":"NID_Studio_Proposta.pdf"},"capa":{"tipoDocumento":"Proposta Comercial","subtituloDocumento":"Arquitetura & Design","rotulo":"Proposta Comercial","cliente":"GREMP3","destinatarioRotulo":"A/C","destinatario":"Mariana","resumo":"Fachada, conceito e produto, apartamento modelo decorado e PDV como experiência integrada de arquitetura, marca e conversão comercial.","dataLocal":"São Paulo · Maio de 2026","tags":["Fachada","Decorado","PDV"]},"sobre":{"rotulo":"01 — Apresentação","titulo":"Sobre o Escritório","paragrafos":["A \u003cstrong>NID Studio\u003c/strong> compreende a arquitetura como um organismo vivo que se revela em camadas. Seu trabalho não se limita à forma ou à estética, mas à construção de experiências que equilibram sensibilidade, função e presença.","Atuamos desde a concepção executiva até a \u003cstrong>Liberação para Obra\u003c/strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso."]},"filosofia":{"rotulo":"02 — Filosofia","titulo":"Direcionamento Conceitual","etapas":[{"titulo":"Observar","texto":"Compreender o espaço como organismo vivo, atento ao que se vê e ao que se sente."},{"titulo":"Interpretar","texto":"Traduzir sensações, necessidades e intenções em diretrizes conceituais claras."},{"titulo":"Construir","texto":"Materializar o conceito por meio de decisões técnicas, materiais e formais."},{"titulo":"Existir","texto":"Permitir que o espaço seja habitado, vivido e apropriado em sua função comercial e emocional."}],"manifestoDestaque":"NID é abrigo e origem.","manifesto":"Não projetamos paredes — projetamos presenças. Cada linha é respiração, cada textura é memória, cada decisão sustenta valor."},"servicos":{"rotulo":"03 — Escopo","titulo":"Serviços Contratados","itens":[{"categoria":"Premium","titulo":"Fachada, Conceito e Produto","descricao":"Concepção e desenvolvimento da identidade visual arquitetônica: estudos volumétricos, linguagem estética e especificação técnica da fachada. Integra análise de produto, viabilidade e posicionamento de mercado.","entregaveis":["Estudos volumétricos e alternativas conceituais","Prancha executiva DWG e PDF","Identidade estética e linguagem arquitetônica","Compatibilização com complementares","Memorial de especificação de materiais","Detalhamentos construtivos de fachada"],"badge":"↑ Valorização imobiliária"},{"categoria":"Premium","titulo":"Projeto Executivo do Decorado","descricao":"Desenvolvimento final e revisado de todos os elementos do apartamento modelo, compatibilizados e prontos para execução. Revisões até aprovação “Liberado para Obra”.","entregaveis":["Projeto executivo completo","Memorial descritivo do decorado","Marcenaria, iluminação e layout","Revisões até LO","Especificação de acabamentos","Detalhamentos DWG + PDF"],"badge":"↑ Conversão comercial"},{"categoria":"Premium","titulo":"PDV e Experiência Comercial","descricao":"Planejamento e execução do ponto de venda: ambientes que comunicam o conceito do empreendimento, engajam o cliente e potencializam conversão por soluções visuais, sensoriais e interativas.","entregaveis":["Layout e fluxo do PDV","Memorial de materiais","Cenografia e ambientação","Compatibilização técnica","Elementos visuais e interativos","Pranchas executivas DWG + PDF"],"badge":"↑ Engajamento e conversão"}]},"processo":{"rotulo":"04 — Metodologia & Posicionamento","titulo":"Processo & Diferenciais","intro":"Oito etapas estruturadas com dois marcos críticos de aprovação: Compatibilização e Liberação para Obra.","etapas":[{"numero":"01","titulo":"Imersão","texto":"Briefing, visita técnica e análise do mercado.","marco":false},{"numero":"02","titulo":"Conceito","texto":"Identidade estética e diretrizes do projeto.","marco":false},{"numero":"03","titulo":"Estudos Preliminares","texto":"Primeiros layouts e volumes para aprovação.","marco":false},{"numero":"04 · Marco","titulo":"Compatibilização","texto":"Integração com estrutura, elétrica, hidráulica e PPCI.","marco":true},{"numero":"05","titulo":"Desenvolvimento Executivo","texto":"Elaboração completa dos projetos técnicos.","marco":false},{"numero":"06","titulo":"Curadoria Material","texto":"Seleção e especificação de materiais e acabamentos.","marco":false},{"numero":"07","titulo":"Revisão Técnica","texto":"Verificação final de consistência e qualidade.","marco":false},{"numero":"08 · Entrega","titulo":"Liberado para Obra","texto":"Conjunto integral de pranchas DWG + PDF aprovado.","marco":true}],"entregaFinal":{"rotulo":"Entrega Final","itens":["Pranchas DWG","Pranchas PDF","Memorial Descritivo","Plantas Compatibilizadas","Detalhamentos","Especificação","Revisões até LO","Compatibilização"]},"diferenciais":[{"titulo":"Visão Estratégica","texto":"Análise de viabilidade e inteligência de projeto orientadas ao produto imobiliário."},{"titulo":"Arquitetura & Branding","texto":"Linguagem arquitetônica e identidade visual desenvolvidas de forma unificada."},{"titulo":"Alto Detalhamento","texto":"Especificação técnica completa — fidelidade ao conceito em cada etapa."},{"titulo":"Compatibilização Total","texto":"Coordenação integrada com todas as disciplinas complementares."},{"titulo":"Experiência do Usuário","texto":"Fluxos e ambientação orientados à decisão de compra do cliente."},{"titulo":"Linguagem Contemporânea","texto":"Repertório atualizado do mercado de alto padrão — do conceito ao material."}]},"financeiro":{"rotulo":"06 — Proposta Financeira","titulo":"Investimento","totalRotulo":"Investimento total · 3 serviços integrados","total":"R$ 75.000","totalNota":"Setenta e cinco mil reais · Validade 30 dias","escopoResumo":["Fachada & Conceito","Projeto do Decorado","PDV e Experiência"],"pagamentos":[{"rotulo":"Entrada","valor":"R$ 5.000","nota":"Na assinatura do contrato — início imediato dos trabalhos"},{"rotulo":"7 Parcelas mensais","valor":"R$ 10.000 /mês","nota":"Com aprovação do projeto e/ou terrenista"}],"infos":[{"titulo":"Prazo de execução","texto":"Início após aprovação dos estudos preliminares. Entrega mediante recebimento de todos os projetos complementares."},{"titulo":"O que está incluído","texto":"Revisões até Liberação para Obra, compatibilização multidisciplinar completa e conjunto integral de pranchas DWG + PDF."}]},"condicoes":{"rotulo":"07 — Condições","titulo":"Condições Gerais","itens":[{"letra":"A","titulo":"Escopo.","texto":"Este orçamento contempla exclusivamente os itens especificados. Adicionais por aditivo contratual."},{"letra":"B","titulo":"Responsabilidades legais.","texto":"Serviços jurídicos, fiscais e contábeis são de responsabilidade do contratante."},{"letra":"C","titulo":"Custos operacionais.","texto":"Plotagens e reproduções de qualquer natureza são de responsabilidade do contratante."},{"letra":"D","titulo":"Projetos complementares.","texto":"NID Studio não se responsabiliza por elétrica, hidráulica, climatização e PPCI."},{"letra":"E","titulo":"Aprovações legais.","texto":"Aprovações junto a órgãos públicos são de responsabilidade de profissional habilitado pelo cliente."},{"letra":"F","titulo":"Direitos autorais.","texto":"Titularidade da NID Studio, com direito a uso em portfólio e divulgação."},{"letra":"G","titulo":"Paralisação.","texto":"Em paralisação definitiva, a NID Studio recebe integralmente pelas etapas executadas."},{"letra":"H","titulo":"Foro e contrato.","texto":"Aceite formaliza contrato de prestação de serviços. Foro: Comarca de São Paulo — SP."}]},"encerramento":{"rotulo":"08 — Encerramento","titulo":"Obrigado pela confiança.","frase":"Mais do que projetar espaços, desenvolvemos experiências que agregam","fraseDestaque":"valor, identidade e permanência.","assinaturas":[{"nome":"NID Studio — Arquitetura & Design","cargo":"Max Barbosa · Sócio Diretor"},{"nome":"GREMP3 / Mariana","cargo":"Contratante — De acordo"}]},"logos":{"principal":"assets/logo-principal.png","logoClara":"assets/logo-clara.png"}}</script>
+<script id="dados-embutidos" type="application/json">{"meta":{"tituloPagina":"NID Studio — Proposta Comercial","descricao":"Proposta comercial NID Studio.","nomeArquivoPdf":"NID_Studio_Proposta.pdf"},"capa":{"rotulo":"Proposta Comercial","cliente":"GREMP3","destinatarioRotulo":"A/C","destinatario":"Mariana","resumo":"Fachada, conceito e produto, apartamento modelo decorado e PDV como experiência integrada de arquitetura, marca e conversão comercial.","dataLocal":"São Paulo · Maio de 2026","tags":["Fachada","Decorado","PDV"]},"sobre":{"rotulo":"01 — Apresentação","titulo":"Sobre o Escritório","paragrafos":["A \u003cstrong>NID Studio\u003c/strong> compreende a arquitetura como um organismo vivo que se revela em camadas. Seu trabalho não se limita à forma ou à estética, mas à construção de experiências que equilibram sensibilidade, função e presença.","Atuamos desde a concepção executiva até a \u003cstrong>Liberação para Obra\u003c/strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso."]},"filosofia":{"rotulo":"02 — Filosofia","titulo":"Direcionamento Conceitual","tituloArco":"Metodologia NID.","pilares":[{"titulo":"Conceito","texto":"Na NID, o \u003cstrong>Conceito\u003c/strong> é o berço da inovação. Transformamos \u003cstrong>ideias em espaços com significado\u003c/strong>, onde a criatividade ganha \u003cstrong>vida\u003c/strong> e cada projeto reflete uma visão única e transformadora."},{"titulo":"Design","texto":"Nosso \u003cstrong>Design\u003c/strong> é a alma de cada ambiente. Priorizamos a \u003cstrong>estética contemporânea\u003c/strong>, selecionamos materiais sofisticados e construímos uma \u003cstrong>identidade visual que encanta\u003c/strong> e inspira."},{"titulo":"Usabilidade","texto":"A \u003cstrong>Usabilidade\u003c/strong> é o coração do ninho. Projetamos ambientes que \u003cstrong>harmonizam funcionalidade\u003c/strong> e praticidade, garantindo uma experiência \u003cstrong>única\u003c/strong> e verdadeiramente \u003cstrong>acolhedora\u003c/strong>."}],"manifestoDestaque":"NID é abrigo e origem.","manifesto":"Não projetamos paredes — projetamos presenças. Cada linha é respiração, cada textura é memória, cada decisão sustenta valor."},"servicos":{"rotulo":"03 — Escopo","titulo":"Serviços Contratados","itens":[{"categoria":"Premium","titulo":"Fachada, Conceito e Produto","descricao":"Concepção e desenvolvimento da identidade visual arquitetônica: estudos volumétricos, linguagem estética e especificação técnica da fachada. Integra análise de produto, viabilidade e posicionamento de mercado.","entregaveis":["Estudos volumétricos e alternativas conceituais","Prancha executiva DWG e PDF","Identidade estética e linguagem arquitetônica","Compatibilização com complementares","Memorial de especificação de materiais","Detalhamentos construtivos de fachada"],"badge":"↑ Valorização imobiliária"},{"categoria":"Premium","titulo":"Projeto Executivo do Decorado","descricao":"Desenvolvimento final e revisado de todos os elementos do apartamento modelo, compatibilizados e prontos para execução. Revisões até aprovação “Liberado para Obra”.","entregaveis":["Projeto executivo completo","Memorial descritivo do decorado","Marcenaria, iluminação e layout","Revisões até LO","Especificação de acabamentos","Detalhamentos DWG + PDF"],"badge":"↑ Conversão comercial"},{"categoria":"Premium","titulo":"PDV e Experiência Comercial","descricao":"Planejamento e execução do ponto de venda: ambientes que comunicam o conceito do empreendimento, engajam o cliente e potencializam conversão por soluções visuais, sensoriais e interativas.","entregaveis":["Layout e fluxo do PDV","Memorial de materiais","Cenografia e ambientação","Compatibilização técnica","Elementos visuais e interativos","Pranchas executivas DWG + PDF"],"badge":"↑ Engajamento e conversão"}]},"processo":{"rotulo":"04 — Metodologia & Posicionamento","titulo":"Processo & Diferenciais","intro":"Oito etapas estruturadas com dois marcos críticos de aprovação: Compatibilização e Liberação para Obra.","etapas":[{"numero":"01","titulo":"Imersão","texto":"Briefing, visita técnica e análise do mercado.","marco":false},{"numero":"02","titulo":"Conceito","texto":"Identidade estética e diretrizes do projeto.","marco":false},{"numero":"03","titulo":"Estudos Preliminares","texto":"Primeiros layouts e volumes para aprovação.","marco":false},{"numero":"04 · Marco","titulo":"Compatibilização","texto":"Integração com estrutura, elétrica, hidráulica e PPCI.","marco":true},{"numero":"05","titulo":"Desenvolvimento Executivo","texto":"Elaboração completa dos projetos técnicos.","marco":false},{"numero":"06","titulo":"Curadoria Material","texto":"Seleção e especificação de materiais e acabamentos.","marco":false},{"numero":"07","titulo":"Revisão Técnica","texto":"Verificação final de consistência e qualidade.","marco":false},{"numero":"08 · Entrega","titulo":"Liberado para Obra","texto":"Conjunto integral de pranchas DWG + PDF aprovado.","marco":true}],"entregaFinal":{"rotulo":"Entrega Final","itens":["Pranchas DWG","Pranchas PDF","Memorial Descritivo","Plantas Compatibilizadas","Detalhamentos","Especificação","Revisões até LO","Compatibilização"]},"diferenciais":[{"titulo":"Visão Estratégica","texto":"Análise de viabilidade e inteligência de projeto orientadas ao produto imobiliário."},{"titulo":"Arquitetura & Branding","texto":"Linguagem arquitetônica e identidade visual desenvolvidas de forma unificada."},{"titulo":"Alto Detalhamento","texto":"Especificação técnica completa — fidelidade ao conceito em cada etapa."},{"titulo":"Compatibilização Total","texto":"Coordenação integrada com todas as disciplinas complementares."},{"titulo":"Experiência do Usuário","texto":"Fluxos e ambientação orientados à decisão de compra do cliente."},{"titulo":"Linguagem Contemporânea","texto":"Repertório atualizado do mercado de alto padrão — do conceito ao material."}]},"financeiro":{"rotulo":"06 — Proposta Financeira","titulo":"Investimento","totalRotulo":"Investimento total · 3 serviços integrados","total":"R$ 75.000","totalNota":"Setenta e cinco mil reais · Validade 30 dias","escopoResumo":["Fachada & Conceito","Projeto do Decorado","PDV e Experiência"],"pagamentos":[{"rotulo":"Entrada","valor":"R$ 5.000","nota":"Na assinatura do contrato — início imediato dos trabalhos"},{"rotulo":"7 Parcelas mensais","valor":"R$ 10.000 /mês","nota":"Com aprovação do projeto e/ou terrenista"}],"infos":[{"titulo":"Prazo de execução","texto":"Início após aprovação dos estudos preliminares. Entrega mediante recebimento de todos os projetos complementares."},{"titulo":"O que está incluído","texto":"Revisões até Liberação para Obra, compatibilização multidisciplinar completa e conjunto integral de pranchas DWG + PDF."}]},"condicoes":{"rotulo":"07 — Condições","titulo":"Condições Gerais","itens":[{"letra":"A","titulo":"Escopo.","texto":"Este orçamento contempla exclusivamente os itens especificados. Adicionais por aditivo contratual."},{"letra":"B","titulo":"Responsabilidades legais.","texto":"Serviços jurídicos, fiscais e contábeis são de responsabilidade do contratante."},{"letra":"C","titulo":"Custos operacionais.","texto":"Plotagens e reproduções de qualquer natureza são de responsabilidade do contratante."},{"letra":"D","titulo":"Projetos complementares.","texto":"NID Studio não se responsabiliza por elétrica, hidráulica, climatização e PPCI."},{"letra":"E","titulo":"Aprovações legais.","texto":"Aprovações junto a órgãos públicos são de responsabilidade de profissional habilitado pelo cliente."},{"letra":"F","titulo":"Direitos autorais.","texto":"Titularidade da NID Studio, com direito a uso em portfólio e divulgação."},{"letra":"G","titulo":"Paralisação.","texto":"Em paralisação definitiva, a NID Studio recebe integralmente pelas etapas executadas."},{"letra":"H","titulo":"Foro e contrato.","texto":"Aceite formaliza contrato de prestação de serviços. Foro: Comarca de São Paulo — SP."}]},"encerramento":{"rotulo":"08 — Encerramento","titulo":"Agradecemos a sua confiança.","frase":"Na NID Studio, desenvolvemos produtos que, transcendendo a estética, convidam a uma","fraseDestaque":"experiência sensorial única, conectando o olhar ao sentimento.","assinaturas":[{"nome":"NID Studio — Design & Arquitetura","cargo":"Max Barbosa · Sócio Diretor"},{"nome":"GREMP3 / Mariana","cargo":"Contratante — De acordo"}]},"imagens":{"logoCapa":"assets/logo-principal.png","logoEncerramento":"assets/logo-clara.png","simboloSobreTopo":"","simboloSobreBase":"","simboloFilosofiaArco":"","simboloFilosofiaRodape":"","simbolosProcesso":["","","","","","","",""],"simboloEncerramentoRodape":""}}</script>
 <script>(function () {
   const embedded = document.getElementById('dados-embutidos');
   if (!embedded || !window.NidProposta) return;
@@ -463,7 +781,7 @@ h3 { margin-bottom: 8px; color: var(--brown); font-size: 19px; font-weight: 700;
     return;
   }
 
-  window.NidProposta.applyLogos(document, dados.logos);
+  window.NidProposta.applyImagens(document, dados);
   window.NidProposta.initNav(document);
   document.querySelectorAll('[data-print-pdf]').forEach((btn) => {
     btn.addEventListener('click', () => window.print());

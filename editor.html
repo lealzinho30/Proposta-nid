@@ -196,6 +196,7 @@
     <nav class="side" aria-label="Seções">
       <a href="#sec-capa" class="on">Capa</a>
       <a href="#sec-logos">Logos</a>
+      <a href="#sec-simbolos">Símbolos</a>
       <a href="#sec-sobre">Sobre</a>
       <a href="#sec-filosofia">Filosofia</a>
       <a href="#sec-servicos">Serviços</a>
@@ -213,7 +214,7 @@
   <script src="scripts/proposta-render.js"></script>
   <script>
     let dados = {};
-    let logoFiles = {};
+    let mediaFiles = {};
 
     const statusEl = document.getElementById('status');
     function toast(msg) {
@@ -232,7 +233,10 @@
     function renderForm() {
       const root = document.getElementById('form-root');
       const c = dados.capa || {};
-      const logos = dados.logos || {};
+      const img = dados.imagens || {};
+      const leg = dados.logos || {};
+      const src = (k) => mediaFiles[k] || img[k] || (k === 'logoCapa' ? leg.principal : k === 'logoEncerramento' ? leg.logoClara : '') || '';
+      const proc = img.simbolosProcesso || [];
 
       root.innerHTML = `
         <section class="card" id="sec-capa">
@@ -249,11 +253,31 @@
         </section>
 
         <section class="card" id="sec-logos">
-          <h2>Logos e imagens</h2>
-          <p class="hint">Escolha a logo principal (capa) e a versão clara (encerramento). A capa tem área ampla para a marca NID.</p>
+          <h2>Logos NID Studio</h2>
+          <p class="hint">Áreas da proposta onde você envia a marca. Clique em <strong>Escolher imagem</strong> em cada espaço.</p>
           <div class="logo-grid">
-            ${logoUpload('principal', 'Logo NID — capa (área ampla)', logos.principal)}
-            ${logoUpload('logoClara', 'Logo NID — encerramento (fundo marrom)', logos.logoClara)}
+            ${imgUpload('logoCapa', 'Capa — logo NID (lado esquerdo, área grande)', src('logoCapa'))}
+            ${imgUpload('logoEncerramento', 'Encerramento — logo clara (fundo marrom)', src('logoEncerramento'))}
+          </div>
+        </section>
+
+        <section class="card" id="sec-simbolos">
+          <h2>Símbolos NID (upload)</h2>
+          <p class="hint">Cada espaço corresponde a um ponto do layout que você desenhou. Envie PNG ou JPG com fundo transparente quando possível.</p>
+          <div class="logo-grid">
+            ${imgUpload('simboloSobreTopo', 'Sobre — símbolo canto superior direito', src('simboloSobreTopo'))}
+            ${imgUpload('simboloSobreBase', 'Sobre — símbolo canto inferior esquerdo', src('simboloSobreBase'))}
+          </div>
+          <div class="logo-grid" style="margin-top:12px">
+            ${imgUpload('simboloFilosofiaArco', 'Filosofia — símbolo no arco (Metodologia NID)', src('simboloFilosofiaArco'))}
+            ${imgUpload('simboloFilosofiaRodape', 'Filosofia — símbolo rodapé (cápsula)', src('simboloFilosofiaRodape'))}
+          </div>
+          <p class="hint" style="margin-top:16px"><strong>Processo</strong> — um símbolo por etapa (8 cards):</p>
+          <div class="logo-grid" style="grid-template-columns:repeat(4,1fr)">
+            ${[0,1,2,3,4,5,6,7].map(i => imgUpload(`processo${i}`, `Etapa ${pad2(i+1)}`, mediaFiles[`processo${i}`] || proc[i] || '')).join('')}
+          </div>
+          <div style="margin-top:12px">
+            ${imgUpload('simboloEncerramentoRodape', 'Encerramento — símbolo rodapé (cápsula)', src('simboloEncerramentoRodape'))}
           </div>
         </section>
 
@@ -264,11 +288,12 @@
         </section>
 
         <section class="card" id="sec-filosofia">
-          <h2>Filosofia</h2>
+          <h2>Filosofia / Metodologia</h2>
+          ${field('Título no arco', 'filosofia.tituloArco', dados.filosofia?.tituloArco || 'Metodologia NID.')}
           ${field('Destaque do manifesto', 'filosofia.manifestoDestaque', dados.filosofia?.manifestoDestaque)}
           ${field('Texto do manifesto', 'filosofia.manifesto', dados.filosofia?.manifesto, 'textarea')}
-          <div id="filosofia-etapas"></div>
-          <button type="button" class="add-btn" data-add="filosofia-etapas">+ Adicionar etapa</button>
+          <div id="filosofia-pilares"></div>
+          <button type="button" class="add-btn" data-add="filosofia-pilares">+ Adicionar pilar (Conceito / Design…)</button>
         </section>
 
         <section class="card" id="sec-servicos">
@@ -316,7 +341,7 @@
       `;
 
       renderList('sobre-paragrafos', (dados.sobre?.paragrafos || []).map((p, i) => listTextarea(`sobre.paragrafos.${i}`, 'Parágrafo', p)));
-      renderList('filosofia-etapas', (dados.filosofia?.etapas || []).map((e, i) => listFilosofia(i, e)));
+      renderList('filosofia-pilares', (dados.filosofia?.pilares || dados.filosofia?.etapas || []).map((e, i) => listPilar(i, e)));
       renderList('servicos-itens', (dados.servicos?.itens || []).map((s, i) => listServico(i, s)));
       renderList('processo-etapas', (dados.processo?.etapas || []).map((e, i) => listProcesso(i, e)));
       renderList('processo-diferenciais', (dados.processo?.diferenciais || []).map((d, i) => listDiferencial(i, d)));
@@ -328,11 +353,13 @@
       bindEvents();
     }
 
-    function logoUpload(key, title, src) {
-      const preview = src ? `<img src="${src}" alt="">` : '<img alt="" style="display:none">';
+    function pad2(n) { return String(n).padStart(2, '0'); }
+
+    function imgUpload(key, title, srcUrl) {
+      const preview = srcUrl ? `<img src="${srcUrl}" alt="">` : '<img alt="" style="display:none">';
       return `<div class="logo-box"><strong>${title}</strong><br>
         <label class="btn-file" style="display:inline-block;margin-top:8px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer">
-          Escolher imagem<input type="file" accept="image/*" data-logo="${key}">
+          Escolher imagem<input type="file" accept="image/*" data-media="${key}">
         </label>${preview}</div>`;
     }
 
@@ -346,9 +373,9 @@
       return `<div class="list-item">${field(label, path, value, 'textarea')}<div class="row-actions"><button type="button" data-remove-parent>Remover</button></div></div>`;
     }
 
-    function listFilosofia(i, e) {
-      return `<div class="list-item">${field('Título', `filosofia.etapas.${i}.titulo`, e.titulo)}
-        ${field('Texto', `filosofia.etapas.${i}.texto`, e.texto, 'textarea')}
+    function listPilar(i, e) {
+      return `<div class="list-item">${field('Título', `filosofia.pilares.${i}.titulo`, e.titulo)}
+        ${field('Texto', `filosofia.pilares.${i}.texto`, e.texto, 'textarea')}
         <div class="row-actions"><button type="button" data-remove-parent>Remover</button></div></div>`;
     }
 
@@ -428,7 +455,7 @@
       out.sobre = out.sobre || { rotulo: '01 — Apresentação', titulo: 'Sobre o Escritório', paragrafos: [] };
       out.sobre.paragrafos = [];
       out.filosofia = out.filosofia || {};
-      out.filosofia.etapas = [];
+      out.filosofia.pilares = [];
       out.servicos = out.servicos || {};
       out.servicos.itens = [];
       out.processo = out.processo || {};
@@ -458,7 +485,21 @@
         }
         setPath(out, path, val);
       });
-      out.logos = { ...(out.logos || {}), ...logoFiles };
+      const imagens = {
+        logoCapa: mediaFiles.logoCapa || '',
+        logoEncerramento: mediaFiles.logoEncerramento || '',
+        simboloSobreTopo: mediaFiles.simboloSobreTopo || '',
+        simboloSobreBase: mediaFiles.simboloSobreBase || '',
+        simboloFilosofiaArco: mediaFiles.simboloFilosofiaArco || '',
+        simboloFilosofiaRodape: mediaFiles.simboloFilosofiaRodape || '',
+        simboloEncerramentoRodape: mediaFiles.simboloEncerramentoRodape || '',
+        simbolosProcesso: [0, 1, 2, 3, 4, 5, 6, 7].map((i) => mediaFiles[`processo${i}`] || ''),
+      };
+      out.imagens = imagens;
+      out.logos = {
+        principal: imagens.logoCapa,
+        logoClara: imagens.logoEncerramento,
+      };
       return out;
     }
 
@@ -477,7 +518,10 @@
           collectToDados();
           const id = btn.dataset.add;
           if (id === 'sobre-paragrafos') dados.sobre.paragrafos.push('');
-          if (id === 'filosofia-etapas') dados.filosofia.etapas.push({ titulo: '', texto: '' });
+          if (id === 'filosofia-pilares') {
+            if (!dados.filosofia.pilares) dados.filosofia.pilares = [];
+            dados.filosofia.pilares.push({ titulo: '', texto: '' });
+          }
           if (id === 'servicos-itens') dados.servicos.itens.push({ categoria: 'Premium', titulo: '', descricao: '', entregaveis: [], badge: '' });
           if (id === 'processo-etapas') dados.processo.etapas.push({ numero: '', titulo: '', texto: '', marco: false });
           if (id === 'processo-diferenciais') dados.processo.diferenciais.push({ titulo: '', texto: '' });
@@ -489,18 +533,17 @@
         });
       });
 
-      document.querySelectorAll('input[data-logo]').forEach((input) => {
+      document.querySelectorAll('input[data-media]').forEach((input) => {
         input.addEventListener('change', async () => {
           const file = input.files?.[0];
           if (!file) return;
-          const key = input.dataset.logo;
+          const key = input.dataset.media;
           const b64 = await fileToDataUrl(file);
-          logoFiles[key] = b64;
-          dados.logos = dados.logos || {};
-          dados.logos[key] = b64;
-          const img = input.closest('.logo-box')?.querySelector('img');
-          if (img) { img.src = b64; img.style.display = 'block'; }
-          toast('Imagem atualizada');
+          mediaFiles[key] = b64;
+          const preview = input.closest('.logo-box')?.querySelector('img');
+          if (preview) { preview.src = b64; preview.style.display = 'block'; }
+          saveLocal();
+          toast('Imagem enviada');
         });
       });
 
@@ -553,9 +596,15 @@
 
     async function exportHtml() {
       collectToDados();
-      const css = await fetch('assets/proposta.css').then((r) => r.text());
+      const [css, layoutCss] = await Promise.all([
+        fetch('assets/proposta.css').then((r) => r.text()),
+        fetch('assets/proposta-layout.css').then((r) => r.text()),
+      ]);
       let html = NidProposta.renderExportDocument(dados);
-      html = html.replace('<link rel="stylesheet" href="assets/proposta.css">', `<style>${css}</style>`);
+      html = html.replace(
+        /<link rel="stylesheet" href="assets\/proposta\.css">\s*<link rel="stylesheet" href="assets\/proposta-layout\.css">/,
+        `<style>${css}\n${layoutCss}</style>`
+      );
       const boot = await fetch('scripts/proposta-boot.js').then((r) => r.text());
       html = html.replace('<script src="scripts/proposta-boot.js"><\\/script>', `<script>${boot}<\\/script>`);
       const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -571,7 +620,19 @@
     async function loadDefault() {
       const res = await fetch('proposta-dados.json');
       dados = await res.json();
-      logoFiles = { ...dados.logos };
+      mediaFiles = {};
+      const im = dados.imagens || {};
+      const lg = dados.logos || {};
+      Object.assign(mediaFiles, {
+        logoCapa: im.logoCapa || lg.principal,
+        logoEncerramento: im.logoEncerramento || lg.logoClara,
+        simboloSobreTopo: im.simboloSobreTopo,
+        simboloSobreBase: im.simboloSobreBase,
+        simboloFilosofiaArco: im.simboloFilosofiaArco,
+        simboloFilosofiaRodape: im.simboloFilosofiaRodape,
+        simboloEncerramentoRodape: im.simboloEncerramentoRodape,
+      });
+      (im.simbolosProcesso || []).forEach((v, i) => { if (v) mediaFiles[`processo${i}`] = v; });
       renderForm();
     }
 
@@ -597,7 +658,9 @@
       if (!file) return;
       const text = await file.text();
       dados = JSON.parse(text);
-      logoFiles = { ...(dados.logos || {}) };
+      const im = dados.imagens || {};
+      mediaFiles = { ...(dados.logos?.principal && { logoCapa: dados.logos.principal }), ...im };
+      (im.simbolosProcesso || []).forEach((v, i) => { if (v) mediaFiles[`processo${i}`] = v; });
       renderForm();
       toast('Dados carregados do arquivo');
       e.target.value = '';
