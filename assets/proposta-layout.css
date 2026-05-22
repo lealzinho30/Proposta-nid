@@ -1,0 +1,358 @@
+/* Layout alinhado aos mockups + slots de upload */
+
+.media-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px dashed rgba(112, 77, 63, .32);
+  background: rgba(255, 255, 255, .55);
+  color: var(--taupe);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.45;
+}
+.media-slot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.media-slot.is-empty::before {
+  content: attr(data-label);
+  padding: 8px;
+  max-width: 90%;
+}
+.media-slot:not(.is-empty) {
+  border-style: solid;
+  border-color: transparent;
+  background: transparent;
+}
+
+.cover-brand .media-slot--logo-cover {
+  width: 100%;
+  min-height: 240px;
+  padding: 20px 28px;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  justify-content: flex-start;
+}
+.cover-brand .media-slot--logo-cover.is-empty {
+  min-height: 220px;
+  border: 1px dashed rgba(112, 77, 63, .22);
+  background: rgba(255, 255, 255, .72);
+}
+.cover-brand .media-slot--logo-cover img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 210px;
+  min-height: 140px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.media-slot--logo-closing {
+  width: min(100%, 280px);
+  min-height: 72px;
+  margin-bottom: 24px;
+  border-color: rgba(226, 179, 143, .4);
+  background: rgba(255, 240, 223, .08);
+  color: rgba(226, 179, 143, .75);
+  border-radius: 10px;
+}
+.media-slot--logo-closing:not(.is-empty) {
+  background: transparent;
+}
+
+/* Símbolos opcionais: só aparecem quando há imagem enviada */
+.media-slot--deco.is-empty,
+.media-slot--arc.is-empty,
+.media-slot--pill.is-empty,
+.media-slot--step.is-empty {
+  display: none !important;
+}
+.media-slot--deco.is-empty::before,
+.media-slot--arc.is-empty::before,
+.media-slot--pill.is-empty::before,
+.media-slot--step.is-empty::before {
+  display: none;
+}
+.philosophy-footer-deco:has(.media-slot.is-empty),
+.closing-footer-deco:has(.media-slot.is-empty) {
+  display: none;
+  margin: 0;
+}
+
+.media-slot--deco-tr:not(.is-empty) {
+  position: absolute;
+  z-index: 0;
+  top: 24px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  opacity: .88;
+  border: none;
+  background: transparent;
+}
+.media-slot--deco-bl:not(.is-empty) {
+  position: absolute;
+  z-index: 0;
+  bottom: 40px;
+  left: -30px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  opacity: .88;
+  border: none;
+  background: transparent;
+}
+
+.sheet--pattern {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--off);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 18px,
+    rgba(112, 77, 63, .03) 18px,
+    rgba(112, 77, 63, .03) 19px
+  );
+}
+.sheet--pattern .intro-grid,
+.sheet--pattern .section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Escopo — blocos empilhados */
+.escopo-stack-wrap .escopo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.escopo-stack-wrap .escopo-stack .svc {
+  margin: 0;
+  width: 100%;
+}
+.escopo-texto {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.escopo-texto p {
+  margin: 0;
+  color: var(--brown-dark);
+  font-size: 15px;
+  line-height: 1.75;
+}
+.escopo-imagem {
+  margin: 16px 0;
+  text-align: center;
+}
+.escopo-imagem img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.sheet--filosofia {
+  background: var(--cream);
+  text-align: center;
+}
+.philosophy-intro { text-align: left; margin-bottom: 28px; }
+.philosophy-arc-wrap {
+  position: relative;
+  margin: 0 auto 36px;
+  max-width: 520px;
+  padding-top: 48px;
+}
+.philosophy-arc-wrap { position: relative; }
+.media-slot--arc:not(.is-empty) {
+  width: 100%;
+  max-width: 480px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 240px 240px 12px 12px;
+  border-bottom: none;
+  background: transparent;
+}
+.philosophy-arc-wrap:has(.media-slot--arc:not(.is-empty)) .philosophy-arc-title {
+  margin: -42px 0 0;
+}
+.philosophy-arc-title {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--brown);
+  letter-spacing: -.02em;
+}
+.media-slot--step:not(.is-empty) {
+  width: 100%;
+  height: 72px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .5);
+}
+.step.mark .media-slot--step:not(.is-empty) {
+  background: rgba(255, 240, 223, .12);
+  border-color: rgba(226, 179, 143, .35);
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+.pillar {
+  padding: 26px 22px;
+  border-radius: 14px;
+  background: var(--brown);
+  color: var(--cream);
+  min-height: 200px;
+}
+.pillar h3 {
+  margin: 0 0 14px;
+  color: var(--copper);
+  font-size: 20px;
+}
+.pillar p {
+  margin: 0;
+  color: rgba(255, 240, 223, .82);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.72;
+}
+.pillar strong { color: var(--cream); }
+
+.sheet--filosofia .manifesto {
+  text-align: left;
+  margin-top: 0;
+  padding: 26px 30px;
+  border-left: 3px solid var(--copper);
+  background: rgba(112, 77, 63, .06);
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.78;
+  border-radius: 0 10px 10px 0;
+}
+.sheet--filosofia .manifesto strong { color: var(--brown); }
+
+.philosophy-footer-deco,
+.closing-footer-deco {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.media-slot--pill:not(.is-empty) {
+  width: min(100%, 320px);
+  height: 56px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+}
+.media-slot--pill-light:not(.is-empty) {
+  border-color: rgba(226, 179, 143, .35);
+}
+
+.steps {
+  border-radius: 12px;
+  overflow: hidden;
+  gap: 0;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding: 14px 14px 18px;
+  border-radius: 0;
+}
+.step-n {
+  display: block;
+  color: var(--taupe);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.step.mark .step-n { color: rgba(226, 179, 143, .7); }
+.step strong { margin-top: 10px; }
+
+.diff-section { margin-top: 32px; }
+.diff-section > .label { margin-bottom: 14px; }
+
+.finance-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+.finance-pay {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-dark);
+  border: 1px solid var(--line-dark);
+  grid-column: span 2;
+}
+.finance-scope {
+  grid-column: span 1;
+  padding: 18px;
+  border: 1px solid var(--line-dark);
+  background: rgba(255, 240, 223, .05);
+  border-radius: 10px;
+}
+.finance-scope .scope-list {
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.finance-total-block {
+  grid-column: span 2;
+  padding: 24px 28px;
+  border: 1px solid var(--line-dark);
+  border-radius: 12px;
+  background: rgba(255, 240, 223, .06);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.finance-layout .info-grid {
+  grid-column: span 2;
+  margin-top: 0;
+}
+
+.closing-inner { position: relative; z-index: 1; max-width: 720px; }
+.closing-phrase {
+  padding-left: 18px;
+  border-left: 2px solid var(--copper);
+}
+
+@media (max-width: 760px) {
+  .cover-stage { grid-template-columns: 1fr; gap: 32px; }
+  .cover-brand { min-height: 180px; justify-content: center; }
+  .cover-brand .media-slot--logo-cover img { max-height: 160px; }
+  .pillars { grid-template-columns: 1fr; }
+  .finance-layout { grid-template-columns: 1fr; }
+  .finance-pay, .finance-total-block, .finance-layout .info-grid { grid-column: span 1; }
+}
+
+@media print {
+  .media-slot.is-empty::before { font-size: 6px; }
+}

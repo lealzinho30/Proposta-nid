@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "tituloPagina": "NID Studio — Proposta Comercial",
+    "descricao": "Proposta comercial NID Studio.",
+    "nomeArquivoPdf": "NID_Studio_Proposta.pdf"
+  },
+  "capa": {
+    "rotulo": "Proposta Comercial",
+    "cliente": "GREMP3",
+    "destinatarioRotulo": "A/C",
+    "destinatario": "Mariana",
+    "resumo": "Fachada, conceito e produto, apartamento modelo decorado e PDV como experiência integrada de arquitetura, marca e conversão comercial.",
+    "dataLocal": "São Paulo · Maio de 2026",
+    "tags": ["Fachada", "Decorado", "PDV"]
+  },
+  "sobre": {
+    "rotulo": "01 — Apresentação",
+    "titulo": "Sobre o Escritório",
+    "paragrafos": [
+      "A <strong>NID Studio</strong> compreende a arquitetura como um organismo vivo que se revela em camadas. Seu trabalho não se limita à forma ou à estética, mas à construção de experiências que equilibram sensibilidade, função e presença.",
+      "Atuamos desde a concepção executiva até a <strong>Liberação para Obra</strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso."
+    ]
+  },
+  "sobreMetricas": [
+    { "valor": "12+", "rotulo": "Anos de atuação" },
+    { "valor": "80+", "rotulo": "Projetos entregues" },
+    { "valor": "100%", "rotulo": "Compatibilização multidisciplinar" }
+  ],
+  "filosofia": {
+    "rotulo": "02 — Direcionamento Conceitual",
+    "titulo": "Direcionamento Conceitual",
+    "tituloArco": "Metodologia NID.",
+    "pilares": [
+      {
+        "titulo": "Conceito",
+        "texto": "Na NID, o <strong>Conceito</strong> é o berço da inovação. Transformamos <strong>ideias em espaços com significado</strong>, onde a criatividade ganha <strong>vida</strong> e cada projeto reflete uma visão única e transformadora."
+      },
+      {
+        "titulo": "Design",
+        "texto": "Nosso <strong>Design</strong> é a alma de cada ambiente. Priorizamos a <strong>estética contemporânea</strong>, selecionamos materiais sofisticados e construímos uma <strong>identidade visual que encanta</strong> e inspira."
+      },
+      {
+        "titulo": "Usabilidade",
+        "texto": "A <strong>Usabilidade</strong> é o coração do ninho. Projetamos ambientes que <strong>harmonizam funcionalidade</strong> e praticidade, garantindo uma experiência <strong>única</strong> e verdadeiramente <strong>acolhedora</strong>."
+      }
+    ],
+    "manifestoDestaque": "NID é abrigo e origem.",
+    "manifesto": "Não projetamos paredes — projetamos presenças. Cada linha é respiração, cada textura é memória, cada decisão sustenta valor."
+  },
+  "servicos": {
+    "rotulo": "03 — Escopo",
+    "titulo": "Serviços Contratados",
+    "itens": [
+      {
+        "categoria": "Premium",
+        "titulo": "Fachada, Conceito e Produto",
+        "descricao": "Concepção e desenvolvimento da identidade visual arquitetônica: estudos volumétricos, linguagem estética e especificação técnica da fachada. Integra análise de produto, viabilidade e posicionamento de mercado.",
+        "entregaveis": [
+          "Estudos volumétricos e alternativas conceituais",
+          "Prancha executiva DWG e PDF",
+          "Identidade estética e linguagem arquitetônica",
+          "Compatibilização com complementares",
+          "Memorial de especificação de materiais",
+          "Detalhamentos construtivos de fachada"
+        ],
+        "badge": "↑ Valorização imobiliária"
+      },
+      {
+        "categoria": "Premium",
+        "titulo": "Projeto Executivo do Decorado",
+        "descricao": "Desenvolvimento final e revisado de todos os elementos do apartamento modelo, compatibilizados e prontos para execução. Revisões ilimitadas até aprovação “Liberado para Obra”.",
+        "entregaveis": [
+          "Projeto executivo completo",
+          "Memorial descritivo do decorado",
+          "Marcenaria, iluminação e layout",
+          "Revisões ilimitadas até LO",
+          "Especificação de acabamentos",
+          "Detalhamentos DWG + PDF"
+        ],
+        "badge": "↑ Conversão comercial"
+      },
+      {
+        "categoria": "Premium",
+        "titulo": "PDV e Experiência Comercial",
+        "descricao": "Planejamento e execução do ponto de venda: ambientes que comunicam o conceito do empreendimento, engajam o cliente e potencializam conversão por soluções visuais, sensoriais e interativas.",
+        "entregaveis": [
+          "Layout e fluxo do PDV",
+          "Memorial de materiais",
+          "Cenografia e ambientação",
+          "Compatibilização técnica",
+          "Elementos visuais e interativos",
+          "Pranchas executivas DWG + PDF"
+        ],
+        "badge": "↑ Engajamento e conversão"
+      }
+    ]
+  },
+  "processo": {
+    "rotulo": "04 — Metodologia & Posicionamento",
+    "titulo": "Processo & Diferenciais",
+    "intro": "Oito etapas estruturadas com dois marcos críticos de aprovação: Compatibilização e Liberação para Obra.",
+    "etapas": [
+      { "numero": "01", "titulo": "Imersão", "texto": "Briefing, visita técnica e análise do mercado.", "marco": false },
+      { "numero": "02", "titulo": "Conceito", "texto": "Identidade estética e diretrizes do projeto.", "marco": false },
+      { "numero": "03", "titulo": "Estudos Preliminares", "texto": "Primeiros layouts e volumes para aprovação.", "marco": false },
+      { "numero": "04 · Marco", "titulo": "Compatibilização", "texto": "Integração com estrutura, elétrica, hidráulica e PPCI.", "marco": true },
+      { "numero": "05", "titulo": "Desenvolvimento Executivo", "texto": "Elaboração completa dos projetos técnicos.", "marco": false },
+      { "numero": "06", "titulo": "Curadoria Material", "texto": "Seleção e especificação de materiais e acabamentos.", "marco": false },
+      { "numero": "07", "titulo": "Revisão Técnica", "texto": "Verificação final de consistência e qualidade.", "marco": false },
+      { "numero": "08 · Entrega", "titulo": "Liberado para Obra", "texto": "Conjunto integral de pranchas DWG + PDF aprovado.", "marco": true }
+    ],
+    "entregaFinal": {
+      "rotulo": "Entrega Final",
+      "itens": [
+        "Pranchas DWG",
+        "Pranchas PDF",
+        "Memorial Descritivo",
+        "Plantas Compatibilizadas",
+        "Detalhamentos",
+        "Especificação",
+        "Revisões até LO",
+        "Compatibilização"
+      ]
+    },
+    "diferenciais": [
+      { "titulo": "Visão Estratégica", "texto": "Análise de viabilidade e inteligência de projeto orientadas ao produto imobiliário." },
+      { "titulo": "Arquitetura & Branding", "texto": "Linguagem arquitetônica e identidade visual desenvolvidas de forma unificada." },
+      { "titulo": "Alto Detalhamento", "texto": "Especificação técnica completa — fidelidade ao conceito em cada etapa." },
+      { "titulo": "Compatibilização Total", "texto": "Coordenação integrada com todas as disciplinas complementares." },
+      { "titulo": "Experiência do Usuário", "texto": "Fluxos e ambientação orientados à decisão de compra do cliente." },
+      { "titulo": "Linguagem Contemporânea", "texto": "Repertório atualizado do mercado de alto padrão — do conceito ao material." }
+    ]
+  },
+  "financeiro": {
+    "rotulo": "06 — Proposta Financeira",
+    "titulo": "Investimento",
+    "totalRotulo": "Investimento total · 3 serviços integrados",
+    "total": "R$ 75.000",
+    "totalNota": "Setenta e cinco mil reais · Validade 30 dias",
+    "escopoResumo": [
+      "Fachada & Conceito",
+      "Projeto do Decorado",
+      "PDV e Experiência"
+    ],
+    "pagamentos": [
+      { "rotulo": "Entrada", "valor": "R$ 5.000", "nota": "Na assinatura do contrato — início imediato dos trabalhos" },
+      { "rotulo": "7 Parcelas mensais", "valor": "R$ 10.000 /mês", "nota": "Com aprovação do projeto e/ou terrenista" }
+    ],
+    "infos": [
+      { "titulo": "Prazo de execução", "texto": "Início após aprovação dos estudos preliminares. Entrega mediante recebimento de todos os projetos complementares." },
+      { "titulo": "O que está incluído", "texto": "Revisões ilimitadas até Liberação para Obra, compatibilização multidisciplinar completa e conjunto integral de pranchas DWG + PDF." }
+    ]
+  },
+  "condicoes": {
+    "rotulo": "07 — Condições",
+    "titulo": "Condições Gerais",
+    "itens": [
+      { "letra": "A", "titulo": "Escopo.", "texto": "Este orçamento contempla exclusivamente os itens especificados. Adicionais por aditivo contratual." },
+      { "letra": "B", "titulo": "Responsabilidades legais.", "texto": "Serviços jurídicos, fiscais e contábeis são de responsabilidade do contratante." },
+      { "letra": "C", "titulo": "Custos operacionais.", "texto": "Plotagens e reproduções de qualquer natureza são de responsabilidade do contratante." },
+      { "letra": "D", "titulo": "Projetos complementares.", "texto": "NID Studio não se responsabiliza por elétrica, hidráulica, climatização e PPCI." },
+      { "letra": "E", "titulo": "Aprovações legais.", "texto": "Aprovações junto a órgãos públicos são de responsabilidade de profissional habilitado pelo cliente." },
+      { "letra": "F", "titulo": "Direitos autorais.", "texto": "Titularidade da NID Studio, com direito a uso em portfólio e divulgação." },
+      { "letra": "G", "titulo": "Paralisação.", "texto": "Em paralisação definitiva, a NID Studio recebe integralmente pelas etapas executadas." },
+      { "letra": "H", "titulo": "Foro e contrato.", "texto": "Aceite formaliza contrato de prestação de serviços. Foro: Comarca de São Paulo — SP." }
+    ]
+  },
+  "encerramento": {
+    "rotulo": "08 — Encerramento",
+    "titulo": "Agradecemos a sua confiança.",
+    "frase": "Na NID Studio, desenvolvemos produtos que, transcendendo a estética, convidam a uma",
+    "fraseDestaque": "experiência sensorial única, conectando o olhar ao sentimento.",
+    "assinaturas": [
+      { "nome": "NID Studio — Design & Arquitetura", "cargo": "Max Barbosa · Sócio Diretor" },
+      { "nome": "GREMP3 / Mariana", "cargo": "Contratante — De acordo" }
+    ]
+  },
+  "imagens": {
+    "logoCapa": "assets/logo-principal.png",
+    "logoEncerramento": "assets/logo-clara.png",
+    "simboloSobreTopo": "",
+    "simboloSobreBase": "",
+    "simboloFilosofiaArco": "",
+    "simboloFilosofiaRodape": "",
+    "simbolosProcesso": ["", "", "", "", "", "", "", ""],
+    "simboloEncerramentoRodape": ""
+  }
+}
