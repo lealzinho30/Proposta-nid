@@ -45,6 +45,7 @@
   "servicos": {
     "rotulo": "03 — Escopo",
     "titulo": "Serviços Contratados",
+    "editorLivre": true,
     "itens": [
       {
         "categoria": "Premium",

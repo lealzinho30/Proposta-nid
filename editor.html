@@ -74,7 +74,8 @@
       text-decoration: none;
     }
     nav.side a:hover, nav.side a.on { background: var(--cream); }
-    main.editor { padding: 24px 28px 80px; max-width: 820px; }
+    main.editor { padding: 24px 28px 80px; max-width: 1280px; }
+    .card--escopo-livre { max-width: none; }
     .card {
       margin-bottom: 22px;
       padding: 22px;
@@ -167,6 +168,127 @@
       transition: opacity .25s;
     }
     .status.show { opacity: 1; }
+
+    .escopo-editor { margin-top: 8px; }
+    .escopo-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--brown);
+      color: var(--cream);
+    }
+    .escopo-toolbar-label { font-size: 11px; font-weight: 600; opacity: .85; }
+    .escopo-toolbar button {
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 240, 223, .35);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .1);
+      color: var(--cream);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .escopo-toolbar button:hover { background: rgba(255, 255, 255, .2); }
+    .escopo-toolbar button.danger { background: rgba(180, 60, 40, .35); }
+    .escopo-toolbar-sep { width: 1px; height: 22px; background: rgba(255,240,223,.25); margin: 0 4px; }
+    .escopo-workspace {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 16px;
+      align-items: start;
+    }
+    .escopo-canvas--edit {
+      position: relative;
+      width: 100%;
+      max-width: 1016px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 7px,
+        rgba(112, 77, 63, .04) 7px,
+        rgba(112, 77, 63, .04) 8px
+      ),
+      #fffaf6;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8);
+      overflow: hidden;
+      touch-action: none;
+    }
+    .escopo-inspector {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      font-size: 13px;
+    }
+    .escopo-inspector label {
+      margin-top: 10px;
+    }
+    .escopo-inspector input,
+    .escopo-inspector textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font: inherit;
+      font-size: 13px;
+    }
+    .escopo-el {
+      position: absolute;
+      box-sizing: border-box;
+      overflow: hidden;
+      cursor: move;
+    }
+    .escopo-el.is-selected {
+      outline: 2px solid var(--brown);
+      outline-offset: 2px;
+    }
+    .escopo-el__inner { width: 100%; height: 100%; overflow: auto; }
+    .escopo-el--card .svc--canvas {
+      height: 100%;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      font-size: 12px;
+    }
+    .escopo-el--card .svc-n { font-size: 40px; }
+    .escopo-el--imagem img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+    .escopo-img-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--taupe);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .escopo-handle {
+      position: absolute;
+      right: 2px;
+      bottom: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      background: var(--brown);
+      cursor: se-resize;
+      z-index: 5;
+    }
+    @media (max-width: 1100px) {
+      .escopo-workspace { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 800px) {
       .layout { grid-template-columns: 1fr; }
       nav.side { display: flex; flex-wrap: wrap; gap: 6px; border-right: 0; border-bottom: 1px solid var(--line); }
@@ -199,7 +321,7 @@
       <a href="#sec-simbolos">Símbolos</a>
       <a href="#sec-sobre">Sobre</a>
       <a href="#sec-filosofia">Filosofia</a>
-      <a href="#sec-servicos">Serviços</a>
+      <a href="#sec-servicos">Escopo visual</a>
       <a href="#sec-processo">Processo</a>
       <a href="#sec-financeiro">Investimento</a>
       <a href="#sec-condicoes">Condições</a>
@@ -211,11 +333,14 @@
 
   <div class="status" id="status" role="status"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
   <script src="scripts/proposta-store.js"></script>
+  <script src="scripts/escopo-canvas.js"></script>
   <script src="scripts/proposta-render.js"></script>
   <script>
     let dados = {};
     let mediaFiles = {};
+    let escopoEditorInstance = null;
     const store = window.NidPropostaStore;
 
     const statusEl = document.getElementById('status');
@@ -297,10 +422,14 @@
           <button type="button" class="add-btn" data-add="filosofia-pilares">+ Adicionar pilar (Conceito / Design…)</button>
         </section>
 
-        <section class="card" id="sec-servicos">
-          <h2>Serviços contratados</h2>
-          <div id="servicos-itens"></div>
-          <button type="button" class="add-btn" data-add="servicos-itens">+ Adicionar serviço</button>
+        <section class="card card--escopo-livre" id="sec-servicos">
+          <h2>Escopo — editor visual</h2>
+          <p class="hint">Monte a página como no Canva: arraste, redimensione, duplo clique para editar textos. Os cards de serviço continuam sincronizados com a proposta.</p>
+          <div class="row2" style="margin-bottom:12px">
+            ${field('Rótulo da seção', 'servicos.rotulo', dados.servicos?.rotulo || '03 — Escopo')}
+            ${field('Título da seção (se não usar bloco título no canvas)', 'servicos.titulo', dados.servicos?.titulo || 'Serviços Contratados')}
+          </div>
+          <div id="escopo-editor-root"></div>
         </section>
 
         <section class="card" id="sec-processo">
@@ -343,7 +472,6 @@
 
       renderList('sobre-paragrafos', (dados.sobre?.paragrafos || []).map((p, i) => listTextarea(`sobre.paragrafos.${i}`, 'Parágrafo', p)));
       renderList('filosofia-pilares', (dados.filosofia?.pilares || dados.filosofia?.etapas || []).map((e, i) => listPilar(i, e)));
-      renderList('servicos-itens', (dados.servicos?.itens || []).map((s, i) => listServico(i, s)));
       renderList('processo-etapas', (dados.processo?.etapas || []).map((e, i) => listProcesso(i, e)));
       renderList('processo-diferenciais', (dados.processo?.diferenciais || []).map((d, i) => listDiferencial(i, d)));
       renderList('financeiro-pagamentos', (dados.financeiro?.pagamentos || []).map((p, i) => listPagamento(i, p)));
@@ -352,6 +480,19 @@
       renderList('encerramento-assinaturas', (dados.encerramento?.assinaturas || []).map((a, i) => listAssinatura(i, a)));
 
       bindEvents();
+      initEscopoEditor();
+    }
+
+    function initEscopoEditor() {
+      const root = document.getElementById('escopo-editor-root');
+      if (!root || !window.NidEscopoCanvas) return;
+      dados.servicos = window.NidEscopoCanvas.ensureCanvas(dados.servicos || {});
+      escopoEditorInstance = new window.NidEscopoCanvas.EscopoEditor(root, {
+        getDados: () => dados,
+        setDados: (d) => { dados = d; },
+        onChange: () => persistAll(true),
+      });
+      escopoEditorInstance.mount();
     }
 
     function pad2(n) { return String(n).padStart(2, '0'); }
@@ -464,7 +605,12 @@
       out.filosofia = out.filosofia || {};
       out.filosofia.pilares = [];
       out.servicos = out.servicos || {};
-      out.servicos.itens = [];
+      if (dados.servicos?.canvasLivre) {
+        out.servicos = JSON.parse(JSON.stringify(dados.servicos));
+        if (window.NidEscopoCanvas) window.NidEscopoCanvas.syncItensFromCanvas(out.servicos);
+      } else {
+        out.servicos.itens = [];
+      }
       out.processo = out.processo || {};
       out.processo.etapas = [];
       out.processo.diferenciais = [];
@@ -532,7 +678,6 @@
             if (!dados.filosofia.pilares) dados.filosofia.pilares = [];
             dados.filosofia.pilares.push({ titulo: '', texto: '' });
           }
-          if (id === 'servicos-itens') dados.servicos.itens.push({ categoria: 'Premium', titulo: '', descricao: '', entregaveis: [], badge: '' });
           if (id === 'processo-etapas') dados.processo.etapas.push({ numero: '', titulo: '', texto: '', marco: false });
           if (id === 'processo-diferenciais') dados.processo.diferenciais.push({ titulo: '', texto: '' });
           if (id === 'financeiro-pagamentos') dados.financeiro.pagamentos.push({ rotulo: '', valor: '', nota: '' });
@@ -631,18 +776,19 @@
 
     async function exportHtml() {
       collectToDados();
-      const [css, layoutCss, bootJs, renderJs, storeJs] = await Promise.all([
+      const [css, layoutCss, bootJs, renderJs, storeJs, escopoJs] = await Promise.all([
         fetch('assets/proposta.css').then((r) => r.text()),
         fetch('assets/proposta-layout.css').then((r) => r.text()),
         fetch('scripts/proposta-boot.js').then((r) => r.text()),
         fetch('scripts/proposta-render.js').then((r) => r.text()),
         fetch('scripts/proposta-store.js').then((r) => r.text()),
+        fetch('scripts/escopo-canvas.js').then((r) => r.text()),
       ]);
       const html = NidProposta.buildStandaloneHtml(
         dados,
         css,
         layoutCss,
-        `${renderJs}\n${storeJs}\n${bootJs}`
+        `${renderJs}\n${escopoJs}\n${storeJs}\n${bootJs}`
       );
       const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
       const a = document.createElement('a');
@@ -658,6 +804,9 @@
       dados = store?.loadDados
         ? await store.loadDados()
         : await fetch('proposta-dados.json').then((r) => r.json());
+      if (window.NidEscopoCanvas) {
+        dados.servicos = window.NidEscopoCanvas.ensureCanvas(dados.servicos || {});
+      }
       mediaFiles = {};
       const im = dados.imagens || {};
       const lg = dados.logos || {};
@@ -678,14 +827,15 @@
       collectToDados();
       persistAll(true);
       try {
-        const [css, layoutCss, bootJs, renderJs, storeJs] = await Promise.all([
+        const [css, layoutCss, bootJs, renderJs, storeJs, escopoJs] = await Promise.all([
           fetch('assets/proposta.css').then((r) => r.text()),
           fetch('assets/proposta-layout.css').then((r) => r.text()),
           fetch('scripts/proposta-boot.js').then((r) => r.text()),
           fetch('scripts/proposta-render.js').then((r) => r.text()),
           fetch('scripts/proposta-store.js').then((r) => r.text()),
+          fetch('scripts/escopo-canvas.js').then((r) => r.text()),
         ]);
-        const boot = `${renderJs}\n${storeJs}\n${bootJs}`;
+        const boot = `${renderJs}\n${escopoJs}\n${storeJs}\n${bootJs}`;
         const html = NidProposta.buildStandaloneHtml(dados, css, layoutCss, boot);
         const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
         const url = URL.createObjectURL(blob) + '?print=1';
@@ -726,6 +876,9 @@
       sessionStorage.removeItem('nid-proposta-preview:ts');
       const res = await fetch('proposta-dados.json');
       dados = await res.json();
+      if (window.NidEscopoCanvas) {
+        dados.servicos = window.NidEscopoCanvas.ensureCanvas(dados.servicos || {});
+      }
       mediaFiles = {};
       const im = dados.imagens || {};
       const lg = dados.logos || {};

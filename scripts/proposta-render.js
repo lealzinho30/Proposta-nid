@@ -34,12 +34,18 @@
       )
       .join('');
 
-    const servicos = (dados.servicos?.itens || [])
-      .map((s, i) => {
-        const ent = (s.entregaveis || []).map((e) => `<li>${e}</li>`).join('');
-        return `<article class="svc"><div class="svc-side"><span class="svc-n">${pad2(i + 1)}</span><span class="svc-k">${s.categoria || ''}</span><div class="svc-title">${s.titulo}</div></div><div class="svc-body"><p>${s.descricao}</p><div class="deliver-title">Entregáveis</div><ul class="deliver">${ent}</ul><span class="badge">${s.badge || ''}</span></div></article>`;
-      })
-      .join('');
+    const servicosHtml =
+      dados.servicos?.editorLivre && dados.servicos?.canvasLivre
+        ? (global.NidEscopoCanvas?.renderEscopoSection(dados) || '')
+        : (() => {
+            const servicos = (dados.servicos?.itens || [])
+              .map((s, i) => {
+                const ent = (s.entregaveis || []).map((e) => `<li>${e}</li>`).join('');
+                return `<article class="svc"><div class="svc-side"><span class="svc-n">${pad2(i + 1)}</span><span class="svc-k">${s.categoria || ''}</span><div class="svc-title">${s.titulo}</div></div><div class="svc-body"><p>${s.descricao}</p><div class="deliver-title">Entregáveis</div><ul class="deliver">${ent}</ul><span class="badge">${s.badge || ''}</span></div></article>`;
+              })
+              .join('');
+            return `<div class="section"><span class="label">${dados.servicos?.rotulo || ''}</span><h2>${dados.servicos?.titulo || ''}</h2><div class="services">${servicos}</div></div>`;
+          })();
 
     const processoEtapas = (dados.processo?.etapas || [])
       .map(
@@ -131,12 +137,8 @@
       </div>
     </section>
 
-    <section id="escopo" class="sheet sheet--pattern">
-      <div class="section">
-        <span class="label">${dados.servicos?.rotulo || ''}</span>
-        <h2>${dados.servicos?.titulo || ''}</h2>
-        <div class="services">${servicos}</div>
-      </div>
+    <section id="escopo" class="sheet sheet--pattern sheet--escopo-livre">
+      ${servicosHtml}
     </section>
 
     <section class="sheet cream">
