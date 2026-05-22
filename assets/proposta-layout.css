@@ -133,36 +133,34 @@
   z-index: 1;
 }
 
-/* Escopo — layout livre (editor Canva) */
-.sheet--escopo-livre .escopo-livre-wrap { padding-top: 0; }
-.escopo-canvas {
-  position: relative;
-  width: 100%;
-  max-width: 1016px;
-  margin: 0 auto;
+/* Escopo — blocos empilhados */
+.escopo-stack-wrap .escopo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
-.escopo-el {
-  position: absolute;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.escopo-el--card .svc--canvas {
-  height: 100%;
-  min-height: 0;
+.escopo-stack-wrap .escopo-stack .svc {
   margin: 0;
-}
-.escopo-el--imagem img {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
-.escopo-el--texto .escopo-el__inner,
-.escopo-el--titulo h2,
-.escopo-el--rotulo .label {
+.escopo-texto {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.escopo-texto p {
   margin: 0;
+  color: var(--brown-dark);
+  font-size: 15px;
+  line-height: 1.75;
 }
-@media print {
-  .escopo-canvas { page-break-inside: avoid; }
+.escopo-imagem {
+  margin: 16px 0;
+  text-align: center;
+}
+.escopo-imagem img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .sheet--filosofia {

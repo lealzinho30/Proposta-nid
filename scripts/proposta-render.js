@@ -35,7 +35,7 @@
       .join('');
 
     const servicosHtml =
-      dados.servicos?.editorLivre && dados.servicos?.canvasLivre
+      dados.servicos?.editorLivre && (dados.servicos?.blocos || dados.servicos?.canvasLivre)
         ? (global.NidEscopoCanvas?.renderEscopoSection(dados) || '')
         : (() => {
             const servicos = (dados.servicos?.itens || [])
