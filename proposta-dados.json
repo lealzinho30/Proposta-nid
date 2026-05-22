@@ -21,8 +21,13 @@
       "Atuamos desde a concepção executiva até a <strong>Liberação para Obra</strong>, com rigor técnico e senso coletivo. O cliente participa ativamente de cada decisão, garantindo coerência entre intenção, forma e uso."
     ]
   },
+  "sobreMetricas": [
+    { "valor": "12+", "rotulo": "Anos de atuação" },
+    { "valor": "80+", "rotulo": "Projetos entregues" },
+    { "valor": "100%", "rotulo": "Compatibilização multidisciplinar" }
+  ],
   "filosofia": {
-    "rotulo": "02 — Filosofia",
+    "rotulo": "02 — Direcionamento Conceitual",
     "titulo": "Direcionamento Conceitual",
     "tituloArco": "Metodologia NID.",
     "pilares": [
@@ -45,8 +50,6 @@
   "servicos": {
     "rotulo": "03 — Escopo",
     "titulo": "Serviços Contratados",
-    "editorLivre": true,
-    "modo": "blocos",
     "itens": [
       {
         "categoria": "Premium",
@@ -65,12 +68,12 @@
       {
         "categoria": "Premium",
         "titulo": "Projeto Executivo do Decorado",
-        "descricao": "Desenvolvimento final e revisado de todos os elementos do apartamento modelo, compatibilizados e prontos para execução. Revisões até aprovação “Liberado para Obra”.",
+        "descricao": "Desenvolvimento final e revisado de todos os elementos do apartamento modelo, compatibilizados e prontos para execução. Revisões ilimitadas até aprovação “Liberado para Obra”.",
         "entregaveis": [
           "Projeto executivo completo",
           "Memorial descritivo do decorado",
           "Marcenaria, iluminação e layout",
-          "Revisões até LO",
+          "Revisões ilimitadas até LO",
           "Especificação de acabamentos",
           "Detalhamentos DWG + PDF"
         ],
@@ -145,7 +148,7 @@
     ],
     "infos": [
       { "titulo": "Prazo de execução", "texto": "Início após aprovação dos estudos preliminares. Entrega mediante recebimento de todos os projetos complementares." },
-      { "titulo": "O que está incluído", "texto": "Revisões até Liberação para Obra, compatibilização multidisciplinar completa e conjunto integral de pranchas DWG + PDF." }
+      { "titulo": "O que está incluído", "texto": "Revisões ilimitadas até Liberação para Obra, compatibilização multidisciplinar completa e conjunto integral de pranchas DWG + PDF." }
     ]
   },
   "condicoes": {

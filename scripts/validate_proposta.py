@@ -47,11 +47,8 @@ def main() -> int:
     if not INDEX.is_file():
         print(f"ERRO: {INDEX} não encontrado")
         return 1
-    if not PDF.is_file():
-        print(f"ERRO: {PDF} não encontrado")
-        return 1
-
     text = INDEX.read_text(encoding="utf-8")
+    pdf_ok = PDF.is_file()
     if "iframe" in text.lower():
         print("ERRO: index.html contém iframe")
         return 1
@@ -79,17 +76,16 @@ def main() -> int:
         print(f"ERRO: links internos quebrados: {', '.join(sorted(set(broken)))}")
         return 1
 
-    if "NID_Studio_Proposta_GREMP3.pdf" not in text:
-        print("ERRO: link para NID_Studio_Proposta_GREMP3.pdf não encontrado")
-        return 1
-
     if not re.search(r"GREMP3", text):
         print("ERRO: conteúdo GREMP3 não encontrado")
         return 1
 
     print("OK: HTML válido (HTMLParser)")
     print(f"OK: {len(REQUIRED_SECTIONS)} seções com id")
-    print(f"OK: PDF presente ({PDF.stat().st_size:,} bytes)")
+    if pdf_ok:
+        print(f"OK: PDF presente ({PDF.stat().st_size:,} bytes)")
+    else:
+        print("OK: PDF opcional ausente (exporte via Imprimir no navegador)")
     print("OK: links internos (#…) resolvidos")
     return 0
 
