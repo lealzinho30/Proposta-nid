@@ -2,6 +2,36 @@
 (function (global) {
   const pad2 = (n) => String(n).padStart(2, '0');
 
+  /** Marca NID em SVG — decoração fixa (sem upload) */
+  function nidFanSvg(extraClass = '') {
+    return `<svg class="nid-mark ${extraClass}" viewBox="0 0 148 84" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M74 37A30 30 0 0 1 104 7A30 30 0 0 1 134 37H74Z" fill="currentColor"/>
+      <path d="M74 36A32 32 0 0 1 43 76" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 55 78" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 68 81" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 83 80" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 98 76" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 111 66" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 121 53" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 27 53" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M74 36A32 32 0 0 1 37 66" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M14 37H132" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  function nidDecoSobre() {
+    return `<div class="nid-deco nid-deco--tr" aria-hidden="true">${nidFanSvg('nid-mark--soft')}</div>
+      <div class="nid-deco nid-deco--bl" aria-hidden="true">${nidFanSvg('nid-mark--soft')}</div>`;
+  }
+
+  function nidArcDeco() {
+    return '<div class="philosophy-arc-shape" aria-hidden="true"></div>';
+  }
+
+  function nidCapsuleRule(light = false) {
+    return `<div class="nid-capsule${light ? ' nid-capsule--light' : ''}" aria-hidden="true"><span></span></div>`;
+  }
+
   function mediaSlot(key, label, className = '') {
     return `<div class="media-slot ${className} is-empty" data-label="${label}"><img data-img-key="${key}" alt=""></div>`;
   }
@@ -9,18 +39,10 @@
   function resolveImagens(dados) {
     const img = dados.imagens || {};
     const leg = dados.logos || {};
-    const proc = Array.isArray(img.simbolosProcesso) ? img.simbolosProcesso : [];
-    const map = {
+    return {
       logoCapa: img.logoCapa || leg.principal || '',
       logoEncerramento: img.logoEncerramento || leg.logoClara || '',
-      simboloSobreTopo: img.simboloSobreTopo || '',
-      simboloSobreBase: img.simboloSobreBase || '',
-      simboloFilosofiaArco: img.simboloFilosofiaArco || '',
-      simboloFilosofiaRodape: img.simboloFilosofiaRodape || '',
-      simboloEncerramentoRodape: img.simboloEncerramentoRodape || '',
     };
-    for (let i = 0; i < 8; i++) map[`processo${i}`] = proc[i] || '';
-    return map;
   }
 
   function renderProposta(dados) {
@@ -43,8 +65,15 @@
 
     const processoEtapas = (dados.processo?.etapas || [])
       .map(
-        (e, i) =>
-          `<article class="step${e.marco ? ' mark' : ''}"><div class="step-symbol">${mediaSlot(`processo${i}`, `Upload símbolo · etapa ${e.numero}`, 'media-slot--step')}</div><span class="step-n">${e.numero}</span><strong>${e.titulo}</strong><p>${e.texto}</p></article>`
+        (e) =>
+          `<article class="step${e.marco ? ' mark' : ''}">
+            <div class="step-head">
+              <span class="step-num">${e.numero || ''}</span>
+              <span class="step-line" aria-hidden="true"></span>
+            </div>
+            <strong>${e.titulo}</strong>
+            <p>${e.texto}</p>
+          </article>`
       )
       .join('');
 
@@ -101,8 +130,7 @@
     </section>
 
     <section id="sobre" class="sheet sheet--pattern">
-      ${mediaSlot('simboloSobreTopo', 'Upload · Símbolo decorativo (canto superior)', 'media-slot--deco media-slot--deco-tr')}
-      ${mediaSlot('simboloSobreBase', 'Upload · Símbolo decorativo (canto inferior)', 'media-slot--deco media-slot--deco-bl')}
+      ${nidDecoSobre()}
       <div class="section intro-grid">
         <span class="label">${dados.sobre?.rotulo || ''}</span>
         <h2>${dados.sobre?.titulo || ''}</h2>
@@ -116,14 +144,12 @@
         <h2>${dados.filosofia?.titulo || ''}</h2>
       </div>
       <div class="philosophy-arc-wrap">
-        ${mediaSlot('simboloFilosofiaArco', 'Upload · Símbolo Metodologia NID', 'media-slot--arc')}
+        ${nidArcDeco()}
         <p class="philosophy-arc-title">${dados.filosofia?.tituloArco || 'Metodologia NID.'}</p>
       </div>
       <div class="pillars">${pilares}</div>
       <div class="manifesto"><strong>${dados.filosofia?.manifestoDestaque || ''}</strong> ${dados.filosofia?.manifesto || ''}</div>
-      <div class="philosophy-footer-symbol">
-        ${mediaSlot('simboloFilosofiaRodape', 'Upload · Símbolo rodapé da filosofia', 'media-slot--pill')}
-      </div>
+      <div class="philosophy-footer-deco">${nidCapsuleRule()}</div>
     </section>
 
     <section id="escopo" class="sheet sheet--pattern">
@@ -184,9 +210,7 @@
         <h2>${dados.encerramento?.titulo || ''}</h2>
         <p class="closing-phrase">${dados.encerramento?.frase || ''} <em>${dados.encerramento?.fraseDestaque || ''}</em></p>
         <div class="signatures">${assinaturas}</div>
-        <div class="closing-footer-symbol">
-          ${mediaSlot('simboloEncerramentoRodape', 'Upload · Símbolo rodapé', 'media-slot--pill media-slot--pill-light')}
-        </div>
+        <div class="closing-footer-deco">${nidCapsuleRule(true)}</div>
         <div class="actions">
           <button type="button" class="btn" data-print-pdf>Gerar PDF (página contínua)</button>
           <a class="btn" href="#capa">Voltar ao início</a>

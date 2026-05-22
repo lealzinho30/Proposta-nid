@@ -196,7 +196,6 @@
     <nav class="side" aria-label="Seções">
       <a href="#sec-capa" class="on">Capa</a>
       <a href="#sec-logos">Logos</a>
-      <a href="#sec-simbolos">Símbolos</a>
       <a href="#sec-sobre">Sobre</a>
       <a href="#sec-filosofia">Filosofia</a>
       <a href="#sec-servicos">Serviços</a>
@@ -238,8 +237,6 @@
       const img = dados.imagens || {};
       const leg = dados.logos || {};
       const src = (k) => mediaFiles[k] || img[k] || (k === 'logoCapa' ? leg.principal : k === 'logoEncerramento' ? leg.logoClara : '') || '';
-      const proc = img.simbolosProcesso || [];
-
       root.innerHTML = `
         <section class="card" id="sec-capa">
           <h2>Capa</h2>
@@ -256,30 +253,10 @@
 
         <section class="card" id="sec-logos">
           <h2>Logos NID Studio</h2>
-          <p class="hint">Áreas da proposta onde você envia a marca. Clique em <strong>Escolher imagem</strong> em cada espaço.</p>
+          <p class="hint">Envie apenas as duas versões da logo. Os detalhes decorativos (arco, leque, etapas) já vêm prontos no layout.</p>
           <div class="logo-grid">
             ${imgUpload('logoCapa', 'Capa — logo NID (lado esquerdo, área grande)', src('logoCapa'))}
             ${imgUpload('logoEncerramento', 'Encerramento — logo clara (fundo marrom)', src('logoEncerramento'))}
-          </div>
-        </section>
-
-        <section class="card" id="sec-simbolos">
-          <h2>Símbolos NID (upload)</h2>
-          <p class="hint">Cada espaço corresponde a um ponto do layout que você desenhou. Envie PNG ou JPG com fundo transparente quando possível.</p>
-          <div class="logo-grid">
-            ${imgUpload('simboloSobreTopo', 'Sobre — símbolo canto superior direito', src('simboloSobreTopo'))}
-            ${imgUpload('simboloSobreBase', 'Sobre — símbolo canto inferior esquerdo', src('simboloSobreBase'))}
-          </div>
-          <div class="logo-grid" style="margin-top:12px">
-            ${imgUpload('simboloFilosofiaArco', 'Filosofia — símbolo no arco (Metodologia NID)', src('simboloFilosofiaArco'))}
-            ${imgUpload('simboloFilosofiaRodape', 'Filosofia — símbolo rodapé (cápsula)', src('simboloFilosofiaRodape'))}
-          </div>
-          <p class="hint" style="margin-top:16px"><strong>Processo</strong> — um símbolo por etapa (8 cards):</p>
-          <div class="logo-grid" style="grid-template-columns:repeat(4,1fr)">
-            ${[0,1,2,3,4,5,6,7].map(i => imgUpload(`processo${i}`, `Etapa ${pad2(i+1)}`, mediaFiles[`processo${i}`] || proc[i] || '')).join('')}
-          </div>
-          <div style="margin-top:12px">
-            ${imgUpload('simboloEncerramentoRodape', 'Encerramento — símbolo rodapé (cápsula)', src('simboloEncerramentoRodape'))}
           </div>
         </section>
 
@@ -497,14 +474,6 @@
       const imagens = {
         logoCapa: mediaFiles.logoCapa || prev.logoCapa || dados.logos?.principal || '',
         logoEncerramento: mediaFiles.logoEncerramento || prev.logoEncerramento || dados.logos?.logoClara || '',
-        simboloSobreTopo: mediaFiles.simboloSobreTopo || prev.simboloSobreTopo || '',
-        simboloSobreBase: mediaFiles.simboloSobreBase || prev.simboloSobreBase || '',
-        simboloFilosofiaArco: mediaFiles.simboloFilosofiaArco || prev.simboloFilosofiaArco || '',
-        simboloFilosofiaRodape: mediaFiles.simboloFilosofiaRodape || prev.simboloFilosofiaRodape || '',
-        simboloEncerramentoRodape: mediaFiles.simboloEncerramentoRodape || prev.simboloEncerramentoRodape || '',
-        simbolosProcesso: [0, 1, 2, 3, 4, 5, 6, 7].map(
-          (i) => mediaFiles[`processo${i}`] || (prev.simbolosProcesso || [])[i] || ''
-        ),
       };
       out.imagens = imagens;
       out.logos = {
@@ -665,13 +634,7 @@
       Object.assign(mediaFiles, {
         logoCapa: im.logoCapa || lg.principal,
         logoEncerramento: im.logoEncerramento || lg.logoClara,
-        simboloSobreTopo: im.simboloSobreTopo,
-        simboloSobreBase: im.simboloSobreBase,
-        simboloFilosofiaArco: im.simboloFilosofiaArco,
-        simboloFilosofiaRodape: im.simboloFilosofiaRodape,
-        simboloEncerramentoRodape: im.simboloEncerramentoRodape,
       });
-      (im.simbolosProcesso || []).forEach((v, i) => { if (v) mediaFiles[`processo${i}`] = v; });
       renderForm();
     }
 
@@ -733,13 +696,7 @@
       Object.assign(mediaFiles, {
         logoCapa: im.logoCapa || lg.principal,
         logoEncerramento: im.logoEncerramento || lg.logoClara,
-        simboloSobreTopo: im.simboloSobreTopo,
-        simboloSobreBase: im.simboloSobreBase,
-        simboloFilosofiaArco: im.simboloFilosofiaArco,
-        simboloFilosofiaRodape: im.simboloFilosofiaRodape,
-        simboloEncerramentoRodape: im.simboloEncerramentoRodape,
       });
-      (im.simbolosProcesso || []).forEach((v, i) => { if (v) mediaFiles[`processo${i}`] = v; });
       renderForm();
       persistAll(true);
       toast('Modelo GREMP3 restaurado');
@@ -750,8 +707,10 @@
       const text = await file.text();
       dados = JSON.parse(text);
       const im = dados.imagens || {};
-      mediaFiles = { ...(dados.logos?.principal && { logoCapa: dados.logos.principal }), ...im };
-      (im.simbolosProcesso || []).forEach((v, i) => { if (v) mediaFiles[`processo${i}`] = v; });
+      mediaFiles = {
+        logoCapa: im.logoCapa || dados.logos?.principal,
+        logoEncerramento: im.logoEncerramento || dados.logos?.logoClara,
+      };
       renderForm();
       toast('Dados carregados do arquivo');
       e.target.value = '';
