@@ -19,15 +19,6 @@
     </svg>`;
   }
 
-  function nidDecoSobre() {
-    return `<div class="nid-deco nid-deco--tr" aria-hidden="true">${nidFanSvg('nid-mark--soft')}</div>
-      <div class="nid-deco nid-deco--bl" aria-hidden="true">${nidFanSvg('nid-mark--soft')}</div>`;
-  }
-
-  function nidArcDeco() {
-    return '<div class="philosophy-arc-shape" aria-hidden="true"></div>';
-  }
-
   function nidCapsuleRule(light = false) {
     return `<div class="nid-capsule${light ? ' nid-capsule--light' : ''}" aria-hidden="true"><span></span></div>`;
   }
@@ -36,13 +27,35 @@
     return `<div class="media-slot ${className} is-empty" data-label="${label}"><img data-img-key="${key}" alt=""></div>`;
   }
 
+  /** Slot de símbolo: mostra upload/imagem; se vazio, decoração de fallback */
+  function symbolZone(key, label, className, fallbackHtml = '') {
+    let zoneExtra = '';
+    if (className.includes('deco-tr')) zoneExtra = ' symbol-zone--tr';
+    if (className.includes('deco-bl')) zoneExtra = ' symbol-zone--bl';
+    if (className.includes('--arc')) zoneExtra = ' symbol-zone--arc';
+    if (className.includes('--pill')) zoneExtra += ' symbol-zone--pill';
+    if (className.includes('--step')) zoneExtra = ' symbol-zone--step';
+    return `<div class="symbol-zone${zoneExtra}">
+      ${fallbackHtml ? `<div class="symbol-zone__fallback" aria-hidden="true">${fallbackHtml}</div>` : ''}
+      ${mediaSlot(key, label, className)}
+    </div>`;
+  }
+
   function resolveImagens(dados) {
     const img = dados.imagens || {};
     const leg = dados.logos || {};
-    return {
+    const proc = Array.isArray(img.simbolosProcesso) ? img.simbolosProcesso : [];
+    const map = {
       logoCapa: img.logoCapa || leg.principal || '',
       logoEncerramento: img.logoEncerramento || leg.logoClara || '',
+      simboloSobreTopo: img.simboloSobreTopo || '',
+      simboloSobreBase: img.simboloSobreBase || '',
+      simboloFilosofiaArco: img.simboloFilosofiaArco || '',
+      simboloFilosofiaRodape: img.simboloFilosofiaRodape || '',
+      simboloEncerramentoRodape: img.simboloEncerramentoRodape || '',
     };
+    for (let i = 0; i < 8; i++) map[`processo${i}`] = proc[i] || '';
+    return map;
   }
 
   function renderProposta(dados) {
@@ -65,11 +78,14 @@
 
     const processoEtapas = (dados.processo?.etapas || [])
       .map(
-        (e) =>
+        (e, i) =>
           `<article class="step${e.marco ? ' mark' : ''}">
-            <div class="step-head">
-              <span class="step-num">${e.numero || ''}</span>
-              <span class="step-line" aria-hidden="true"></span>
+            <div class="step-top">
+              <div class="step-head step-head--fallback">
+                <span class="step-num">${e.numero || ''}</span>
+                <span class="step-line" aria-hidden="true"></span>
+              </div>
+              ${symbolZone(`processo${i}`, '', 'media-slot--step', '')}
             </div>
             <strong>${e.titulo}</strong>
             <p>${e.texto}</p>
@@ -130,7 +146,8 @@
     </section>
 
     <section id="sobre" class="sheet sheet--pattern">
-      ${nidDecoSobre()}
+      ${symbolZone('simboloSobreTopo', '', 'media-slot--deco media-slot--deco-tr', nidFanSvg('nid-mark--soft'))}
+      ${symbolZone('simboloSobreBase', '', 'media-slot--deco media-slot--deco-bl', nidFanSvg('nid-mark--soft'))}
       <div class="section intro-grid">
         <span class="label">${dados.sobre?.rotulo || ''}</span>
         <h2>${dados.sobre?.titulo || ''}</h2>
@@ -144,12 +161,15 @@
         <h2>${dados.filosofia?.titulo || ''}</h2>
       </div>
       <div class="philosophy-arc-wrap">
-        ${nidArcDeco()}
+        <div class="philosophy-arc-shape" aria-hidden="true"></div>
+        ${symbolZone('simboloFilosofiaArco', '', 'media-slot--arc', '')}
         <p class="philosophy-arc-title">${dados.filosofia?.tituloArco || 'Metodologia NID.'}</p>
       </div>
       <div class="pillars">${pilares}</div>
       <div class="manifesto"><strong>${dados.filosofia?.manifestoDestaque || ''}</strong> ${dados.filosofia?.manifesto || ''}</div>
-      <div class="philosophy-footer-deco">${nidCapsuleRule()}</div>
+      <div class="philosophy-footer-deco">
+        ${symbolZone('simboloFilosofiaRodape', '', 'media-slot--pill', nidCapsuleRule())}
+      </div>
     </section>
 
     <section id="escopo" class="sheet sheet--pattern">
@@ -210,7 +230,9 @@
         <h2>${dados.encerramento?.titulo || ''}</h2>
         <p class="closing-phrase">${dados.encerramento?.frase || ''} <em>${dados.encerramento?.fraseDestaque || ''}</em></p>
         <div class="signatures">${assinaturas}</div>
-        <div class="closing-footer-deco">${nidCapsuleRule(true)}</div>
+        <div class="closing-footer-deco">
+          ${symbolZone('simboloEncerramentoRodape', '', 'media-slot--pill media-slot--pill-light', nidCapsuleRule(true))}
+        </div>
         <div class="actions">
           <button type="button" class="btn" data-print-pdf>Gerar PDF (página contínua)</button>
           <a class="btn" href="#capa">Voltar ao início</a>

@@ -172,6 +172,12 @@
   },
   "imagens": {
     "logoCapa": "assets/logo-principal.png",
-    "logoEncerramento": "assets/logo-clara.png"
+    "logoEncerramento": "assets/logo-clara.png",
+    "simboloSobreTopo": "",
+    "simboloSobreBase": "",
+    "simboloFilosofiaArco": "",
+    "simboloFilosofiaRodape": "",
+    "simbolosProcesso": ["", "", "", "", "", "", "", ""],
+    "simboloEncerramentoRodape": ""
   }
 }
