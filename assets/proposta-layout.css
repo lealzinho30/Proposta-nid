@@ -34,25 +34,28 @@
   background: transparent;
 }
 
-.media-slot--logo-cover {
-  min-height: 200px;
+.cover-brand .media-slot--logo-cover {
   width: 100%;
-  padding: 28px 32px;
+  min-height: 240px;
+  padding: 20px 28px;
   border-radius: 14px;
   border: none;
   background: transparent;
+  justify-content: flex-start;
 }
-.media-slot--logo-cover.is-empty {
+.cover-brand .media-slot--logo-cover.is-empty {
+  min-height: 220px;
   border: 1px dashed rgba(112, 77, 63, .22);
   background: rgba(255, 255, 255, .72);
 }
-.media-slot--logo-cover img {
+.cover-brand .media-slot--logo-cover img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 210px;
+  min-height: 140px;
+  object-fit: contain;
   object-position: left center;
-  max-height: 168px;
-  min-height: 120px;
-}
-.cover-hero__logo {
-  min-width: 0;
 }
 
 .media-slot--logo-closing {
@@ -409,7 +412,9 @@
 }
 
 @media (max-width: 760px) {
-  .cover-hero { grid-template-columns: 1fr; }
+  .cover-stage { grid-template-columns: 1fr; gap: 32px; }
+  .cover-brand { min-height: 180px; justify-content: center; }
+  .cover-brand .media-slot--logo-cover img { max-height: 160px; }
   .pillars { grid-template-columns: 1fr; }
   .finance-layout { grid-template-columns: 1fr; }
   .finance-pay, .finance-total-block, .finance-layout .info-grid { grid-column: span 1; }

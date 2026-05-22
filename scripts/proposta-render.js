@@ -127,18 +127,18 @@
   </nav>
   <main class="doc">
     <section id="capa" class="sheet cover">
-      <div class="cover-hero">
-        <div class="cover-hero__logo">
+      <div class="cover-stage">
+        <div class="cover-brand">
           ${mediaSlot('logoCapa', 'Upload · Logo NID Studio', 'media-slot--logo-cover')}
         </div>
-        <div class="cover-hero__text">
+        <div class="cover-info">
           <span class="label">${c.rotulo || 'Proposta Comercial'}</span>
           <h1>${c.cliente || ''}</h1>
-          <div class="ac"><em>${c.destinatarioRotulo || 'A/C'}</em>${c.destinatario || ''}</div>
+          <div class="ac"><em>${c.destinatarioRotulo || 'A/C'}</em> ${c.destinatario || ''}</div>
           <div class="cover-line"></div>
+          <p class="cover-copy">${c.resumo || ''}</p>
         </div>
       </div>
-      <p class="cover-copy">${c.resumo || ''}</p>
       <div class="cover-foot">
         <span class="date">${c.dataLocal || ''}</span>
         <div class="tags">${tags}</div>
