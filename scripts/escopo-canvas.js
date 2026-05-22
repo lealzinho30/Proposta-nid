@@ -1,9 +1,7 @@
-/* Editor visual do escopo (arrastar, redimensionar, editar — estilo Canva) */
+/* Escopo — editor simples em blocos (reordenar + editar inline) */
 (function (global) {
-  const CANVAS_W = 1016;
-
   function uid() {
-    return 'el-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    return 'b-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   }
 
   function escapeHtml(s) {
@@ -14,133 +12,122 @@
       .replace(/"/g, '&quot;');
   }
 
-  function ensureCanvas(servicos) {
+  function elToBloco(el) {
+    if (el.tipo === 'card' && el.card) {
+      return { id: el.id || uid(), tipo: 'card', card: { ...el.card, entregaveis: [...(el.card.entregaveis || [])] } };
+    }
+    if (el.tipo === 'imagem') return { id: el.id || uid(), tipo: 'imagem', src: el.src || '' };
+    if (el.tipo === 'texto' || el.tipo === 'titulo' || el.tipo === 'rotulo') {
+      const html = el.html || '';
+      const text = html.replace(/<[^>]+>/g, ' ').trim();
+      return { id: el.id || uid(), tipo: 'texto', texto: text };
+    }
+    return null;
+  }
+
+  /** Normaliza dados do escopo para lista de blocos */
+  function ensureBlocos(servicos) {
     const s = servicos || {};
-    if (s.canvasLivre?.elementos?.length) {
-      s.editorLivre = true;
+    s.editorLivre = true;
+    s.modo = 'blocos';
+
+    if (Array.isArray(s.blocos) && s.blocos.length) {
       return s;
     }
-    const elementos = [];
-    let y = 100;
-    const rotulo = s.rotulo || '03 — Escopo';
-    const titulo = s.titulo || 'Serviços Contratados';
 
-    elementos.push({
-      id: uid(),
-      tipo: 'rotulo',
-      x: 0,
-      y: 24,
-      w: 400,
-      h: 28,
-      z: 1,
-      html: `<span class="label">${escapeHtml(rotulo)}</span>`,
-    });
-    elementos.push({
-      id: uid(),
-      tipo: 'titulo',
-      x: 0,
-      y: 52,
-      w: 720,
-      h: 56,
-      z: 2,
-      html: `<h2>${escapeHtml(titulo)}</h2>`,
-    });
-    y = 130;
+    const blocos = [];
 
-    (s.itens || []).forEach((item, i) => {
-      elementos.push({
-        id: uid(),
-        tipo: 'card',
-        x: 0,
-        y,
-        w: CANVAS_W,
-        h: 300,
-        z: 10 + i,
-        card: {
-          categoria: item.categoria || 'Premium',
-          titulo: item.titulo || '',
-          descricao: item.descricao || '',
-          entregaveis: [...(item.entregaveis || [])],
-          badge: item.badge || '',
-        },
+    if (s.canvasLivre?.elementos?.length) {
+      s.canvasLivre.elementos
+        .slice()
+        .sort((a, b) => (a.y || 0) - (b.y || 0))
+        .forEach((el) => {
+          const b = elToBloco(el);
+          if (b && b.tipo !== 'texto') blocos.push(b);
+          else if (b?.texto && b.texto.length > 3) blocos.push(b);
+        });
+    } else {
+      (s.itens || []).forEach((item) => {
+        blocos.push({
+          id: uid(),
+          tipo: 'card',
+          card: {
+            categoria: item.categoria || 'Premium',
+            titulo: item.titulo || '',
+            descricao: item.descricao || '',
+            entregaveis: [...(item.entregaveis || [])],
+            badge: item.badge || '',
+          },
+        });
       });
-      y += 320;
-    });
+    }
 
-    s.editorLivre = true;
-    s.canvasLivre = {
-      altura: Math.max(800, y + 80),
-      elementos,
-    };
+    s.blocos = blocos;
+    delete s.canvasLivre;
     return s;
   }
 
-  function syncItensFromCanvas(servicos) {
-    const s = ensureCanvas(servicos);
-    s.itens = (s.canvasLivre.elementos || [])
-      .filter((e) => e.tipo === 'card' && e.card)
-      .map((e) => ({
-        categoria: e.card.categoria || '',
-        titulo: e.card.titulo || '',
-        descricao: e.card.descricao || '',
-        entregaveis: [...(e.card.entregaveis || [])],
-        badge: e.card.badge || '',
+  function syncItensFromBlocos(servicos) {
+    const s = ensureBlocos(servicos);
+    s.itens = (s.blocos || [])
+      .filter((b) => b.tipo === 'card' && b.card)
+      .map((b) => ({
+        categoria: b.card.categoria || '',
+        titulo: b.card.titulo || '',
+        descricao: b.card.descricao || '',
+        entregaveis: [...(b.card.entregaveis || [])],
+        badge: b.card.badge || '',
       }));
     return s;
   }
 
+  const pad2 = (n) => String(n).padStart(2, '0');
+
   function cardToHtml(card, index) {
-    const ent = (card.entregaveis || []).map((e) => `<li>${e}</li>`).join('');
-    const n = String(index + 1).padStart(2, '0');
-    return `<article class="svc svc--canvas"><div class="svc-side"><span class="svc-n">${n}</span><span class="svc-k">${escapeHtml(card.categoria)}</span><div class="svc-title">${escapeHtml(card.titulo)}</div></div><div class="svc-body"><p>${escapeHtml(card.descricao)}</p><div class="deliver-title">Entregáveis</div><ul class="deliver">${ent}</ul><span class="badge">${escapeHtml(card.badge)}</span></div></article>`;
+    const ent = (card.entregaveis || []).map((e) => `<li>${escapeHtml(e)}</li>`).join('');
+    const n = pad2((index ?? 0) + 1);
+    return `<article class="svc"><div class="svc-side"><span class="svc-n">${n}</span><span class="svc-k">${escapeHtml(card.categoria)}</span><div class="svc-title">${escapeHtml(card.titulo)}</div></div><div class="svc-body"><p>${escapeHtml(card.descricao)}</p><div class="deliver-title">Entregáveis</div><ul class="deliver">${ent}</ul><span class="badge">${escapeHtml(card.badge)}</span></div></article>`;
   }
 
-  function renderElemento(el, index) {
-    const style = `left:${el.x}px;top:${el.y}px;width:${el.w}px;height:${el.h}px;z-index:${el.z || 1}`;
-    if (el.tipo === 'card' && el.card) {
-      return `<div class="escopo-el escopo-el--card" style="${style}" data-el-id="${el.id}">${cardToHtml(el.card, index)}</div>`;
+  function renderBlocoProposta(b, cardIndex) {
+    if (b.tipo === 'card' && b.card) return cardToHtml(b.card, cardIndex);
+    if (b.tipo === 'texto') {
+      const t = escapeHtml(b.texto || '').replace(/\n/g, '<br>');
+      return `<div class="escopo-texto"><p>${t}</p></div>`;
     }
-    const html = el.html || '';
-    return `<div class="escopo-el escopo-el--${el.tipo}" style="${style}" data-el-id="${el.id}">${html}</div>`;
+    if (b.tipo === 'imagem' && b.src) {
+      return `<figure class="escopo-imagem"><img src="${escapeHtml(b.src)}" alt=""></figure>`;
+    }
+    return '';
   }
 
   function renderEscopoSection(dados) {
-    const s = ensureCanvas(dados.servicos || {});
-    const cv = s.canvasLivre;
+    const s = ensureBlocos(dados.servicos || {});
     let cardIdx = 0;
-    const inner = (cv.elementos || [])
-      .map((el) => {
-        const idx = el.tipo === 'card' ? cardIdx++ : 0;
-        return renderElemento(el, idx);
+    const inner = (s.blocos || [])
+      .map((b) => {
+        const idx = b.tipo === 'card' ? cardIdx++ : 0;
+        return renderBlocoProposta(b, idx);
       })
       .join('');
-    const hasTitulo = (cv.elementos || []).some((e) => e.tipo === 'titulo');
-    const hasRotulo = (cv.elementos || []).some((e) => e.tipo === 'rotulo');
 
     return `
-      <div class="section escopo-livre-wrap">
-        ${!hasRotulo ? `<span class="label">${escapeHtml(s.rotulo || '')}</span>` : ''}
-        ${!hasTitulo ? `<h2>${escapeHtml(s.titulo || '')}</h2>` : ''}
-        <div class="escopo-canvas" style="height:${cv.altura}px">
-          ${inner}
-        </div>
+      <div class="section escopo-stack-wrap">
+        <span class="label">${escapeHtml(s.rotulo || '')}</span>
+        <h2>${escapeHtml(s.titulo || '')}</h2>
+        <div class="escopo-stack services">${inner}</div>
       </div>`;
   }
 
-  function defaultCard(y) {
+  function defaultCard() {
     return {
       id: uid(),
       tipo: 'card',
-      x: 0,
-      y,
-      w: CANVAS_W,
-      h: 280,
-      z: Date.now() % 10000,
       card: {
         categoria: 'Premium',
         titulo: 'Novo serviço',
-        descricao: 'Descreva o escopo deste serviço.',
-        entregaveis: ['Entregável 1'],
+        descricao: '',
+        entregaveis: [],
         badge: '',
       },
     };
@@ -152,177 +139,172 @@
       this.getDados = hooks.getDados;
       this.setDados = hooks.setDados;
       this.onChange = hooks.onChange || (() => {});
-      this.selectedId = null;
-      this.interactReady = false;
+      this.openId = null;
+      this.dragId = null;
     }
 
     getServicos() {
-      return ensureCanvas(JSON.parse(JSON.stringify(this.getDados().servicos || {})));
+      return ensureBlocos(JSON.parse(JSON.stringify(this.getDados().servicos || {})));
     }
 
-    saveServicos(servicos) {
-      const s = syncItensFromCanvas(servicos);
+    save(servicos) {
+      const s = syncItensFromBlocos(servicos);
       const dados = this.getDados();
       dados.servicos = s;
       this.setDados(dados);
       this.onChange();
     }
 
-    computeAltura(elementos) {
-      let max = 600;
-      elementos.forEach((e) => {
-        max = Math.max(max, e.y + e.h + 60);
-      });
-      return max;
-    }
-
     mount() {
-      const servicos = this.getServicos();
-      const cv = servicos.canvasLivre;
+      const s = this.getServicos();
+      const blocos = s.blocos || [];
       this.root.innerHTML = `
-        <div class="escopo-editor">
-          <div class="escopo-toolbar">
-            <span class="escopo-toolbar-label">Adicionar:</span>
-            <button type="button" data-add-el="texto">Texto</button>
-            <button type="button" data-add-el="titulo">Título</button>
-            <button type="button" data-add-el="card">Card de serviço</button>
-            <button type="button" data-add-el="imagem">Imagem</button>
-            <span class="escopo-toolbar-sep"></span>
-            <button type="button" data-layer="front" title="Trazer à frente">▲</button>
-            <button type="button" data-layer="back" title="Enviar atrás">▼</button>
-            <button type="button" data-del-el class="danger">Remover seleção</button>
+        <div class="escopo-simple">
+          <div class="escopo-simple__tools">
+            <button type="button" data-add="card">+ Serviço</button>
+            <button type="button" data-add="texto">+ Texto</button>
+            <button type="button" data-add="imagem">+ Imagem</button>
           </div>
-          <div class="escopo-workspace">
-            <div class="escopo-canvas escopo-canvas--edit" id="escopo-canvas-edit" style="height:${cv.altura}px">
-              ${(cv.elementos || []).map((el, i) => this.renderEditElement(el, i)).join('')}
+          <div class="escopo-simple__page">
+            <div class="escopo-simple__head">
+              <span class="label">${escapeHtml(s.rotulo || '03 — Escopo')}</span>
+              <h2>${escapeHtml(s.titulo || 'Serviços')}</h2>
             </div>
-            <aside class="escopo-inspector" id="escopo-inspector">
-              <p class="hint">Clique em um elemento. Arraste para mover, use as alças para redimensionar. Duplo clique em textos para editar.</p>
-              <div id="escopo-inspector-body"></div>
-            </aside>
+            <div class="escopo-blocks" id="escopo-blocks-list">
+              ${blocos.length ? blocos.map((b) => this.renderBlock(b)).join('') : '<p class="escopo-empty">Nenhum bloco ainda. Use os botões acima.</p>'}
+            </div>
           </div>
         </div>`;
-      this.bindToolbar();
-      this.bindCanvas();
-      this.initInteract();
+      this.bind();
     }
 
-    renderEditElement(el, index) {
-      const sel = el.id === this.selectedId ? ' is-selected' : '';
-      const style = `left:${el.x}px;top:${el.y}px;width:${el.w}px;height:${el.h}px;z-index:${el.z || 1}`;
-      const handles = `<span class="escopo-handle" data-resize="se"></span>`;
-      if (el.tipo === 'card' && el.card) {
-        return `<div class="escopo-el escopo-el--card${sel}" data-el-id="${el.id}" style="${style}">${handles}${cardToHtml(el.card, index)}</div>`;
+    renderBlock(b) {
+      const open = this.openId === b.id;
+      const handle = '<span class="escopo-block__drag" draggable="true" title="Arrastar">⠿</span>';
+
+      if (b.tipo === 'card' && b.card) {
+        const c = b.card;
+        return `<div class="escopo-block escopo-block--card${open ? ' is-open' : ''}" data-id="${b.id}">
+          ${handle}
+          <button type="button" class="escopo-block__toggle" data-toggle="${b.id}">
+            <span class="escopo-block__preview">${escapeHtml(c.titulo || 'Serviço sem título')}</span>
+          </button>
+          <button type="button" class="escopo-block__del" data-del="${b.id}" title="Remover">×</button>
+          <div class="escopo-block__edit">
+            <label>Categoria</label><input data-f="categoria" value="${escapeHtml(c.categoria)}">
+            <label>Título</label><input data-f="titulo" value="${escapeHtml(c.titulo)}">
+            <label>Descrição</label><textarea data-f="descricao" rows="2">${escapeHtml(c.descricao)}</textarea>
+            <label>Entregáveis (um por linha)</label><textarea data-f="entregaveis" rows="3">${escapeHtml((c.entregaveis || []).join('\n'))}</textarea>
+            <label>Badge</label><input data-f="badge" value="${escapeHtml(c.badge)}">
+          </div>
+        </div>`;
       }
-      if (el.tipo === 'imagem') {
-        const src = el.src || '';
-        const img = src ? `<img src="${escapeHtml(src)}" alt="">` : '<span class="escopo-img-placeholder">+ Imagem</span>';
-        return `<div class="escopo-el escopo-el--imagem${sel}" data-el-id="${el.id}" style="${style}">${handles}${img}</div>`;
+
+      if (b.tipo === 'imagem') {
+        return `<div class="escopo-block escopo-block--img${open ? ' is-open' : ''}" data-id="${b.id}">
+          ${handle}
+          <button type="button" class="escopo-block__toggle" data-toggle="${b.id}">🖼 Imagem</button>
+          <button type="button" class="escopo-block__del" data-del="${b.id}">×</button>
+          <div class="escopo-block__edit">
+            ${b.src ? `<img src="${escapeHtml(b.src)}" alt="" class="escopo-block__thumb">` : '<p class="hint">Nenhuma imagem</p>'}
+            <button type="button" class="add-btn" data-pick-img="${b.id}">Escolher imagem</button>
+          </div>
+        </div>`;
       }
-      const editable = el.tipo === 'texto' || el.tipo === 'titulo' || el.tipo === 'rotulo';
-      const content = el.html || '<p>Novo texto</p>';
-      return `<div class="escopo-el escopo-el--${el.tipo}${sel}" data-el-id="${el.id}" style="${style}" ${editable ? 'data-editable="1"' : ''}>${handles}<div class="escopo-el__inner">${content}</div></div>`;
+
+      return `<div class="escopo-block escopo-block--text${open ? ' is-open' : ''}" data-id="${b.id}">
+        ${handle}
+        <button type="button" class="escopo-block__toggle" data-toggle="${b.id}">📝 Texto</button>
+        <button type="button" class="escopo-block__del" data-del="${b.id}">×</button>
+        <div class="escopo-block__edit">
+          <label>Texto</label>
+          <textarea data-f="texto" rows="3">${escapeHtml(b.texto || '')}</textarea>
+        </div>
+      </div>`;
     }
 
-    findElement(id) {
-      return this.getServicos().canvasLivre.elementos.find((e) => e.id === id);
+    findBloco(id) {
+      return this.getServicos().blocos.find((b) => b.id === id);
     }
 
-    updateElement(id, patch) {
-      const servicos = this.getServicos();
-      const el = servicos.canvasLivre.elementos.find((e) => e.id === id);
-      if (!el) return;
-      Object.assign(el, patch);
-      servicos.canvasLivre.altura = this.computeAltura(servicos.canvasLivre.elementos);
-      this.saveServicos(servicos);
-      this.remountPreserveSelection(id);
-    }
-
-    remountPreserveSelection(id) {
-      this.selectedId = id;
+    updateBloco(id, patch) {
+      const s = this.getServicos();
+      const b = s.blocos.find((x) => x.id === id);
+      if (!b) return;
+      Object.assign(b, patch);
+      if (patch.card) b.card = { ...b.card, ...patch.card };
+      this.save(s);
+      this.openId = id;
       this.mount();
     }
 
-    bindToolbar() {
-      this.root.querySelectorAll('[data-add-el]').forEach((btn) => {
+    bind() {
+      const list = this.root.querySelector('#escopo-blocks-list');
+      if (!list) return;
+
+      this.root.querySelectorAll('[data-add]').forEach((btn) => {
         btn.addEventListener('click', () => {
-          const servicos = this.getServicos();
-          const elementos = servicos.canvasLivre.elementos;
-          const y = this.computeAltura(elementos) - 40;
-          const tipo = btn.dataset.addEl;
-          let el;
-          if (tipo === 'card') el = defaultCard(y);
-          else if (tipo === 'imagem') {
-            el = { id: uid(), tipo: 'imagem', x: 80, y, w: 320, h: 200, z: 50, src: '' };
-          } else if (tipo === 'titulo') {
-            el = { id: uid(), tipo: 'titulo', x: 0, y, w: 600, h: 56, z: 50, html: '<h2>Novo título</h2>' };
-          } else {
-            el = { id: uid(), tipo: 'texto', x: 40, y, w: 400, h: 80, z: 50, html: '<p>Novo texto</p>' };
-          }
-          elementos.push(el);
-          servicos.canvasLivre.altura = this.computeAltura(elementos);
-          this.selectedId = el.id;
-          this.saveServicos(servicos);
+          const s = this.getServicos();
+          const tipo = btn.dataset.add;
+          let b;
+          if (tipo === 'card') b = defaultCard();
+          else if (tipo === 'imagem') b = { id: uid(), tipo: 'imagem', src: '' };
+          else b = { id: uid(), tipo: 'texto', texto: '' };
+          s.blocos.push(b);
+          this.openId = b.id;
+          this.save(s);
           this.mount();
         });
       });
 
-      this.root.querySelector('[data-del-el]')?.addEventListener('click', () => {
-        if (!this.selectedId) return;
-        const servicos = this.getServicos();
-        servicos.canvasLivre.elementos = servicos.canvasLivre.elementos.filter((e) => e.id !== this.selectedId);
-        servicos.canvasLivre.altura = this.computeAltura(servicos.canvasLivre.elementos);
-        this.selectedId = null;
-        this.saveServicos(servicos);
-        this.mount();
+      list.querySelectorAll('[data-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.toggle;
+          this.openId = this.openId === id ? null : id;
+          this.mount();
+        });
       });
 
-      this.root.querySelector('[data-layer="front"]')?.addEventListener('click', () => this.bumpLayer(1));
-      this.root.querySelector('[data-layer="back"]')?.addEventListener('click', () => this.bumpLayer(-1));
-    }
-
-    bumpLayer(dir) {
-      if (!this.selectedId) return;
-      const el = this.findElement(this.selectedId);
-      if (!el) return;
-      this.updateElement(el.id, { z: Math.max(1, (el.z || 1) + dir) });
-    }
-
-    bindCanvas() {
-      const canvas = this.root.querySelector('#escopo-canvas-edit');
-      if (!canvas) return;
-
-      canvas.addEventListener('click', (ev) => {
-        const elNode = ev.target.closest('.escopo-el');
-        if (!elNode || !canvas.contains(elNode)) {
-          this.selectedId = null;
-          this.refreshSelection();
-          return;
-        }
-        ev.stopPropagation();
-        this.selectedId = elNode.dataset.elId;
-        this.refreshSelection();
-        this.renderInspector();
-      });
-
-      canvas.querySelectorAll('[data-editable="1"] .escopo-el__inner').forEach((inner) => {
-        inner.addEventListener('dblclick', (ev) => {
+      list.querySelectorAll('[data-del]').forEach((btn) => {
+        btn.addEventListener('click', (ev) => {
           ev.stopPropagation();
-          inner.setAttribute('contenteditable', 'true');
-          inner.focus();
-        });
-        inner.addEventListener('blur', () => {
-          inner.removeAttribute('contenteditable');
-          const wrap = inner.closest('.escopo-el');
-          const id = wrap?.dataset.elId;
-          if (!id) return;
-          this.updateElement(id, { html: inner.innerHTML });
+          const s = this.getServicos();
+          s.blocos = s.blocos.filter((b) => b.id !== btn.dataset.del);
+          if (this.openId === btn.dataset.del) this.openId = null;
+          this.save(s);
+          this.mount();
         });
       });
 
-      canvas.querySelectorAll('.escopo-el--imagem').forEach((node) => {
-        node.addEventListener('dblclick', () => {
-          const id = node.dataset.elId;
+      list.querySelectorAll('.escopo-block__edit [data-f]').forEach((inp) => {
+        const block = inp.closest('.escopo-block');
+        const id = block?.dataset.id;
+        const apply = () => {
+          const b = this.findBloco(id);
+          if (!b) return;
+          const f = inp.dataset.f;
+          if (b.tipo === 'card' && b.card) {
+            const card = { ...b.card };
+            if (f === 'entregaveis') {
+              card.entregaveis = inp.value.split('\n').map((x) => x.trim()).filter(Boolean);
+            } else {
+              card[f] = inp.value;
+            }
+            this.updateBloco(id, { card });
+            return;
+          }
+          if (f === 'texto') this.updateBloco(id, { texto: inp.value });
+        };
+        inp.addEventListener('change', apply);
+        inp.addEventListener('input', () => {
+          clearTimeout(inp._deb);
+          inp._deb = setTimeout(apply, 350);
+        });
+      });
+
+      list.querySelectorAll('[data-pick-img]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.pickImg;
           const input = document.createElement('input');
           input.type = 'file';
           input.accept = 'image/*';
@@ -338,186 +320,54 @@
                   r.onerror = rej;
                   r.readAsDataURL(file);
                 });
-            this.updateElement(id, { src });
+            this.updateBloco(id, { src });
           };
           input.click();
         });
       });
-    }
 
-    renderInspector() {
-      const body = this.root.querySelector('#escopo-inspector-body');
-      if (!body) return;
-      const el = this.selectedId ? this.findElement(this.selectedId) : null;
-      if (!el) {
-        body.innerHTML = '<p class="hint">Nenhum elemento selecionado.</p>';
-        return;
-      }
-      if (el.tipo === 'card' && el.card) {
-        const c = el.card;
-        const ent = (c.entregaveis || []).join('\n');
-        body.innerHTML = `
-          <label>Categoria</label><input type="text" data-insp="categoria" value="${escapeHtml(c.categoria)}">
-          <label>Título</label><input type="text" data-insp="titulo" value="${escapeHtml(c.titulo)}">
-          <label>Descrição</label><textarea data-insp="descricao" rows="3">${escapeHtml(c.descricao)}</textarea>
-          <label>Entregáveis (um por linha)</label><textarea data-insp="entregaveis" rows="4">${escapeHtml(ent)}</textarea>
-          <label>Badge</label><input type="text" data-insp="badge" value="${escapeHtml(c.badge)}">`;
-        body.querySelectorAll('[data-insp]').forEach((inp) => {
-          const key = inp.dataset.insp;
-          const apply = () => {
-            const card = { ...el.card };
-            if (key === 'entregaveis') {
-              card.entregaveis = inp.value.split('\n').map((s) => s.trim()).filter(Boolean);
-            } else {
-              card[key] = inp.value;
-            }
-            this.updateElement(el.id, { card });
-          };
-          inp.addEventListener('change', apply);
-          inp.addEventListener('input', () => {
-            clearTimeout(inp._t);
-            inp._t = setTimeout(apply, 400);
-          });
+      list.querySelectorAll('.escopo-block__drag').forEach((handle) => {
+        handle.addEventListener('dragstart', (ev) => {
+          const block = handle.closest('.escopo-block');
+          this.dragId = block?.dataset.id;
+          ev.dataTransfer.effectAllowed = 'move';
+          block?.classList.add('is-dragging');
         });
-        return;
-      }
-      body.innerHTML = `
-        <label>Posição X</label><input type="number" data-pos="x" value="${el.x}">
-        <label>Posição Y</label><input type="number" data-pos="y" value="${el.y}">
-        <label>Largura</label><input type="number" data-pos="w" value="${el.w}" min="40">
-        <label>Altura</label><input type="number" data-pos="h" value="${el.h}" min="24">`;
-      body.querySelectorAll('[data-pos]').forEach((inp) => {
-        inp.addEventListener('change', () => {
-          const patch = {};
-          patch[inp.dataset.pos] = Number(inp.value);
-          this.updateElement(el.id, patch);
+        handle.addEventListener('dragend', () => {
+          list.querySelectorAll('.escopo-block').forEach((n) => n.classList.remove('is-dragging', 'is-drag-over'));
+          this.dragId = null;
         });
       });
-    }
 
-    refreshSelection() {
-      this.root.querySelectorAll('.escopo-el').forEach((n) => {
-        n.classList.toggle('is-selected', n.dataset.elId === this.selectedId);
-      });
-      this.renderInspector();
-    }
-
-    initInteract() {
-      const canvas = this.root.querySelector('#escopo-canvas-edit');
-      if (!canvas || !global.interact) {
-        this.fallbackPointerDrag(canvas);
-        return;
-      }
-      global.interact('.escopo-canvas--edit .escopo-el').draggable({
-        listeners: {
-          move: (ev) => {
-            const t = ev.target;
-            const x = (parseFloat(t.dataset.x) || 0) + ev.dx;
-            const y = (parseFloat(t.dataset.y) || 0) + ev.dy;
-            t.style.transform = `translate(${x}px, ${y}px)`;
-            t.dataset.x = x;
-            t.dataset.y = y;
-          },
-          end: (ev) => {
-            const t = ev.target;
-            const id = t.dataset.elId;
-            const el = this.findElement(id);
-            if (!el) return;
-            const nx = (parseFloat(t.dataset.x) || 0) + el.x;
-            const ny = (parseFloat(t.dataset.y) || 0) + el.y;
-            t.style.transform = '';
-            t.dataset.x = 0;
-            t.dataset.y = 0;
-            this.updateElement(id, { x: Math.round(Math.max(0, nx)), y: Math.round(Math.max(0, ny)) });
-          },
-        },
-      }).resizable({
-        edges: { right: true, bottom: true },
-        listeners: {
-          move: (ev) => {
-            const t = ev.target;
-            t.style.width = `${ev.rect.width}px`;
-            t.style.height = `${ev.rect.height}px`;
-          },
-          end: (ev) => {
-            const id = ev.target.dataset.elId;
-            this.updateElement(id, {
-              w: Math.round(ev.rect.width),
-              h: Math.round(ev.rect.height),
-            });
-          },
-        },
-        modifiers:
-          global.interact?.modifiers?.restrictSize
-            ? [global.interact.modifiers.restrictSize({ min: { width: 60, height: 40 } })]
-            : [],
-      });
-    }
-
-    fallbackPointerDrag(canvas) {
-      if (!canvas) return;
-      let drag = null;
-      canvas.addEventListener('pointerdown', (ev) => {
-        const handle = ev.target.closest('[data-resize]');
-        const elNode = ev.target.closest('.escopo-el');
-        if (!elNode) return;
-        if (ev.target.closest('[contenteditable="true"]')) return;
-        const id = elNode.dataset.elId;
-        const el = this.findElement(id);
-        if (!el) return;
-        this.selectedId = id;
-        this.refreshSelection();
-        drag = {
-          id,
-          resize: !!handle,
-          startX: ev.clientX,
-          startY: ev.clientY,
-          ox: el.x,
-          oy: el.y,
-          ow: el.w,
-          oh: el.h,
-        };
-        elNode.setPointerCapture(ev.pointerId);
-      });
-      canvas.addEventListener('pointermove', (ev) => {
-        if (!drag) return;
-        const node = canvas.querySelector(`[data-el-id="${drag.id}"]`);
-        if (!node) return;
-        const dx = ev.clientX - drag.startX;
-        const dy = ev.clientY - drag.startY;
-        if (drag.resize) {
-          node.style.width = `${Math.max(60, drag.ow + dx)}px`;
-          node.style.height = `${Math.max(40, drag.oh + dy)}px`;
-        } else {
-          node.style.left = `${drag.ox + dx}px`;
-          node.style.top = `${drag.oy + dy}px`;
-        }
-      });
-      canvas.addEventListener('pointerup', (ev) => {
-        if (!drag) return;
-        const node = canvas.querySelector(`[data-el-id="${drag.id}"]`);
-        if (node) {
-          if (drag.resize) {
-            this.updateElement(drag.id, {
-              w: Math.round(parseFloat(node.style.width)),
-              h: Math.round(parseFloat(node.style.height)),
-            });
-          } else {
-            this.updateElement(drag.id, {
-              x: Math.round(parseFloat(node.style.left)),
-              y: Math.round(parseFloat(node.style.top)),
-            });
-          }
-        }
-        drag = null;
+      list.querySelectorAll('.escopo-block').forEach((block) => {
+        block.addEventListener('dragover', (ev) => {
+          ev.preventDefault();
+          block.classList.add('is-drag-over');
+        });
+        block.addEventListener('dragleave', () => block.classList.remove('is-drag-over'));
+        block.addEventListener('drop', (ev) => {
+          ev.preventDefault();
+          block.classList.remove('is-drag-over');
+          const targetId = block.dataset.id;
+          if (!this.dragId || this.dragId === targetId) return;
+          const s = this.getServicos();
+          const from = s.blocos.findIndex((b) => b.id === this.dragId);
+          const to = s.blocos.findIndex((b) => b.id === targetId);
+          if (from < 0 || to < 0) return;
+          const [item] = s.blocos.splice(from, 1);
+          s.blocos.splice(to, 0, item);
+          this.save(s);
+          this.mount();
+        });
       });
     }
   }
 
   global.NidEscopoCanvas = {
-    CANVAS_W,
-    ensureCanvas,
-    syncItensFromCanvas,
+    ensureCanvas: ensureBlocos,
+    ensureBlocos,
+    syncItensFromCanvas: syncItensFromBlocos,
+    syncItensFromBlocos,
     renderEscopoSection,
     EscopoEditor,
   };
