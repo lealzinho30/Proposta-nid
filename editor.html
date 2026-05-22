@@ -264,7 +264,7 @@
 
         <section class="card" id="sec-simbolos">
           <h2>Símbolos NID (upload)</h2>
-          <p class="hint">Cada espaço corresponde a um ponto do layout. Se não enviar imagem, a proposta usa o desenho decorativo padrão (leque, arco, cápsula). PNG ou JPG com fundo transparente quando possível.</p>
+          <p class="hint">Cada espaço corresponde a um ponto do layout. Se não enviar imagem, o espaço fica vazio na proposta. PNG ou JPG com fundo transparente quando possível.</p>
           <div class="logo-grid">
             ${imgUpload('simboloSobreTopo', 'Sobre — símbolo canto superior direito', src('simboloSobreTopo'))}
             ${imgUpload('simboloSobreBase', 'Sobre — símbolo canto inferior esquerdo', src('simboloSobreBase'))}
@@ -273,7 +273,7 @@
             ${imgUpload('simboloFilosofiaArco', 'Filosofia — símbolo no arco (Metodologia NID)', src('simboloFilosofiaArco'))}
             ${imgUpload('simboloFilosofiaRodape', 'Filosofia — símbolo rodapé (cápsula)', src('simboloFilosofiaRodape'))}
           </div>
-          <p class="hint" style="margin-top:16px"><strong>Processo</strong> — um símbolo por etapa (8 cards). Se vazio, aparece o número da etapa.</p>
+          <p class="hint" style="margin-top:16px"><strong>Processo</strong> — um símbolo por etapa (8 cards). Se vazio, só o número da etapa aparece.</p>
           <div class="logo-grid" style="grid-template-columns:repeat(4,1fr)">
             ${[0,1,2,3,4,5,6,7].map(i => imgUpload(`processo${i}`, `Etapa ${pad2(i+1)}`, mediaFiles[`processo${i}`] || proc[i] || '')).join('')}
           </div>
